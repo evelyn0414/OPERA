@@ -1,0 +1,11 @@
+python -u src/pretrain/cola_training.py --data multiple\
+        --covidbreath True\
+        --covidcough True\
+        --icbhi True\
+        --coughvid True\
+        --hf_lung True\
+        --covidUKexhalation True\
+        --covidUKcough True\
+        --encoder efficientnet\
+        --title operaCE-test\
+        --epoches 150
