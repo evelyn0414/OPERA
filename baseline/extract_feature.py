@@ -9,6 +9,8 @@ import torchaudio
 import opensmile
 
 
+SR = 22050  # sample rate
+
 def extract_opensmile_features(audio_file):
     # the emobase feature set with 988 acoustic features
     smile = opensmile.Smile(
@@ -64,8 +66,7 @@ def extract_vgg_feature(sound_dir_loc, from_signal=False):
                 [embedding_tensor], feed_dict={features_tensor: input_batch}
             )
             # print(features.shape) # (num_frames, 128)
-            features_sta = sta_fun_2(features)
-            # print(features_sta.shape) # (1, 256)
+            features_sta = np.mean(features, axis=0)
             x_data.append(features_sta.tolist())
     
     x_data = np.array(x_data)
