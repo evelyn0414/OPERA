@@ -1,7 +1,12 @@
+# Yuwei (Evelyn) Zhang
+# yz798@cam.ac.uk
+# Towards Open Respiratory Acoustic Foundation Models: Pretraining and Benchmarking
+# https://github.com/evelyn0414/OPERA
+
 import numpy as np
 import torch
-from src.pretrain.cola import Cola
-from src.pretrain.models_mae import mae_vit_small
+from src.model.models_cola import Cola
+from src.model.models_mae import mae_vit_small
 
 SR = 16000
 

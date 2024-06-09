@@ -1,3 +1,8 @@
+# Yuwei (Evelyn) Zhang
+# yz798@cam.ac.uk
+# Towards Open Respiratory Acoustic Foundation Models: Pretraining and Benchmarking
+# https://github.com/evelyn0414/OPERA
+
 import numpy as np
 import librosa
 import os
