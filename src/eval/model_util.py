@@ -1,19 +1,7 @@
-import json
-from glob import glob
-
 import numpy as np
-import pytorch_lightning as pl
 import torch
-from pytorch_lightning.callbacks import ModelCheckpoint
-from pytorch_lightning.loggers import TensorBoardLogger, CSVLogger
-from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader
-
-from src.pretrain.augmentation import random_crop, random_mask, random_multiply, crop_first
-from src.pretrain.cola import AudioClassifier, Cola, ColaSym, AudioAggClassifier, LinearHead, ColaTryingSimCLR, ColaLLM, BYOLALearner
+from src.pretrain.cola import Cola
 from src.pretrain.models_mae import mae_vit_small
-from src.util import train_test_split_from_list
-import collections
 
 SR = 16000
 
@@ -31,7 +19,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
     from src.util import get_split_signal_librosa, pre_process_audio_mel_t, split_pad_sample, decide_droplast, get_entire_signal_librosa
     from tqdm import tqdm
 
-    print("extracting feature from {} with input_sec {}".format(pretrain, input_sec))
+    print("extracting feature from {} model with input_sec {}".format(pretrain, input_sec))
 
     MAE = ("mae" in pretrain or "GT" in pretrain)
 
@@ -41,7 +29,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
     model.eval()
     model.load_state_dict(ckpt["state_dict"], strict=False)
 
-    cola_features = []
+    opera_features = []
 
     for audio_file in tqdm(sound_dir_loc):
 
@@ -59,7 +47,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
                     features.append(fea)
             features_sta = np.mean(features, axis=0)
             # print('MAE ViT feature dim:', features_sta.shape)
-            cola_features.append(features_sta.tolist())
+            opera_features.append(features_sta.tolist())
         else:
             #  put entire audio into the model
             if from_spec:
@@ -77,9 +65,9 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
             features = model.extract_feature(x, dim).detach().numpy()
 
             # for entire audio, batchsize = 1
-            cola_features.append(features.tolist()[0])
+            opera_features.append(features.tolist()[0])
 
-    x_data = np.array(cola_features)
+    x_data = np.array(opera_features)
     if MAE: x_data = x_data.squeeze(1) 
     print(x_data.shape)
     return x_data
