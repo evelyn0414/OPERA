@@ -1,0 +1,1 @@
+Please download the model checkpoint and put `ViTB_pretrained.pth` in this directory.

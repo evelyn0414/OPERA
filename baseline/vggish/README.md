@@ -1,0 +1,1 @@
+Please download `vggish_model.ckpt` from https://storage.googleapis.com/audioset/vggish_model.ckpt and put it under this directory.
