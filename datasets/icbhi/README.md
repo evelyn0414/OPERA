@@ -1,0 +1,1 @@
+Please download from the official ICBHI challenge website https://bhichallenge.med.auth.gr and put the unzipped `ICBHI_final_database` under this directory.

@@ -1,0 +1,1 @@
+Please request this dataset from https://github.com/MohammedMosuily/mmlung and put the `Trimmed_Data_from_phone` folder under this directory.
