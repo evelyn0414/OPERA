@@ -15,7 +15,7 @@ from pytorch_lightning.loggers import CSVLogger
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from lightning.pytorch.utilities import CombinedLoader
-from src.pretrain.augmentation import random_crop, random_mask, random_multiply, SpecAugment
+from src.util import random_crop, random_mask, random_multiply
 from src.model.models_cola import Cola, ColaMD 
 
 def combine_dataloaders(dataloaders, train=False):
@@ -25,7 +25,7 @@ def combine_dataloaders(dataloaders, train=False):
 
 
 class AudioDataset(torch.utils.data.Dataset):
-    def __init__(self, data, max_len=200, augment=True, from_npy=False, labels=None, method="cola", spec_aug=False):
+    def __init__(self, data, max_len=200, augment=True, from_npy=False, labels=None, method="cola"):
         """
         max len: 251 for 8 secs, 157 for 5 second, 126 for 4 seconds, 63 for 2 seconds, 32 for 1 second
         """
@@ -35,8 +35,6 @@ class AudioDataset(torch.utils.data.Dataset):
         self.from_npy = from_npy
         self.labels = labels
         self.method = method
-        self.SpecAugment = SpecAugment()
-        self.spec_aug = spec_aug
 
     def __len__(self):
         return len(self.data)
@@ -56,10 +54,6 @@ class AudioDataset(torch.utils.data.Dataset):
 
             x1 = random_crop(x, crop_size=self.max_len)
             x2 = random_crop(x, crop_size=self.max_len)
-
-            if self.spec_aug:
-                x1 = self.SpecAugment(x)
-                x2 = self.SpecAugment(x)
 
             if self.augment:
                 x1 = random_multiply(x1)
@@ -103,8 +97,6 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
     print(data_source)
     
     method = "cola"
-    
-    spec_aug = False # ("htsat" in title)
 
     batch_size = 128
     epochs = n_epoches
@@ -120,7 +112,7 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
         from_npy = True
         if dt in ['covidbreath', 'covidcough']:
             modality = dt[5:]
-            filenames = list(np.load("datasets/covid/SSL_entireaudio_filenames_{}.npy".format(modality)))
+            filenames = list(np.load("datasets/covid19-sounds/SSL_entireaudio_filenames_{}.npy".format(modality)))
 
         elif dt == "icbhi":
             #  training with audio
@@ -163,8 +155,8 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
         
         train, test = train_test_split(filenames, test_size=0.1, random_state=1337)
 
-        train_data = AudioDataset(train, augment=True, from_npy=True, max_len=max_len, method=method, spec_aug=spec_aug)
-        val_data = AudioDataset(test, augment=True, from_npy=True, max_len=max_len, method=method, spec_aug=spec_aug)
+        train_data = AudioDataset(train, augment=True, from_npy=True, max_len=max_len, method=method)
+        val_data = AudioDataset(test, augment=True, from_npy=True, max_len=max_len, method=method)
 
         train_loader = DataLoader(
             train_data, batch_size=batch_size, shuffle=True, num_workers=7
