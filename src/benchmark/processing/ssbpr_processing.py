@@ -17,63 +17,20 @@ if not os.path.exists(audio_dir):
     raise FileNotFoundError(f"Folder not found: {audio_dir}, please download the dataset.")
 
 def preprocess_split():
-    female_user_list = set()
-    male_user_list = set()
     sound_dir_loc = np.array(gb.glob(data_dir + "*/*/*.wav"))
 
-    audio_split = []
     labels = []
     filename_list = []
-    
-    for file in sound_dir_loc:
-        userID = file.split("/")[-1][:9]
-        sex = file.split("/")[-3]
-        if sex == "female":
-            female_user_list.add(userID)
-        elif sex == "male":
-            male_user_list.add(userID)
-    female_user_list = list(female_user_list)
-    male_user_list = list(male_user_list)
-    print(female_user_list, male_user_list)
-    np.random.shuffle(female_user_list)
-    np.random.shuffle(male_user_list)
 
-    num_folds = 5
-    fold_size = 2
-    user_folds = [female_user_list[i*fold_size:(i+1)*fold_size] + male_user_list[i*fold_size:(i+1)*fold_size] for i in range(num_folds)]
-    # Print the folds
-    for i, fold in enumerate(user_folds):
-        print(f"Fold {i+1}: {fold}")
-    
     for file in sound_dir_loc:
         label = int(file.split(".")[0][-1])
         if label == 5: continue
         u = file.split("/")[-1][:9]
-        for i, fold in enumerate(user_folds):
-            if u in fold:
-                audio_split.append(i)
-                break
         labels.append(label)
         filename_list.append(file)
 
-    np.save(feature_dir + "split.npy", audio_split)
     np.save(feature_dir + "labels.npy", labels)
     np.save(feature_dir + "sound_dir_loc.npy", filename_list)
-
-
-def check_demographic():
-    num_folds = 5
-    data_folds = np.load(feature_dir + "split.npy")
-    labels = np.load(feature_dir + "labels.npy")
-    # Iterate through each fold
-    for fold in range(num_folds):
-        fold_indices = np.where(data_folds == fold)[0]  # Indices of data points in the current fold
-        fold_labels = labels[fold_indices]  # Labels of data points in the current fold
-        unique_labels, label_counts = np.unique(fold_labels, return_counts=True)  # Unique labels and their counts
-        print(f"Fold {fold} label distribution:")
-        for label, count in zip(unique_labels, label_counts):
-            print(f"Label {label}: {count} samples")
-        print()
 
 
 def extract_and_save_embeddings_baselines(feature="opensmile"):
@@ -113,9 +70,9 @@ def extract_and_save_embeddings(feature="operaCE", dim=1280):
     from src.benchmark.model_util import extract_opera_feature
     audio_images = np.load(feature_dir + "spec.npz")
     audio_images = [audio_images[f] for f in audio_images.files]
-    cola_features = extract_opera_feature(audio_images,  pretrain=feature, from_spec=True, dim=dim)
+    opera_features = extract_opera_feature(audio_images,  pretrain=feature, from_spec=True, dim=dim)
     feature += str(dim)
-    np.save(feature_dir + feature + "_feature.npy", np.array(cola_features))
+    np.save(feature_dir + feature + "_feature.npy", np.array(opera_features))
 
 
 if __name__ == '__main__':
@@ -123,11 +80,10 @@ if __name__ == '__main__':
     parser.add_argument("--pretrain", type=str, default="operaCE")
     parser.add_argument("--dim", type=int, default=1280)
     args = parser.parse_args()
-    
+
     if not os.path.exists(feature_dir):
         os.makedirs(feature_dir)
         preprocess_split()
-        check_demographic()
         process_spectrogram()
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]: 

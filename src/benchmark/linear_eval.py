@@ -594,7 +594,6 @@ def linear_evaluation_ssbpr(n_cls=5, use_feature="opensmile", l2_strength=1e-5, 
 
     feature_dir = "feature/snoring_eval/"
 
-    y_set = np.load(feature_dir + "split.npy")
     y_label = np.load(feature_dir + "labels.npy")
     print(collections.Counter(y_label))
     x_data = np.load(feature_dir + use_feature + "_feature.npy").squeeze()

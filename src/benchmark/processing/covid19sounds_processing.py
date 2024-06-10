@@ -22,17 +22,6 @@ for path in [task1_dir, task1_downsampled_dir]:
         os.makedirs(path)
 
 
-def extract_opera_features(feature, task=1, modality="cough", input_sec=8, dim=1280):
-    folders = {1: task1_downsampled_dir, 2: task2_dir}
-    feature_dir = folders[task]
-    from model_util import extract_opera_feature
-    sound_dir_loc = np.load(feature_dir  + "sound_dir_loc_{}.npy".format(modality))
-    cola_features = extract_opera_feature(sound_dir_loc,  pretrain=feature, input_sec=input_sec, dim=dim)
-    feature += str(dim)
-    print("saving feature to", feature_dir  +  feature + "_feature_{}.npy".format(modality))
-    np.save(feature_dir  +   feature + "_feature_{}.npy".format(modality), np.array(cola_features))
-
-
 def preprocess_task1(modality="cough"):
     """run once and shared by all methods"""
     data_split = []
@@ -113,6 +102,17 @@ def extract_and_save_embeddings_baselines(task=1, modality="cough", feature="ope
     elif feature == "audiomae":
         audiomae_feature = extract_audioMAE_feature(sound_dir_loc)
         np.save(feature_dir + "audiomae_feature_{}.npy".format(modality), np.array(audiomae_feature))
+
+
+def extract_opera_features(feature, task=1, modality="cough", input_sec=8, dim=1280):
+    folders = {1: task1_downsampled_dir, 2: task2_dir}
+    feature_dir = folders[task]
+    from model_util import extract_opera_feature
+    sound_dir_loc = np.load(feature_dir  + "sound_dir_loc_{}.npy".format(modality))
+    opera_features = extract_opera_feature(sound_dir_loc,  pretrain=feature, input_sec=input_sec, dim=dim)
+    feature += str(dim)
+    print("saving feature to", feature_dir  +  feature + "_feature_{}.npy".format(modality))
+    np.save(feature_dir  +   feature + "_feature_{}.npy".format(modality), np.array(opera_features))
 
 
 if __name__ == '__main__':
