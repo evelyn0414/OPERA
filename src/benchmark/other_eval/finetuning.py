@@ -1,20 +1,17 @@
-import json
-from glob import glob
-
 import numpy as np
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-from pytorch_lightning.loggers import TensorBoardLogger, CSVLogger
+from pytorch_lightning.loggers import CSVLogger
 from lightning.pytorch import seed_everything
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 
 from src.util import random_crop, random_mask, random_multiply, crop_first
-from src.model.models_eval import AudioClassifier, Cola, ColaSym, AudioAggClassifier, LinearHead, ColaTryingSimCLR, ColaLLM, AudioClassifierCLAP, AudioClassifierAudioMAE
+from src.model.models_eval import AudioClassifier, AudioClassifierCLAP, AudioClassifierAudioMAE
 from src.benchmark.model_util import get_encoder_path, initialize_pretrained_model
-from src.util import train_test_split_from_list, plot_tsne
+from src.util import train_test_split_from_list
 import collections
 import os
 

@@ -6,18 +6,16 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from tqdm import tqdm
-import random
-import scipy.signal as sg
-import soundfile
 import csv
 from src.util import get_entire_signal_librosa
 import os
 
-feature_dir = "feature/coswara_eval/" #"datasets/Coswara-Data/coswara_eval/"
+feature_dir = "feature/coswara_eval/"  # "datasets/Coswara-Data/coswara_eval/"
 data_dir = "datasets/Coswara-Data/Extracted_data/"
 
 if not os.path.exists(data_dir):
-    raise FileNotFoundError(f"Folder not found: {data_dir}, please download the dataset.")
+    raise FileNotFoundError(
+        f"Folder not found: {data_dir}, please download the dataset.")
 
 
 def get_annotaion_from_csv(path):
@@ -37,15 +35,17 @@ def get_annotaion_from_csv(path):
 
 def preprocess_label(label="sex"):
     df = pd.read_csv('datasets/Coswara-Data/combined_data.csv', index_col="id")
-    df = df.replace(np.nan,'',regex=True)
+    df = df.replace(np.nan, '', regex=True)
 
     sex_label_dict = {"female": 1, "male": 0, "pnts": None, "Other": None}
-    smoker_label_dict = {"y": 1, "n": 0, "TRUE":1, "True":1, "False":0, "FALSE":0, "": None}
+    smoker_label_dict = {"y": 1, "n": 0, "TRUE": 1,
+                         "True": 1, "False": 0, "FALSE": 0, "": None}
 
     for modality in ["breathing-deep", "breathing-shallow", "cough-heavy", "cough-shallow"]:
         label_list = []
         filename_list = []
-        annotation = get_annotaion_from_csv("datasets/Coswara-Data/annotations/{}_labels.csv".format(modality))
+        annotation = get_annotaion_from_csv(
+            "datasets/Coswara-Data/annotations/{}_labels.csv".format(modality))
         for uuid, row in tqdm(df.iterrows(), total=df.shape[0]):
 
             if uuid == "9hftEYixyhP1Neeq3fB7ZwITQC53" and modality == "cough-shallow":
@@ -54,41 +54,47 @@ def preprocess_label(label="sex"):
 
             if uuid in ["C7Km0KttQRMMM6UoyocajfgZAOB3", "kgjTguvo3vZJTO7F1qO9GxEicbA3"]:
                 continue
-            
+
             if annotation["_".join([uuid, modality])] == "0":
                 # bad quality
                 continue
 
-            files = gb.glob("/".join(["datasets/Coswara-Data/Extracted_data", "*", uuid, modality + ".wav"]))
+            files = gb.glob(
+                "/".join(["datasets/Coswara-Data/Extracted_data", "*", uuid, modality + ".wav"]))
 
             filename = files[0]
             if label == "sex":
                 audio_label = sex_label_dict[row["g"]]
             elif label == "smoker":
                 audio_label = smoker_label_dict[row["smoker"]]
-            
+
             if audio_label is not None:
                 label_list.append(audio_label)
                 filename_list.append(filename)
 
         print(collections.Counter(label_list))
         np.save(feature_dir + "{}_label_{}.npy".format(label, modality), label_list)
-        np.save(feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality, label), filename_list)
+        np.save(
+            feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality, label), filename_list)
 
 
 def preprocess_modality(modality="breathing", label="sex"):
     uuid_dict = collections.defaultdict(int)
-    submodalities = {"breathing": ["-deep", "-shallow"], "cough": ["-heavy", "-shallow"]}
-    
+    submodalities = {"breathing": [
+        "-deep", "-shallow"], "cough": ["-heavy", "-shallow"]}
+
     for submodality in submodalities[modality]:
-        filenames = np.load(feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality+submodality, label))
+        filenames = np.load(
+            feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality+submodality, label))
         for i, file in enumerate(filenames):
             uuid = file.split("/")[-2]
             uuid_dict[uuid] += 1
 
     for submodality in submodalities[modality]:
-        labels = np.load(feature_dir + "{}_label_{}.npy".format(label, modality + submodality))
-        filenames = np.load(feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality+submodality, label))
+        labels = np.load(
+            feature_dir + "{}_label_{}.npy".format(label, modality + submodality))
+        filenames = np.load(
+            feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality+submodality, label))
         final_label = []
         final_filenames = []
         for i, file in enumerate(filenames):
@@ -98,8 +104,10 @@ def preprocess_modality(modality="breathing", label="sex"):
                 final_label.append(labels[i])
                 final_filenames.append(file)
         print(collections.Counter(final_label))
-        np.save(feature_dir + "{}_aligned_{}_label_{}.npy".format(modality, label, modality + submodality), final_label)
-        np.save(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(modality, label, modality + submodality), final_filenames)
+        np.save(feature_dir + "{}_aligned_{}_label_{}.npy".format(modality,
+                label, modality + submodality), final_label)
+        np.save(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(modality,
+                label, modality + submodality), final_filenames)
 
 
 def preprocess_split_google():
@@ -107,8 +115,9 @@ def preprocess_split_google():
     num_pos, num_neg = 174, 478
 
     # split once, sequence same
-    labels = np.load(feature_dir + "{}_aligned_{}_label_{}.npy".format(modality, label, modality + submodality))
-    
+    labels = np.load(
+        feature_dir + "{}_aligned_{}_label_{}.npy".format(modality, label, modality + submodality))
+
     # Indices of positive and negative class
     positive_indices = np.where(labels == 1)[0]
     negative_indices = np.where(labels == 0)[0]
@@ -122,8 +131,9 @@ def preprocess_split_google():
     test_positive_indices = positive_indices[:num_pos]
     test_negative_indices = negative_indices[:num_neg]
 
-    test_indices = np.concatenate((test_positive_indices, test_negative_indices))
-    
+    test_indices = np.concatenate(
+        (test_positive_indices, test_negative_indices))
+
     split = []
     for idx in range(len(labels)):
         if idx in test_indices:
@@ -135,33 +145,40 @@ def preprocess_split_google():
 
 
 def split_set(modality, label="smoker"):
-    
-    broad_modality = modality.split("-")[0]
-    sound_dir_loc = np.load(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
 
-    labels = np.load(feature_dir + "{}_aligned_{}_label_{}.npy".format(broad_modality, label, modality))
+    broad_modality = modality.split("-")[0]
+    sound_dir_loc = np.load(
+        feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
+
+    labels = np.load(
+        feature_dir + "{}_aligned_{}_label_{}.npy".format(broad_modality, label, modality))
 
     X_train, X_test, y_train, y_test = train_test_split(
-            sound_dir_loc, labels, test_size=0.2, random_state=1337, stratify=labels
-        )
-    split = np.array(["train" if file in X_train else "test" for file in sound_dir_loc])
-    np.save(feature_dir + "{}_aligned_train_test_split_{}_w_{}.npy".format(broad_modality, label, modality), split)
+        sound_dir_loc, labels, test_size=0.2, random_state=1337, stratify=labels
+    )
+    split = np.array(
+        ["train" if file in X_train else "test" for file in sound_dir_loc])
+    np.save(feature_dir + "{}_aligned_train_test_split_{}_w_{}.npy".format(
+        broad_modality, label, modality), split)
 
 
 def check_demographic(modality, label="smoker", trait="label"):
 
     print("checking training and testing demographic", trait, modality, label)
     broad_modality = modality.split("-")[0]
-    sound_dir_loc = np.load(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
+    sound_dir_loc = np.load(
+        feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
 
-    labels = np.load(feature_dir + "{}_aligned_{}_label_{}.npy".format(broad_modality, label, modality))
-    split = np.load(feature_dir + "{}_aligned_train_test_split_{}_w_{}.npy".format(broad_modality, label, modality))
+    labels = np.load(
+        feature_dir + "{}_aligned_{}_label_{}.npy".format(broad_modality, label, modality))
+    split = np.load(
+        feature_dir + "{}_aligned_train_test_split_{}_w_{}.npy".format(broad_modality, label, modality))
 
     train = sound_dir_loc[split == "train"]
     test = sound_dir_loc[split == "test"]
 
     df = pd.read_csv('datasets/Coswara-Data/combined_data.csv', index_col="id")
-    df = df.replace(np.nan,'',regex=True)
+    df = df.replace(np.nan, '', regex=True)
 
     for trait in ["label", "sex", "age"]:
         for sound_dir_loc in [train, test]:
@@ -175,7 +192,7 @@ def check_demographic(modality, label="smoker", trait="label"):
                     label = labels[i]
                     count[label] += 1
                 if trait == "age":
-                    age = int(row["a"] // 10 ) * 10
+                    age = int(row["a"] // 10) * 10
                     count[age] += 1
                 if trait == "sex":
                     sex = row["g"]
@@ -188,13 +205,16 @@ def preprocess_spectrogram(modality, label="sex"):
     audio_images = []
     broad_modality = modality.split("-")[0]
     # sound_dir_loc = np.load(feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality, label))
-    sound_dir_loc = np.load(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
+    sound_dir_loc = np.load(
+        feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
     print("number of files", len(sound_dir_loc))
     for file in tqdm(sound_dir_loc):
-        data = get_entire_signal_librosa("", file.split('.')[0], spectrogram=True, pad=True)
+        data = get_entire_signal_librosa(
+            "", file.split('.')[0], spectrogram=True, pad=True)
         audio_images.append(data)
     # np.savez(feature_dir + "entire_spec_all_{}_w_{}.npz".format(modality, label), *audio_images)
-    np.savez(feature_dir + "{}_aligned_spec_{}_w_{}.npz".format(broad_modality, modality, label), *audio_images)
+    np.savez(feature_dir + "{}_aligned_spec_{}_w_{}.npz".format(broad_modality,
+             modality, label), *audio_images)
 
 
 def extract_and_save_embeddings_baselines(modality, label="sex", feature="opensmile"):
@@ -202,23 +222,28 @@ def extract_and_save_embeddings_baselines(modality, label="sex", feature="opensm
     opensmile_features = []
 
     broad_modality = modality.split("-")[0]
-    sound_dir_loc = np.load(feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
+    sound_dir_loc = np.load(
+        feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
 
     if feature == "opensmile":
         for file in tqdm(sound_dir_loc):
             audio_signal, sr = librosa.load(file, sr=16000)
             opensmile_feature = extract_opensmile_features(file)
             opensmile_features.append(opensmile_feature)
-        np.save(feature_dir + "opensmile_feature_{}_{}.npy".format(modality, label), np.array(opensmile_features))
+        np.save(feature_dir + "opensmile_feature_{}_{}.npy".format(modality,
+                label), np.array(opensmile_features))
     elif feature == "vggish":
         vgg_features = extract_vgg_feature(sound_dir_loc)
-        np.save(feature_dir + "vggish_feature_{}_{}.npy".format(modality, label), np.array(vgg_features))
+        np.save(feature_dir + "vggish_feature_{}_{}.npy".format(modality,
+                label), np.array(vgg_features))
     elif feature == "clap":
         clap_features = extract_clap_feature(sound_dir_loc)
-        np.save(feature_dir + "clap_feature_{}_{}.npy".format(modality, label), np.array(clap_features))
+        np.save(feature_dir + "clap_feature_{}_{}.npy".format(modality,
+                label), np.array(clap_features))
     elif feature == "audiomae":
         audiomae_feature = extract_audioMAE_feature(sound_dir_loc)
-        np.save(feature_dir + "audiomae_feature_{}_{}.npy".format(modality, label), np.array(audiomae_feature))
+        np.save(feature_dir + "audiomae_feature_{}_{}.npy".format(modality,
+                label), np.array(audiomae_feature))
 
 
 def extract_and_save_embeddings(feature, modality, label="sex", input_sec=8, dim=1280):
@@ -226,14 +251,18 @@ def extract_and_save_embeddings(feature, modality, label="sex", input_sec=8, dim
     # sound_dir_loc = np.load("datasets/Coswara-Data/entireaudio_filenames_{}_w_{}.npy".format(modality, label))
     broad_modality = modality.split("-")[0]
     if input_sec == 2:
-        audio_images = np.load(feature_dir + "{}_aligned_spec_pad2_{}_w_{}.npz".format(broad_modality, modality, label))
+        audio_images = np.load(
+            feature_dir + "{}_aligned_spec_pad2_{}_w_{}.npz".format(broad_modality, modality, label))
     else:
         # default 8
-        audio_images = np.load(feature_dir + "{}_aligned_spec_{}_w_{}.npz".format(broad_modality, modality, label))
+        audio_images = np.load(
+            feature_dir + "{}_aligned_spec_{}_w_{}.npz".format(broad_modality, modality, label))
     audio_images = [audio_images[f] for f in audio_images.files]
-    opera_features = extract_opera_feature(audio_images,  pretrain=feature, from_spec=True, input_sec=input_sec, dim=dim)
+    opera_features = extract_opera_feature(
+        audio_images,  pretrain=feature, from_spec=True, input_sec=input_sec, dim=dim)
     feature += str(dim)
-    np.save(feature_dir +  feature + "_feature_{}_{}.npy".format(modality, label), np.array(opera_features))
+    np.save(feature_dir + feature + "_feature_{}_{}.npy".format(modality,
+            label), np.array(opera_features))
 
 
 if __name__ == '__main__':
@@ -259,8 +288,9 @@ if __name__ == '__main__':
             for modality in ["breathing-deep", "breathing-shallow", "cough-heavy", "cough-shallow"][3:]:
                 preprocess_spectrogram(modality, label)
 
-    if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]: 
-        extract_and_save_embeddings_baselines(args.modality, args.label, args.pretrain)
+    if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
+        extract_and_save_embeddings_baselines(
+            args.modality, args.label, args.pretrain)
     else:
         if args.pretrain == "operaCT":
             input_sec = args.min_len_htsat
@@ -268,4 +298,5 @@ if __name__ == '__main__':
             input_sec = args.min_len_cnn
         elif args.pretrain == "operaGT":
             input_sec = 8.18
-        extract_and_save_embeddings(args.pretrain, args.modality, args.label, input_sec, dim=args.dim)
+        extract_and_save_embeddings(
+            args.pretrain, args.modality, args.label, input_sec, dim=args.dim)

@@ -1,20 +1,18 @@
+import os
 import glob as gb
 import argparse
-import librosa
 import collections
 import numpy as np
 from sklearn.model_selection import train_test_split
-# from run_classifier import train_clfs_and_output_results_on_testing_set, train_test_split_from_list
-# from run_classifier import train
-import random
-import os
+from tqdm import tqdm
 
 feature_dir = "feature/kauh_eval/"
 
 audio_dir = "datasets/KAUH/AudioFiles/"
 
 if not os.path.exists(audio_dir):
-    raise FileNotFoundError(f"Folder not found: {audio_dir}, please download the dataset.")
+    raise FileNotFoundError(
+        f"Folder not found: {audio_dir}, please download the dataset.")
 
 
 def preprocess_subset():
@@ -25,10 +23,9 @@ def preprocess_subset():
 
     for i in range(sound_dir_loc.shape[0]):
         filename = sound_dir_loc[i]
-        userID = int(filename.split('/')[-1].split('_')[0][2:])
 
         label = filename.split('/')[-1].split(',')[0].split('_')[-1]
-        
+
         if label == "N":
             label = "healthy"
         elif "asthma" in label or "Asthma" in label:
@@ -39,7 +36,7 @@ def preprocess_subset():
             continue
         sound_dir_loc_subset.append(filename)
         labels.append(label)
-    
+
     np.save(feature_dir + "sound_dir_loc_subset.npy", sound_dir_loc_subset)
     np.save(feature_dir + "labels_both.npy", labels)
 
@@ -47,7 +44,7 @@ def preprocess_subset():
 def split_set():
     sound_dir_loc_subset = np.load(feature_dir + "sound_dir_loc_subset.npy")
     labels = np.load(feature_dir + "labels_both.npy")
-    user_ids, user_labels =  [], []
+    user_ids, user_labels = [], []
     audio_split = []
     for i, filename in enumerate(sound_dir_loc_subset):
         user_id = filename.split('/')[-1].split('_')[0][2:]
@@ -58,16 +55,17 @@ def split_set():
     train_ratio = 0.7
     validation_ratio = 0.1
     test_ratio = 0.20
-    
+
     seed = 42
     _x_train, x_test, _y_train, y_test = train_test_split(
-            user_ids, user_labels, test_size=test_ratio, random_state=seed, stratify=user_labels
-        )
+        user_ids, user_labels, test_size=test_ratio, random_state=seed, stratify=user_labels
+    )
 
     x_train, x_val, y_train, y_val = train_test_split(
-            _x_train, _y_train, test_size=validation_ratio/(validation_ratio + train_ratio), 
-            random_state=seed, stratify=_y_train
-        )
+        _x_train, _y_train, test_size=validation_ratio /
+        (validation_ratio + train_ratio),
+        random_state=seed, stratify=_y_train
+    )
 
     for i, filename in enumerate(sound_dir_loc_subset):
         u = filename.split('/')[-1].split('_')[0][2:]
@@ -98,7 +96,8 @@ def check_demographic(trait="label"):
                 label = labels[i]
                 count[label] += 1
             if trait == "age":
-                age = (int(filename.split('/')[-1].split('.')[0].split(',')[-2]) // 10 ) * 10
+                age = (int(filename.split('/')
+                       [-1].split('.')[0].split(',')[-2]) // 10) * 10
                 count[age] += 1
             if trait == "sex":
                 sex = filename.split('/')[-1].split('.')[0].split(',')[-1]
@@ -112,10 +111,10 @@ def extract_and_save_embeddings_baselines(feature="opensmile"):
     if feature == "opensmile":
         opensmile_features = []
         for file in tqdm(sound_dir_loc_subset):
-            audio_signal, sr = librosa.load(file, sr=16000)
             opensmile_feature = extract_opensmile_features(file)
             opensmile_features.append(opensmile_feature)
-        np.save(feature_dir + "opensmile_feature_both.npy", np.array(opensmile_features))
+        np.save(feature_dir + "opensmile_feature_both.npy",
+                np.array(opensmile_features))
     elif feature == "vggish":
         vgg_features = extract_vgg_feature(sound_dir_loc_subset)
         np.save(feature_dir + "vggish_feature_both.npy", vgg_features)
@@ -124,16 +123,19 @@ def extract_and_save_embeddings_baselines(feature="opensmile"):
         np.save(feature_dir + "clap_feature_both.npy", clap_features)
     elif feature == "audiomae":
         audiomae_feature = extract_audioMAE_feature(sound_dir_loc_subset)
-        np.save(feature_dir + "audiomae_feature_both.npy", np.array(audiomae_feature))
+        np.save(feature_dir + "audiomae_feature_both.npy",
+                np.array(audiomae_feature))
 
 
 def extract_and_save_embeddings(feature="operaCE", input_sec=8,  dim=1280):
     sound_dir_loc_subset = np.load(feature_dir + "sound_dir_loc_subset.npy")
 
     from src.benchmark.model_util import extract_opera_feature
-    opera_features = extract_opera_feature(sound_dir_loc_subset, pretrain=feature, input_sec=input_sec, dim=dim)
+    opera_features = extract_opera_feature(
+        sound_dir_loc_subset, pretrain=feature, input_sec=input_sec, dim=dim)
     feature += str(dim)
-    np.save(feature_dir +  feature +  "_feature_both.npy", np.array(opera_features))
+    np.save(feature_dir + feature + "_feature_both.npy",
+            np.array(opera_features))
 
 
 if __name__ == '__main__':
@@ -144,14 +146,14 @@ if __name__ == '__main__':
     parser.add_argument("--min_len_htsat", type=int, default=8)
     args = parser.parse_args()
 
-    # if not os.path.exists(feature_dir):
-    #     os.makedirs(feature_dir)
-    #     preprocess_subset()
-    #     split_set()
-    #     for trait in ["label", "sex", "age"]:
-    #         check_demographic(trait)
-    
-    if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]: 
+    if not os.path.exists(feature_dir):
+        os.makedirs(feature_dir)
+        preprocess_subset()
+        split_set()
+        for trait in ["label", "sex", "age"]:
+            check_demographic(trait)
+
+    if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
         extract_and_save_embeddings_baselines(args.pretrain)
     else:
         if args.pretrain == "operaCT":
@@ -160,4 +162,5 @@ if __name__ == '__main__':
             input_sec = args.min_len_cnn
         elif args.pretrain == "operaGT":
             input_sec = 8.18
-        extract_and_save_embeddings(args.pretrain, input_sec=input_sec, dim=args.dim)
+        extract_and_save_embeddings(
+            args.pretrain, input_sec=input_sec, dim=args.dim)

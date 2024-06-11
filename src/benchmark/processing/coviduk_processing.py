@@ -1,17 +1,11 @@
-import glob as gb
-import argparse
-import librosa
-import collections
-import numpy as np
-from sklearn.model_selection import train_test_split
-import pandas as pd
-from tqdm import tqdm
-import random
-import scipy.signal as sg
-import soundfile
-from os.path import exists
 import os
 import csv
+import argparse
+import librosa
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+
 
 data_dir = "datasets/covidUK/"
 feature_dir = "feature/coviduk_eval/"

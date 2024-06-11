@@ -1,12 +1,9 @@
 import pytorch_lightning as pl
 import torch
-from efficientnet_pytorch import EfficientNet
 from torch.nn import functional as F
-from sklearn import metrics
 import torch.nn as nn
 import numpy as np
 from torchmetrics import AUROC
-from src.model.htsat.htsat import HTSATWrapper
 import random 
 import torchaudio
 
@@ -326,7 +323,7 @@ class AudioClassifierAudioMAE(pl.LightningModule):
 
 
 class AudioClassifierCLAP(pl.LightningModule):
-    def __init__(self, net, head="linear", feat_dim=1280, classes=4, lr=1e-4, loss_func=None, freeze_encoder="none", l2_strength=0.0005:
+    def __init__(self, net, head="linear", feat_dim=1280, classes=4, lr=1e-4, loss_func=None, freeze_encoder="none", l2_strength=0.0005):
         super().__init__()
         self.net = net
         self.freeze_encoder = freeze_encoder

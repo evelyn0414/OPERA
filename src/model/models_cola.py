@@ -2,16 +2,9 @@ import pytorch_lightning as pl
 import torch
 from efficientnet_pytorch import EfficientNet
 from torch.nn import functional as F
-from sklearn import metrics
-import torch.nn as nn
 import numpy as np
-from torchmetrics import AUROC
-
 from src.model.htsat.htsat import HTSATWrapper
-
 import random 
-import torchaudio
-
 
 
 class Encoder(torch.nn.Module):

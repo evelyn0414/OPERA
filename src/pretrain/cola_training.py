@@ -16,7 +16,8 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from lightning.pytorch.utilities import CombinedLoader
 from src.util import random_crop, random_mask, random_multiply
-from src.model.models_cola import Cola, ColaMD 
+from src.model.models_cola import Cola, ColaMD
+
 
 def combine_dataloaders(dataloaders, train=False):
     if train:
@@ -58,16 +59,16 @@ class AudioDataset(torch.utils.data.Dataset):
             if self.augment:
                 x1 = random_multiply(x1)
                 x2 = random_multiply(x2)
-            
+
             x1 = torch.tensor(x1, dtype=torch.float)
             x2 = torch.tensor(x2, dtype=torch.float)
 
         if self.labels is None:
             return x1, x2
-        
+
         return (x1, x2), self.labels[idx]
 
-        
+
 class DecayLearningRate(pl.Callback):
     def __init__(self):
         self.old_lrs = []
@@ -92,11 +93,10 @@ class DecayLearningRate(pl.Callback):
             self.old_lrs[opt_idx] = new_lr_group
 
 
-
 def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, dim_hidden=1280, dim_out=512, encoder="efficientnet", n_epoches=512, training_method="cola"):
     print(data_source)
-    
-    method = "cola"
+
+    method = training_method
 
     batch_size = 128
     epochs = n_epoches
@@ -104,7 +104,7 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
     num_batch = []
 
     #  constructing dataloaders
-    train_loaders, val_loaders, test_loaders = [], [], []
+    train_loaders, val_loaders = [], []
 
     print('===============================================================================')
     print('start loading data:')
@@ -112,38 +112,47 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
         from_npy = True
         if dt in ['covidbreath', 'covidcough']:
             modality = dt[5:]
-            filenames = list(np.load("datasets/covid19-sounds/SSL_entireaudio_filenames_{}.npy".format(modality)))
+            filenames = list(np.load(
+                "datasets/covid19-sounds/SSL_entireaudio_filenames_{}.npy".format(modality)))
 
         elif dt == "icbhi":
             #  training with audio
-            icbhi_filenames = np.load("datasets/icbhi/entire_spec_filenames.npy")
+            icbhi_filenames = np.load(
+                "datasets/icbhi/entire_spec_filenames.npy")
             train_test = np.load("datasets/icbhi/entire_spec_split.npy")
-            filenames = list(icbhi_filenames[train_test == "train"]) #exclude testing
+            # exclude testing
+            filenames = list(icbhi_filenames[train_test == "train"])
 
         elif dt == "icbhicycle":
             # training with cycle:
-            icbhi_filenames = np.load("datasets/icbhi/cycle_spec_pad2_name.npy")
+            icbhi_filenames = np.load(
+                "datasets/icbhi/cycle_spec_pad2_name.npy")
             train_test = np.load("datasets/icbhi/cycle_spec_split.npy")
-            filenames = list(icbhi_filenames[train_test == "train"]) #exclude testing
+            # exclude testing
+            filenames = list(icbhi_filenames[train_test == "train"])
 
         elif dt == "coughvid":
-            filenames = list(np.load("datasets/coughvid/entire_spec_filenames.npy"))
-        
+            filenames = list(
+                np.load("datasets/coughvid/entire_spec_filenames.npy"))
+
         elif dt == "hf_lung":
-            filenames = list(np.load("datasets/hf_lung/entire_spec_filenames.npy"))
-        
+            filenames = list(
+                np.load("datasets/hf_lung/entire_spec_filenames.npy"))
+
         elif dt == "covidUKexhalation":
-            filenames = list(np.load("datasets/covidUK/entire_exhalation_filenames.npy"))
-            
+            filenames = list(
+                np.load("datasets/covidUK/entire_exhalation_filenames.npy"))
+
         elif dt == "covidUKcough":
-            filenames = list(np.load("datasets/covidUK/entire_cough_filenames.npy"))
-        
+            filenames = list(
+                np.load("datasets/covidUK/entire_cough_filenames.npy"))
+
         # # plotting data length distribution
         # data_lengths = []
         # for file_path in filenames:
         #     data = np.load(file_path + ".npy")
         #     data_lengths.append(data.shape[0])
-        
+
         # import matplotlib.pyplot as plt
         # plt.hist(data_lengths, bins=20, color='skyblue', edgecolor='black')
         # plt.xlabel('Data Length')
@@ -152,11 +161,14 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
         # plt.grid(True)
         # plt.savefig("fig/training/{}_length_hist.png".format(dt))
         # plt.clf()
-        
-        train, test = train_test_split(filenames, test_size=0.1, random_state=1337)
 
-        train_data = AudioDataset(train, augment=True, from_npy=True, max_len=max_len, method=method)
-        val_data = AudioDataset(test, augment=True, from_npy=True, max_len=max_len, method=method)
+        train, test = train_test_split(
+            filenames, test_size=0.1, random_state=1337)
+
+        train_data = AudioDataset(
+            train, augment=True, from_npy=True, max_len=max_len, method=method)
+        val_data = AudioDataset(
+            test, augment=True, from_npy=True, max_len=max_len, method=method)
 
         train_loader = DataLoader(
             train_data, batch_size=batch_size, shuffle=True, num_workers=7
@@ -167,30 +179,31 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
 
         train_loaders.append(train_loader)
         val_loaders.append(val_loader)
-        print(dt,'Length of Training, Validation', len(train_loader), len(val_loader))
+        print(dt, 'Length of Training, Validation',
+              len(train_loader), len(val_loader))
         num_batch.append(len(train_loader))
-    
+
     print('===============================================================================')
     train_loader = combine_dataloaders(train_loaders, train=True)
     val_loader = combine_dataloaders(val_loaders)
 
-    
     if training_method == "cola":
-        model = ColaMD(encoder=encoder, max_len=data_source, dim_fea=dim_fea, dim_hidden=dim_hidden, dim_out=dim_out, num_batch=num_batch)
+        model = ColaMD(encoder=encoder, max_len=data_source, dim_fea=dim_fea,
+                       dim_hidden=dim_hidden, dim_out=dim_out, num_batch=num_batch)
     logger = CSVLogger(
         save_dir="cks/logs",
         name="combined",
         version=title,
-        )
+    )
 
     checkpoint_callback = ModelCheckpoint(
-        monitor="valid_loss", mode="min", dirpath="cks/model/combined/" + "_".join(data_source.keys()), 
-        filename= 'encoder-' + title + '-{epoch:02d}--{valid_acc:.2f}-{valid_loss:.4f}',
+        monitor="valid_loss", mode="min", dirpath="cks/model/combined/" + "_".join(data_source.keys()),
+        filename='encoder-' + title +
+        '-{epoch:02d}--{valid_acc:.2f}-{valid_loss:.4f}',
         every_n_epochs=50,
         save_top_k=5
     )
 
-   
     trainer = pl.Trainer(
         max_epochs=epochs,
         accelerator="gpu",
@@ -205,12 +218,11 @@ def train_multiple_data(title, data_source={"covidbreath": 251},  dim_fea=1280, 
     trainer.test(dataloaders=val_loader)
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--title", type=str)
     parser.add_argument("--data", type=str, default="multiple")
-    
+
     # for training with multiple data
     parser.add_argument("--covidbreath", type=bool, default=False)
     parser.add_argument("--covidcough", type=bool, default=False)
@@ -221,7 +233,7 @@ if __name__ == "__main__":
     parser.add_argument("--covidUKexhalation", type=bool, default=False)
     parser.add_argument("--covidUKcough", type=bool, default=False)
 
-    # control training 
+    # control training
     parser.add_argument("--dim_hidden", type=int, default=1280)
     parser.add_argument("--dim_out", type=int, default=512)
     parser.add_argument("--encoder", type=str, default="efficientnet")
@@ -230,21 +242,18 @@ if __name__ == "__main__":
 
     # training goal
     parser.add_argument("--method", type=str, default="cola")
-    
+
     args = parser.parse_args()
 
-    optimal_max_len = {"covidbreath": 200, "covidcough": 50, "icbhi":50, "icbhicycle":50, "coughvid":50, "hf_lung":200, "covidUKexhalation": 100, "covidUKcough": 50}
-
+    optimal_max_len = {"covidbreath": 200, "covidcough": 50, "icbhi": 50, "icbhicycle": 50,
+                       "coughvid": 50, "hf_lung": 200, "covidUKexhalation": 100, "covidUKcough": 50}
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)
-
 
     data_source = {}
     for dt, max_len in optimal_max_len.items():
         if getattr(args, dt) is True:
             data_source[dt] = max_len
-    train_multiple_data(args.title, data_source=data_source, dim_hidden=args.dim_hidden, dim_out=args.dim_out, encoder=args.encoder, n_epoches=args.epoches, training_method=args.method)
-
-
-    
+    train_multiple_data(args.title, data_source=data_source, dim_hidden=args.dim_hidden,
+                        dim_out=args.dim_out, encoder=args.encoder, n_epoches=args.epoches, training_method=args.method)

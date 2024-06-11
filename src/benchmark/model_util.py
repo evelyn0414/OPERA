@@ -21,7 +21,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
     """
 
     """
-    from src.util import get_split_signal_librosa, pre_process_audio_mel_t, split_pad_sample, decide_droplast, get_entire_signal_librosa
+    from src.util import get_split_signal_librosa, get_entire_signal_librosa
     from tqdm import tqdm
 
     print("extracting feature from {} model with input_sec {}".format(pretrain, input_sec))
