@@ -458,7 +458,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
                  mlp_ratio=4., norm_layer=nn.LayerNorm, norm_pix_loss=False, 
                  audio_exp=False, alpha=0.0, temperature=.2, mode=0, contextual_depth=8,
                  use_custom_patch=False, split_pos=False, pos_trainable=False, use_nce=False, beta=4.0, decoder_mode=0,
-                 mask_t_prob=0.6, mask_f_prob=0.5, mask_2d=False,
+                 mask_t_prob=0.6, mask_f_prob=0.5, mask_2d=False, mask_ratio=0.7,
                  epoch=0, no_shift=False,num_batch=[258.0, 288, 4, 51, 75, 146, 138]
                  ):
         super().__init__()
@@ -569,6 +569,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
         self.mask_t_prob=mask_t_prob
         self.mask_f_prob=mask_f_prob
         self.mask_2d=mask_2d
+        self.mask_ratio = mask_ratio
 
         self.epoch = epoch
 
@@ -641,7 +642,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
                 x = torch.einsum('nchpwq->nhwpqc', x)
                 x = x.reshape(shape=(imgs.shape[0], h * w, p**2 * 1))
         else:
-            print(imgs.shape)
+            # print(imgs.shape)
             h = w = imgs.shape[2] // p
             x = imgs.reshape(shape=(imgs.shape[0], 3, h, p, w, p))
             x = torch.einsum('nchpwq->nhwpqc', x)
@@ -657,7 +658,8 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
         p = self.patch_embed.patch_size[0]    
         # h = 1024//p
         # w = 128//p
-        h = 128//p
+        h = 256//p
+        # h = 64//p
         w = 64//p
         x = x.reshape(shape=(x.shape[0], h, w, p, p, 1))
         x = torch.einsum('nhwpqc->nchpwq', x)
@@ -759,7 +761,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
     def forward_encoder(self, x, mask_ratio, mask_2d=False):
         # embed patches
         x = self.patch_embed(x)
-        #print('patch embedding zise:', x.shape)
+        # print('patch embedding zise:', x.shape)
         #print('position mebedding:', self.pos_embed.shape)
 
         #print(self.pos_embed[:, 1:x.shape[1]+1, :].shape)
@@ -774,7 +776,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
             #print(x.shape)
         else:
             x, mask, ids_restore = self.random_masking(x, mask_ratio)
-            #print(x.shape)
+            # print(x.shape)
         #print('x_mask:', x.shape)
         # append cls token
         #print('here')
@@ -899,7 +901,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
         else:
             pred = pred[:, 1:, :]
 
-        pred = nn.functional.sigmoid(pred)
+        # pred = nn.functional.sigmoid(pred)
         return pred, None, None #emb, emb_pixel
 
     def forward_loss(self, imgs, pred, mask, norm_pix_loss=False):
@@ -908,6 +910,7 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
         pred: [N, L, p*p*3]
         mask: [N, L], 0 is keep, 1 is remove, 
         """
+        # print(imgs.shape, mask.shape, mask.sum())
         target = self.patchify(imgs)
         if norm_pix_loss:
             mean = target.mean(dim=-1, keepdim=True)
@@ -916,16 +919,18 @@ class MaskedAutoencoderViTMD(pl.LightningModule):
 
         loss = (pred - target) ** 2
         loss = loss.mean(dim=-1)  # [N, L], mean loss per patch
-
+        # print(pred.shape, loss.shape)
         loss = (loss * mask).sum() / mask.sum()  # mean loss on removed patches
+        # print('return:', loss)
         return loss      
 
-    def forward(self, imgs, mask_ratio=0.5):
-        #print(imgs)
+    def forward(self, imgs):
+        # print(imgs.shape)
         #print(self.patch_embed.proj.weight.data)
-        emb_enc, mask, ids_restore, _ = self.forward_encoder(imgs, mask_ratio, mask_2d=self.mask_2d)
-        #print('Encoder:',emb_enc.shape)
+        emb_enc, mask, ids_restore, _ = self.forward_encoder(imgs, self.mask_ratio, mask_2d=self.mask_2d)
+        # print('Encoder:',emb_enc.shape)
         pred, _, _ = self.forward_decoder(emb_enc, ids_restore)  # [N, L, p*p*3]
+        # print('Decoder:',pred.shape)
         loss_recon = self.forward_loss(imgs, pred, mask, norm_pix_loss=self.norm_pix_loss)
         loss_contrastive = torch.FloatTensor([0.0]).cuda()
         return loss_recon, pred, mask, loss_contrastive
@@ -1141,7 +1146,6 @@ def mae_vit_small(**kwargs):
         mlp_ratio=4, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
    
-
 def vit_base_patch16(**kwargs):
     model = VisionTransformer(
         patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
