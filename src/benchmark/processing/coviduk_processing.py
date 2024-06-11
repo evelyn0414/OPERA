@@ -68,7 +68,7 @@ def process_label(modality="exhalation"):
     np.save(feature_dir + "split_{}.npy".format(modality), split)
 
 
-def extract_and_save_embeddings_baselines(modality="exhalation"):
+def extract_and_save_embeddings_baselines(modality="exhalation", feature="opensmile"):
     from src.benchmark.baseline.extract_feature import extract_opensmile_features, extract_vgg_feature, extract_clap_feature, extract_audioMAE_feature
     
     sound_dir_loc = np.load(feature_dir + "sound_dir_loc_{}.npy".format(modality))
@@ -76,7 +76,6 @@ def extract_and_save_embeddings_baselines(modality="exhalation"):
     if feature == "opensmile":
         opensmile_features = []
         for file in tqdm(sound_dir_loc):
-            audio_signal, sr = librosa.load(file, sr=16000)
             opensmile_feature = extract_opensmile_features(file)
             opensmile_features.append(opensmile_feature)
         np.save(feature_dir + "opensmile_feature_{}.npy".format(modality), np.array(opensmile_features))

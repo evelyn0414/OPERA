@@ -113,7 +113,7 @@ def extract_and_save_embeddings_baselines(task=1, modality="cough", feature="ope
 def extract_opera_features(feature, task=1, modality="cough", input_sec=8, dim=1280):
     folders = {1: task1_downsampled_dir}
     feature_dir = folders[task]
-    from model_util import extract_opera_feature
+    from src.benchmark.model_util import extract_opera_feature
     sound_dir_loc = np.load(
         feature_dir + "sound_dir_loc_{}.npy".format(modality))
     opera_features = extract_opera_feature(
@@ -139,7 +139,7 @@ if __name__ == '__main__':
         os.makedirs(task1_dir)
         os.makedirs(task1_downsampled_dir)
 
-        for modality in ["breath", "cough"][]:
+        for modality in ["breath", "cough"]:
             preprocess_task1(modality)
         task1_downsample()
 

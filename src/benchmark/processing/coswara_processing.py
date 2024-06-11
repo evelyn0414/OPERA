@@ -218,7 +218,7 @@ def preprocess_spectrogram(modality, label="sex"):
 
 
 def extract_and_save_embeddings_baselines(modality, label="sex", feature="opensmile"):
-    from src.benchmark.baseline.extract_feature import extract_opensmile_features,  extract_vgg_feature, extract_clap_feature
+    from src.benchmark.baseline.extract_feature import extract_opensmile_features,  extract_vgg_feature, extract_clap_feature, extract_audioMAE_feature
     opensmile_features = []
 
     broad_modality = modality.split("-")[0]
