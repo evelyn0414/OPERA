@@ -12,7 +12,7 @@ from tqdm import tqdm
 import torch
 import torchaudio
 import opensmile
-
+import requests
 
 SR = 22050  # sample rate
 
@@ -40,7 +40,12 @@ def extract_vgg_feature(sound_dir_loc, from_signal=False):
     x_data = []
 
     checkpoint_path = "./src/benchmark/baseline/vggish/vggish_model.ckpt"
-    pca_params_path = "./src/benchmark/baseline/vggish/vggish_pca_params.npz"
+    if not os.path.exists(checkpoint_path):
+        url = "https://storage.googleapis.com/audioset/vggish_model.ckpt"
+        r = requests.get(url)
+        with open(checkpoint_path, "wb") as f:
+            f.write(r.content)
+    
     with tf.Graph().as_default(), tf.compat.v1.Session() as sess:
         # load pre-trained model
         vggish_slim.define_vggish_slim()
