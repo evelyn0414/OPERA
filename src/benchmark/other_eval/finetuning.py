@@ -100,7 +100,7 @@ def finetune_covid19sounds(task=2, pretrain="operaCE", modality="cough", epochs=
     if pretrain == "audiomae":
         from src.benchmark.baseline.audioMAE.models_mae import mae_vit_small, vit_base_patch16
 
-        if not os.path.exists(feature_dir + "fbank_audiomae.npy")
+        if not os.path.exists(feature_dir + "fbank_audiomae.npy"):
             from src.util import get_split_signal_fbank_pad
             sound_dir_loc = np.load(feature_dir + "sound_dir_loc_{}.npy".format(modality))
             x_data = []
@@ -276,7 +276,7 @@ def finetune_ssbpr(n_cls=5, pretrain="operaCE", l2_strength=1e-4, epochs=64, bat
         model = AudioClassifierCLAP(net=net, head=head, classes=n_cls, lr=lr, l2_strength=l2_strength, feat_dim=feat_dim)
         from_audio = True
     else:
-        if not os.path.exists(feature_dir + "spectrogram_pad4.npy")
+        if not os.path.exists(feature_dir + "spectrogram_pad4.npy"):
             from src.util import get_split_signal_librosa
             sound_dir_loc = np.load(feature_dir + "sound_dir_loc.npy")
             x_data = []
