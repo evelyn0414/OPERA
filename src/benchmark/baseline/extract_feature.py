@@ -111,7 +111,9 @@ def extract_audioMAE_feature(sound_dir_loc, input_sec=10):
     from tqdm import tqdm
     from src.benchmark.baseline.audioMAE.models_mae import mae_vit_small, vit_base_patch16
 
-    encoder_path = "src/benchmark/baseline/audioMAE/ViTB_pretrained.pth"
+    ##Download the mode from the url and save it under src/benchmark/baseline/audioMAE/
+    ##https://drive.google.com/file/d/1ni_DV4dRf7GxM8k-Eirx71WP9Gg89wwu/view
+    encoder_path = "src/benchmark/baseline/audioMAE/pretrained.pth"
     ckpt = torch.load(encoder_path)
 
     model = vit_base_patch16(
