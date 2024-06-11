@@ -10,18 +10,30 @@ from src.model.models_mae import mae_vit_small
 
 SR = 16000
 
+# You can add your own model path here.
+
 ENCODER_PATH_OPERA_CE_EFFICIENTNET = "cks/model/encoder-operaCE.ckpt"
 ENCODER_PATH_OPERA_CT_HT_SAT = "cks/model/encoder-operaCT.ckpt"
 ENCODER_PATH_OPERA_GT_VIT =  "cks/model/encoder-operaGT.ckpt"
 
-# You can add your own model path here.
+
+def get_encoder_path(pretrain):
+    encoder_paths = {
+        "operaCT": ENCODER_PATH_OPERA_CT_HT_SAT,
+        "operaCE": ENCODER_PATH_OPERA_CE_EFFICIENTNET,
+        "operaGT": ENCODER_PATH_OPERA_GT_VIT
+        }
+    
+    return encoder_paths[pretrain]
+
+
 
 
 def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_spec=False, dim=1280):
     """
 
     """
-    from src.util import get_split_signal_librosa, get_entire_signal_librosa
+    from src.util import get_split_signal_librosa, pre_process_audio_mel_t, split_pad_sample, decide_droplast, get_entire_signal_librosa
     from tqdm import tqdm
 
     print("extracting feature from {} model with input_sec {}".format(pretrain, input_sec))
@@ -59,7 +71,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
                 data = audio_file
             else:
                 # input is filename of an audio
-                data = get_entire_signal_librosa("", audio_file.split('.')[0], spectrogram=True, input_sec=input_sec, pad=True)
+                data = get_entire_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=input_sec, pad=True)
             
             data = np.array(data)
 
@@ -97,11 +109,3 @@ def initialize_pretrained_model(pretrain):
     return model
 
 
-def get_encoder_path(pretrain):
-    encoder_paths = {
-        "operaCT": ENCODER_PATH_OPERA_CT_HT_SAT,
-        "operaCE": ENCODER_PATH_OPERA_CE_EFFICIENTNET,
-        "operaGT": ENCODER_PATH_OPERA_GT_VIT
-        }
-    
-    return encoder_paths[pretrain]
