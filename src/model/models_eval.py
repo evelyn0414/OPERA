@@ -1,9 +1,12 @@
 import pytorch_lightning as pl
 import torch
+from efficientnet_pytorch import EfficientNet
 from torch.nn import functional as F
+from sklearn import metrics
 import torch.nn as nn
 import numpy as np
 from torchmetrics import AUROC
+from src.model.htsat.htsat import HTSATWrapper
 import random 
 import torchaudio
 
@@ -740,7 +743,7 @@ class LinearHeadR(pl.LightningModule):
         
         # self.head = nn.Linear(dim_in, dim_out)
 
-        weights_init(self.head, seed=random_seed)
+        weights_init(self.head)
         self.lr = lr
         self.l2_strength = l2_strength
         self.loss = loss_func if loss_func else nn.MSELoss()
