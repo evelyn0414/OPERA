@@ -1,4 +1,4 @@
-# python -u src/pretrain/prepare_data/icbhi_pressl.py
+python -u src/pretrain/prepare_data/icbhi_pressl.py
 
 list="breath cough"  
 for i in $list;  

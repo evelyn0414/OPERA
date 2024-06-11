@@ -27,10 +27,6 @@ def extract_opensmile_features(audio_file):
     return opensmile_features
 
 
-def opensmile_feature_names():
-    return smile.feature_names
-
-
 def extract_vgg_feature(sound_dir_loc, from_signal=False):
     import tensorflow as tf
     import urllib

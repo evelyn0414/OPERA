@@ -5,7 +5,6 @@
 # some code below is referenced from https://github.com/CVxTz/COLA_pytorch
 
 
-from glob import glob
 import argparse
 import numpy as np
 import pytorch_lightning as pl

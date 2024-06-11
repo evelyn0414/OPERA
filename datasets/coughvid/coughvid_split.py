@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def cdf(data):
     sorted_data = np.sort(data)
     yvals = np.arange(len(sorted_data))/float(len(sorted_data)-1)
@@ -12,8 +13,9 @@ def cdf(data):
 
 
 # Load the data from the CSV file
-df = pd.read_csv('F:\SSL\RespSounds\datasets\coughvid\public_dataset\metadata_compiled.csv')
-#df = pd.read_csv('datasets\coughvid\public_dataset\metadata_compiled.csv')
+df = pd.read_csv(
+    'F:\SSL\RespSounds\datasets\coughvid\public_dataset\metadata_compiled.csv')
+# df = pd.read_csv('datasets\coughvid\public_dataset\metadata_compiled.csv')
 
 # cough_detected = df['cough_detected'].tolist()
 
@@ -34,13 +36,13 @@ df = df[df['cough_detected'] >= 0.8]
 print(df.head())
 # More detailed statistics for selected columns
 print('-------------------------------')
-print("Age statistics:") #34
+print("Age statistics:")  # 34
 print(df['age'].describe())
 print('-------------------------------')
-print("Gender distribution:") ##7:4
+print("Gender distribution:")  # 7:4
 print(df['gender'].value_counts())
 print('-------------------------------')
-print("Respiratory condition distribution:")#85:10
+print("Respiratory condition distribution:")  # 85:10
 print(df['status'].value_counts())
 
 # Filter the dataset for females and males separately
@@ -61,7 +63,8 @@ train_val_uuids = df[~df['uuid'].isin(test_uuids)]
 # train_val_uuids, test_uuids = train_test_split(df['uuid'], test_size=0.2, random_state=9)
 
 # Now split the temporary training set into the final training set and validation set
-train_uuids, val_uuids = train_test_split(train_val_uuids, test_size=0.25, random_state=100) # 0.25 x 0.8 = 0.2
+train_uuids, val_uuids = train_test_split(
+    train_val_uuids, test_size=0.25, random_state=100)  # 0.25 x 0.8 = 0.2
 
 print(len(train_uuids), len(val_uuids), len(test_uuids))
 
@@ -81,9 +84,6 @@ print(test_df['gender'].value_counts())
 print('-------------------------------')
 healthy_test_df = test_df[test_df['status'] == 'healthy']
 covid_test_df = test_df[test_df['status'] == 'COVID-19']
- 
-
-
 
 
 np.save('coughvid__train_uuids.npy', train_uuids['uuid'].values)
