@@ -15,7 +15,7 @@ OPERA is an OPEn Respiratory Acoustic foundation model pretraining and benchmark
 This is the official code release for **OPERA**: **OPE**n **R**espiratory **A**coustic foundation models. To reproduce the results in our [paper](), develop your own foundation models, or deploy our pretrained models for downstream healthcare applications, please follow the guideline below.
 
 
-## Installing
+## Installation
 
 The environment with all the needed dependeciescan be easily created on a Linux machine by running:
 ```
@@ -35,7 +35,7 @@ sh ./prepare_code.sh
 
 
 
-## Download data
+## Prepare data
 
 | Dataset                                  | Source | Access                                                       | License        |
 | ---------------------------------------- | ------ | ------------------------------------------------------------ | -------------- |
@@ -71,6 +71,11 @@ sh scripts/multiple_pretrain.sh
 
 The pretrained weights are available at:
 __Zenodo__ or __HuggingFace__
+
+our pretrained model checkpoints:
+[OPERA-CT](), [OPERA-C](), [OPERA-GT]().
+
+One task:
 
 
 ## Run benchmark
