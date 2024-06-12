@@ -54,7 +54,7 @@ sh ./prepare_code.sh
 
 *ICBHI and HF Lung datasets come from multiple sources. COVID-19 Sounds, SSBPR, MMLung and NoseMic are available upon request, while other data can be downloaded using the above url. Custom license is detailed in the DTA (data transfer agreement).
 
-The curated datasets can be accessed from the Google drive (replace the `datasets` folder). 
+We provided some curated datasets which can be downloaded from the [Google drive]() (replace the `datasets` folder). 
 
 
 ## Pretraining foudation models using OPERA framework
