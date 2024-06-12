@@ -5,7 +5,7 @@
 
 -----------------------------------------
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Language: Python](https://img.shields.io/badge/language-Python%203.9%2B-green?logo=python&logoColor=green)](https://www.python.org)
+[![Language: Python](https://img.shields.io/badge/language-Python%203.10%2B-green?logo=python&logoColor=green)](https://www.python.org)
 
 This is the official code release for **OPERA**: **OPE**n **R**espiratory **A**coustic foundation models.
 
