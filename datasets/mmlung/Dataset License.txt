@@ -1,0 +1,14 @@
+# Dataset License
+
+Copyright (c) 2022, University of Southampton
+All rights reserved.
+
+The mmlung data may be freely used, but the following conditions must be met:
+
+1. Any use of the data must retain the copyright notice, conditions list, and the disclaimer provided here.
+
+2. Any publication or presentation that uses results from this data must give appropriate credit to the University of Southampton.
+
+3. This data is intended for use in research, education, or evaluation only. A commercial license, free of charge, can be requested by emailing mtm1g19@soton.ac.uk.
+
+The University of Southampton provides this data "as is", without any warranty of any kind. The University of Southampton will not be held responsible for any damage or loss caused by the use of this data, even if they have been advised of potential damage or loss.
