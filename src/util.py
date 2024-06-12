@@ -172,37 +172,40 @@ def get_individual_segments_librosa(data_folder, filename, input_sec=8, sample_r
 
     return sample_data
 
-
-def get_entire_signal_librosa(data_folder, filename, input_sec=8, sample_rate=16000, butterworth_filter=None, spectrogram=False, pad=False, from_cycle=False, yt=None):
+def get_entire_signal_librosa(data_folder, filename, input_sec=8, sample_rate=16000, butterworth_filter=None, spectrogram=False, pad=False, from_cycle=False, yt=None, types='repeat'):
 
     if not from_cycle:
 
         # load file with specified sample rate (also converts to mono)
-        data, rate = librosa.load(os.path.join(
-            data_folder, filename+'.wav'), sr=sample_rate)
+        data, rate = librosa.load(os.path.join(data_folder, filename+'.wav'), sr=sample_rate)
 
         if butterworth_filter:
             # butter bandpass filter
-            data = _butter_bandpass_filter(
-                lowcut=200, highcut=1800, fs=sample_rate, order=butterworth_filter)
+            data = _butter_bandpass_filter(lowcut=200, highcut=1800, fs=sample_rate, order=butterworth_filter)
 
         # Trim leading and trailing silence from an audio signal.
-        FRAME_LEN = int(sample_rate / 10)  #
+        FRAME_LEN = int(sample_rate / 10)  # 
         HOP = int(FRAME_LEN / 2)  # 50% overlap, meaning 5ms hop length
-        yt, index = librosa.effects.trim(
-            data, frame_length=FRAME_LEN, hop_length=HOP
-        )
 
+        TRIM = True
+        if TRIM:
+            yt, index = librosa.effects.trim(
+                        data, frame_length=FRAME_LEN, hop_length=HOP
+                    )
+        else:
+            yt = data
+
+        
     # check audio not too short
-
+    
     duration = librosa.get_duration(y=yt, sr=sample_rate)
     if duration < input_sec:
         if not pad:
             print("Warning: audio too short, skipped")
             return None
         else:
-            yt = split_pad_sample([yt, 0, 0], input_sec, sample_rate)[0][0]
-
+            yt = split_pad_sample([yt, 0,0], input_sec, sample_rate, types)[0][0]
+    
     # directly process to spectrogram
     if spectrogram:
         # # visualization for testing the spectrogram parameters
@@ -210,6 +213,44 @@ def get_entire_signal_librosa(data_folder, filename, input_sec=8, sample_rate=16
         return pre_process_audio_mel_t(yt.squeeze(), f_max=8000)
 
     return yt
+
+# def get_entire_signal_librosa(data_folder, filename, input_sec=8, sample_rate=16000, butterworth_filter=None, spectrogram=False, pad=False, from_cycle=False, yt=None):
+
+#     if not from_cycle:
+
+#         # load file with specified sample rate (also converts to mono)
+#         data, rate = librosa.load(os.path.join(
+#             data_folder, filename+'.wav'), sr=sample_rate)
+
+#         if butterworth_filter:
+#             # butter bandpass filter
+#             data = _butter_bandpass_filter(
+#                 lowcut=200, highcut=1800, fs=sample_rate, order=butterworth_filter)
+
+#         # Trim leading and trailing silence from an audio signal.
+#         FRAME_LEN = int(sample_rate / 10)  #
+#         HOP = int(FRAME_LEN / 2)  # 50% overlap, meaning 5ms hop length
+#         yt, index = librosa.effects.trim(
+#             data, frame_length=FRAME_LEN, hop_length=HOP
+#         )
+
+#     # check audio not too short
+
+#     duration = librosa.get_duration(y=yt, sr=sample_rate)
+#     if duration < input_sec:
+#         if not pad:
+#             print("Warning: audio too short, skipped")
+#             return None
+#         else:
+#             yt = split_pad_sample([yt, 0, 0], input_sec, sample_rate)[0][0]
+
+#     # directly process to spectrogram
+#     if spectrogram:
+#         # # visualization for testing the spectrogram parameters
+#         # plot_melspectrogram(yt.squeeze(), title=filename.replace("/", "-"))
+#         return pre_process_audio_mel_t(yt.squeeze(), f_max=8000)
+
+#     return yt
 
 
 def get_split_signal_librosa(data_folder, filename, input_sec=8, sample_rate=16000, butterworth_filter=None, spectrogram=False, trim_tail=False):
