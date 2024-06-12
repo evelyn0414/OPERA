@@ -59,25 +59,29 @@ def extract_and_save_embeddings_baselines(feature="opensmile"):
             audiomae_feature = extract_audioMAE_feature(sound_dir_loc)
             np.save(feature_dir +  modality + "_audiomae_feature.npy", np.array(audiomae_feature))
 
+
 def extract_and_save_embeddings(feature="operaCE", input_sec=5, dim=1280):
     from src.benchmark.model_util import extract_opera_feature
     df = pd.read_excel(meta_dir + 'All_path.xlsx')
     for modality in Used_modality:
         sound_dir_loc = df[modality] #.str.replace(' ', '_')
         sound_dir_loc = sound_dir_loc.tolist()       
-        sound_dir_loc = ['datasets/mmlung' + path for path in sound_dir_loc]
+        sound_dir_loc = ['datasets/mmlung' + path[1:] for path in sound_dir_loc]
    
-        opera_features = extract_opera_feature(sound_dir_loc,  pretrain=feature, input_sec=input_sec, dim=dim)
-        feature += str(dim)
-        np.save(feature_dir + modality + '_' + feature + "_feature.npy", np.array(opera_features))
+        if 'operaCT' in feature:
+            opera_features = extract_opera_feature(sound_dir_loc,  pretrain=feature, input_sec=input_sec, dim=dim, pad0=True)
+        else:
+            opera_features = extract_opera_feature(sound_dir_loc,  pretrain=feature, input_sec=input_sec, dim=dim)
+        feature_name = feature + str(dim)
+        np.save(feature_dir + modality + '_' + feature_name + "_feature.npy", np.array(opera_features))
  
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--pretrain", type=str, default="operaCE")
-    parser.add_argument("--min_len_cnn", type=int, default=5)
-    parser.add_argument("--min_len_htsat", type=int, default=5)
+    parser.add_argument("--min_len_cnn", type=int, default=1)
+    parser.add_argument("--min_len_htsat", type=int, default=20)
     parser.add_argument("--dim", type=int, default=1280)
     args = parser.parse_args()
 
@@ -94,5 +98,5 @@ if __name__ == '__main__':
         elif args.pretrain == "operaCE":
             input_sec = args.min_len_cnn
         elif args.pretrain == "operaGT":
-            input_sec = 8.18
+            input_sec = 5
         extract_and_save_embeddings(args.pretrain, input_sec=input_sec, dim=args.dim)
