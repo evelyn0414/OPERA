@@ -3,10 +3,12 @@
 # Towards Open Respiratory Acoustic Foundation Models: Pretraining and Benchmarking
 # https://github.com/evelyn0414/OPERA
 
+import os
 import numpy as np
 import torch
 from src.model.models_cola import Cola
 from src.model.models_mae import mae_vit_small
+from huggingface_hub.file_download import hf_hub_download
 
 SR = 16000
 
@@ -23,10 +25,16 @@ def get_encoder_path(pretrain):
         "operaCE": ENCODER_PATH_OPERA_CE_EFFICIENTNET,
         "operaGT": ENCODER_PATH_OPERA_GT_VIT
         }
-    
+    if not os.path.exists(encoder_paths[pretrain]):
+        print("model ckpt not found, trying to download from huggingface")
+        download_ckpt(pretrain)
     return encoder_paths[pretrain]
 
 
+def download_ckpt(pretrain):
+    model_repo = "evelyn0414/OPERA"
+    model_name = "encoder-" + pretrain
+    hf_hub_download(model_repo, model_name, local_dir="cks/model")
 
 
 def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_spec=False, dim=1280):
