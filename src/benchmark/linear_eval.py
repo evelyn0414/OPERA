@@ -690,12 +690,7 @@ def linear_evaluation_mmlung(use_feature="opensmile", method='LOOCV', l2_strengt
         y_label = y_label[:,1]
     if label == 'FEV1_FVC':
         y_label = y_label[:,2]
-    if label == 'PEF':
-        y_label = y_label[:,3]
-
-        
-    if modality == 'cough':
-        x_data = np.load(feature_dir + 'Cough_file_' + use_feature + "_feature.npy").squeeze()
+    
         
     if modality == 'breath':
         x_data = np.load(feature_dir + 'Deep_Breath_file_' + use_feature + "_feature.npy").squeeze()
