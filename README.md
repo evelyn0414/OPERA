@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/evelyn0414/OPERA"> <img width="300px" height="300px" src="https://github.com/evelyn0414/OPERA/assets/61721952/6d17e3e7-5b3f-4e0b-991a-1cc02c5434dc"></a>
+  <a href="https://github.com/evelyn0414/OPERA"> <img width="200px" height="200px" src="https://github.com/evelyn0414/OPERA/assets/61721952/6d17e3e7-5b3f-4e0b-991a-1cc02c5434dc"></a>
 </div>
 
 
