@@ -86,7 +86,7 @@ class DecayLearningRate(pl.Callback):
             self.old_lrs[opt_idx] = new_lr_group
 
 
-def finetune_covid19sounds(task=2, pretrain="operaCE", modality="cough", epochs=64, batch_size=64, l2_strength=1e-4, lr=1e-4, head="linear", feat_dim=1280):
+def finetune_covid19sounds(task=1, pretrain="operaCE", modality="cough", epochs=64, batch_size=64, l2_strength=1e-4, lr=1e-4, head="linear", feat_dim=1280):
     print("fine-tuning covid19 task", task, modality, "from model pretrained on", pretrain, "with l2_strength", l2_strength, "lr", lr, "*" * 28)
     folders = {1: "feature/covid19sounds_eval/", 2: "feature/task2_eval/", "asthma": "feature/asthma_eval/", "1downsample": "feature/covid19sounds_eval/downsampled/"}
     feature_dir = folders[task]
@@ -230,7 +230,7 @@ def finetune_covid19sounds(task=2, pretrain="operaCE", modality="cough", epochs=
     return auc
 
 
-def finetune_ssbpr(n_cls=5, pretrain="operaCE", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear", seed=None, five_fold=False, split_fold=False,feat_dim=1280):
+def finetune_ssbpr(n_cls=5, pretrain="operaCE", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear", feat_dim=1280):
     print("*" * 48)
     print("training dataset SSBPR from model pretrained on", pretrain, "with l2_strength", l2_strength, "lr", lr, "head", head)
 
@@ -238,7 +238,7 @@ def finetune_ssbpr(n_cls=5, pretrain="operaCE", l2_strength=1e-4, epochs=64, bat
 
     from_audio = False
     if pretrain == "audiomae":
-        from src.benchmark.baseline.audioMAE.models_mae import mae_vit_small, vit_base_patch16
+        from src.benchmark.baseline.audioMAE.models_mae import vit_base_patch16
 
         if not os.path.exists(feature_dir + "fbank_audiomae.npy"):
             from src.util import get_split_signal_fbank_pad
@@ -374,7 +374,7 @@ def finetune_ssbpr(n_cls=5, pretrain="operaCE", l2_strength=1e-4, epochs=64, bat
     return auc
 
 
-def finetune_icbhidisease(n_cls=2, pretrain="operaCE", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear", seed=None, five_fold=False, split_fold=False,feat_dim=1280):
+def finetune_icbhidisease(n_cls=2, pretrain="operaCE", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear", feat_dim=1280):
     print("*" * 48)
     print("training dataset ICBHI disease from model pretrained on", pretrain, "with l2_strength", l2_strength, "lr", lr, "head", head)
 
@@ -521,6 +521,147 @@ def finetune_icbhidisease(n_cls=2, pretrain="operaCE", l2_strength=1e-4, epochs=
     return auc
 
 
+def finetune_coughvid(n_cls=2, pretrain="operaCE", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear", feat_dim=1280, label="covid"):
+    print("*" * 48)
+    print("training dataset COUGHVID COVID from model pretrained on", pretrain, "with l2_strength", l2_strength, "lr", lr, "head", head)
+
+    feature_dir = "feature/coughvid_eval/"
+
+    from_audio = False
+    if pretrain == "audiomae":
+        from src.benchmark.baseline.audioMAE.models_mae import mae_vit_small, vit_base_patch16
+
+        if not os.path.exists(feature_dir + "fbank_audiomae.npy"):
+            from src.util import get_split_signal_fbank_pad
+            sound_dir_loc = np.load(feature_dir + "sound_dir_loc_{}.npy".format(label))
+            x_data = []
+            for audio_file in sound_dir_loc:
+                data = get_split_signal_fbank_pad("", audio_file[:-4], spectrogram=True, input_sec=10, trim_tail=False) [0]
+                # print(data.shape)
+                x_data.append(data)
+            x_data = np.array(x_data)
+            print(x_data.shape)
+            np.save(feature_dir + "fbank_audiomae.npy", x_data)
+
+        x_data = np.load(feature_dir + "fbank_audiomae.npy")
+
+        encoder_path = "src/benchmark/baseline/audioMAE/ViTB_pretrained.pth"
+        ckpt = torch.load(encoder_path)
+        net = vit_base_patch16(
+            in_chans=1,
+            img_size=(1024,128),
+            drop_path_rate=0.1,
+            global_pool=True,
+            mask_2d=False,
+            use_custom_patch=False)
+    
+        net.load_state_dict(ckpt["model"], strict=False)
+
+        model = AudioClassifierAudioMAE(net=net, head=head, classes=n_cls, lr=lr, l2_strength=l2_strength, feat_dim=feat_dim)
+    
+    elif pretrain == "clap":
+        from src.benchmark.baseline.msclap import CLAP
+        audio_files = np.load(feature_dir + "sound_dir_loc_{}.npy".format(label))
+        x_data = np.array(audio_files)
+        clap_model = CLAP(version = '2022', use_cuda=True)
+        net = clap_model.clap.audio_encoder
+        model = AudioClassifierCLAP(net=net, head=head, classes=n_cls, lr=lr, l2_strength=l2_strength, feat_dim=feat_dim)
+        from_audio = True
+    
+    else:
+        if not os.path.exists(feature_dir + "spectrogram_pad8.npy"):
+            from src.util import get_split_signal_librosa
+            sound_dir_loc = np.load(feature_dir + "sound_dir_loc_{}.npy".format(label))
+            x_data = []
+            for audio_file in sound_dir_loc:
+                data = get_split_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=8.18, trim_tail=False)[0]
+                # print(data.shape)
+                x_data.append(data)
+            x_data = np.array(x_data)
+            np.save(feature_dir + "spectrogram_pad8.npy", x_data)
+
+        x_data = np.load(feature_dir + "spectrogram_pad8.npy")
+        pretrained_model = initialize_pretrained_model(pretrain)
+        if pretrain == "null":
+            lr = 1e-4
+            epochs = 64
+            print("-" * 20 + "training from scratch")
+        else:
+            encoder_path = get_encoder_path(pretrain)
+            print("loading weights from", encoder_path)
+            ckpt = torch.load(encoder_path)
+            pretrained_model.load_state_dict(ckpt["state_dict"], strict=False)
+        
+        if "mae" in pretrain:
+            model = AudioClassifierAudioMAE(net=pretrained_model, classes=n_cls, lr=lr, l2_strength=l2_strength, feat_dim=feat_dim)
+        else:
+            freeze_encoder = "early" if pretrain == "operaCE" else "none"
+            net = pretrained_model.encoder
+            model = AudioClassifier(net=net, head=head, classes=n_cls, lr=lr, l2_strength=l2_strength, feat_dim=feat_dim, freeze_encoder=freeze_encoder)
+
+
+    y_set = np.load(feature_dir + "split_{}.npy".format(label))
+    y_label = np.load(feature_dir + "label_{}.npy".format(label))
+    print(collections.Counter(y_label))
+
+    x_data_train = x_data[y_set == "train"]
+    y_label_train = y_label[y_set == "train"]
+    x_data_vad = x_data[y_set == "val"]
+    y_label_vad = y_label[y_set == "val"]
+    x_data_test = x_data[y_set == "test"]
+    y_label_test = y_label[y_set == "test"]
+
+    print(collections.Counter(y_label_train))
+    print(collections.Counter(y_label_vad))
+    print(collections.Counter(y_label_test))
+
+    train_data = AudioDataset((x_data_train, y_label_train), augment=False, max_len=False, from_audio=from_audio)
+    test_data = AudioDataset((x_data_test, y_label_test), augment=False, max_len=False, from_audio=from_audio)
+    val_data = AudioDataset((x_data_vad, y_label_vad), augment=False, max_len=False, from_audio=from_audio)
+
+    train_loader = DataLoader(
+        train_data, batch_size=batch_size, num_workers=2, shuffle=True
+    )
+    val_loader = DataLoader(
+        val_data, batch_size=batch_size, num_workers=2, shuffle=True
+    )
+    test_loader = DataLoader(
+        test_data, batch_size=batch_size, shuffle=True, num_workers=2
+    )
+
+    logger = CSVLogger(
+        save_dir="cks/logs/finetune", name="coughvid", 
+        version="_".join([head, label, pretrain, str(batch_size), str(lr), str(epochs), str(l2_strength)])
+    )
+
+    checkpoint_callback = ModelCheckpoint(
+        monitor="valid_auc", mode="max", dirpath="cks/finetune/coughvid/", 
+        filename="_".join(["finetuning", head, label, pretrain, str(batch_size), str(lr), str(epochs), str(l2_strength)]) + "-{epoch:02d}-{valid_auc:.2f}",
+        every_n_epochs=3,
+    )
+
+    trainer = pl.Trainer(
+        max_epochs=epochs,
+        accelerator="gpu",
+        devices=1,
+        # logger=logger,
+        logger=False,
+        callbacks=[DecayLearningRate(), checkpoint_callback],
+        gradient_clip_val=1.0,
+        log_every_n_steps=1,
+        enable_progress_bar=False
+    )
+    trainer.fit(model, train_loader, val_loader)
+
+    trainer.test(dataloaders=train_loader)
+    trainer.test(dataloaders=val_loader)
+    test_res = trainer.test(dataloaders=test_loader)
+    auc = test_res[0]["test_auc"]
+    print("finished COUGHVID COVID from model pretrained on", pretrain, "with l2_strength", l2_strength, "lr", lr, "head", head)
+    return auc
+
+
+
 if __name__ == "__main__":
     import argparse
     from pathlib import Path
@@ -555,6 +696,8 @@ if __name__ == "__main__":
                 auc = finetune_ssbpr(pretrain=args.pretrain, epochs=64, feat_dim=args.dim)
             elif args.task == "icbhidisease":
                 auc = finetune_icbhidisease(pretrain=args.pretrain, epochs=64, l2_strength=1e-4, feat_dim=args.dim)
+            elif args.task == "coughvidcovid":
+                auc = finetune_coughvid(pretrain=args.pretrain, epochs=64, l2_strength=1e-4, feat_dim=args.dim)
             auc_scores.append(auc)
         print("=" * 48)
         print(auc_scores)

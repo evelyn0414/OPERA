@@ -529,12 +529,14 @@ def plot_tsne(x_plot, y_plot, order=None, color="hls", title=""):
 
 def plot_tsne_individual(x_plot, y_plot, order=None, title="", n_instance=1401):
     from sklearn.manifold import TSNE
-    import colorcet as cc
-    palette = sns.color_palette(cc.glasbey, n_colors=n_instance)
-    print("using cc palette")
+    # import colorcet as cc
+    sns.set_theme()
+    # palette = sns.color_palette(cc.glasbey, n_colors=n_instance)
+    # print("using cc palette")
+    palette = sns.color_palette("hls", 10)
     tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
     tsne_results = tsne.fit_transform(x_plot)
-    plt.figure(figsize=(16, 10))
+    plt.figure(figsize=(4, 4))
     sns.scatterplot(
         x=tsne_results[:, 0], y=tsne_results[:, 1],
         hue=y_plot,
@@ -543,13 +545,18 @@ def plot_tsne_individual(x_plot, y_plot, order=None, title="", n_instance=1401):
         # legend="auto",
         # legend="brief",
         legend=False,
-        alpha=0.7
+        alpha=0.85,
+        s=50
     )
     if title == "":
         title = str(time.time())
-
-    plt.savefig("fig/tsne_individual_" + title + ".png", bbox_inches='tight')
-    print("fig/tsne_individual_" + title + ".png")
+    
+    plt.xticks(visible=False)
+    plt.yticks(visible=False)
+    plt.xlabel("T-SNE dim 1", fontsize=14)
+    plt.ylabel("T-SNE dim 2", fontsize=14)
+    plt.savefig("fig/tsne_individual/" + title + ".png", bbox_inches='tight')
+    print("fig/tsne_individual/" + title + ".png")
 
 
 def plot_melspectrogram(audio, title="", sample_rate=16000, n_mels=64, f_min=50, f_max=2000, nfft=1024, hop=512):

@@ -1,4 +1,4 @@
-import argparse
+import os
 import numpy as np
 import torch
 from sklearn.model_selection import train_test_split
@@ -7,13 +7,14 @@ from src.benchmark.model_util import get_encoder_path, initialize_pretrained_mod
 from src.benchmark.other_eval.finetuning import AudioDataset
 from src.util import plot_tsne_individual
 
+if not os.path.exists("fig/tsne_individual/"):
+    os.makedirs("fig/tsne_individual/")
 
-def visualize_embedding_multiple(pretrain="operaCE", data_source={"covidbreath": 251}, split="test", num_samples=500, fea_dim=1280):
+def visualize_embedding_multiple(pretrain="operaCE", data_source={"covidbreath": 251}, split="test", num_samples=10, fea_dim=1280):
     for dt, max_len in data_source.items():
-        from_npy = True
         if dt in ['covidbreath', 'covidcough']:
             modality = dt[5:]
-            filenames = list(np.load("datasets/covid19-sounds/SSL_entireaudio_filenames_{}.npy".format(modality)))
+            filenames = list(np.load("datasets/covid/SSL_entireaudio_filenames_{}.npy".format(modality)))
 
         elif dt == "icbhi":
             #  training with audio
@@ -47,11 +48,9 @@ def visualize_embedding_multiple(pretrain="operaCE", data_source={"covidbreath":
         model.eval()
         model.load_state_dict(ckpt["state_dict"], strict=False)
         
-        test_size = 0.05
+        test_size = 0.1
 
-        _train_x, test_x, _train_y, test_y = train_test_split(filenames, label_list, test_size=test_size, random_state=1337)
-        train_x, val_x, train_y, val_y = train_test_split(_train_x, _train_y, test_size=test_size, random_state=1337)
-        max_len = 50 if modality == "cough" else 200
+        train_x, test_x, train_y, test_y = train_test_split(filenames, label_list, test_size=test_size, random_state=1337)
 
         if split == "test":
             test_x = test_x[:num_samples]
@@ -61,9 +60,9 @@ def visualize_embedding_multiple(pretrain="operaCE", data_source={"covidbreath":
             test_y = train_y[:num_samples]
         
 
-        self_label_list = np.repeat(list(range(len(test_x))), 4)
+        self_label_list = np.repeat(list(range(len(test_x))), 10)
 
-        test_x, test_y = np.repeat(test_x, 4, axis=0), np.repeat(test_y, 4, axis=0)
+        test_x, test_y = np.repeat(test_x, 10, axis=0), np.repeat(test_y, 10, axis=0)
         test_data = AudioDataset((test_x, test_y), augment=False, from_npy=True, max_len=max_len, crop_mode="random")
 
         batch_size = 128
@@ -90,12 +89,11 @@ def visualize_embedding_multiple(pretrain="operaCE", data_source={"covidbreath":
         y_data = y_data.numpy()
 
         # print(x_data.shape, self_label_list.shape)
-        plot_tsne_individual(x_data, self_label_list, title="/" + pretrain + "_" + dt + "_" + split , n_instance=num_samples)
-
-
+        plot_tsne_individual(x_data, self_label_list, title=pretrain + "_" + dt + "_" + split , n_instance=num_samples)
 
 
 if __name__ == "__main__":
 
     data_source = {"covidbreath": 200, "covidcough": 50, "icbhi":50, "coughvid":50, "hf_lung":200, "covidUKexhalation": 100, "covidUKcough": 50}
     visualize_embedding_multiple(pretrain="operaCT", data_source=data_source, split="test", fea_dim=768)
+    visualize_embedding_multiple(pretrain="operaCE", data_source=data_source, split="test", fea_dim=1280)
