@@ -17,16 +17,12 @@ This is the official code release for **OPERA**: **OPE**n **R**espiratory **A**c
 
 ## Installing
 
-The environment can be easily created by running:
-```
-conda env create --file environment.yml
-```
-
-Then you can activate the environment and prepare the other dependecies:
-
+The environment with all the needed dependeciescan be easily created on a Linux machine by running:
 ```
 git clone https://github.com/evelyn0414/OPERA.git
-cd OPERA
+cd ./OPERA
+
+conda env create --file environment.yml
 sh ./prepare_env.sh
 source ~/.bashrc
 
