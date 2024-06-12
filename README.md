@@ -25,10 +25,18 @@ conda env create --file environment.yml
 Then you can activate the environment and prepare the other dependecies:
 
 ```
-conda activate audio
 git clone https://github.com/evelyn0414/OPERA.git
+cd OPERA
 sh ./prepare_env.sh
+source ~/.bashrc
+
+conda init
+conda activate audio
+sh ./prepare_code.sh
 ```
+
+*After installation, next time to run the code, you only need to acivate the audio env by `conda activate audio`.
+
 
 
 ## Download data
