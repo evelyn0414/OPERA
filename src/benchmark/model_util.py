@@ -37,7 +37,7 @@ def download_ckpt(pretrain):
     hf_hub_download(model_repo, model_name, local_dir="cks/model")
 
 
-def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_spec=False, dim=1280):
+def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_spec=False, dim=1280, pad0=False):
     """
 
     """
@@ -62,7 +62,7 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
             if from_spec:
                 data = [audio_file[i: i+256] for i in range(0, len(audio_file), 256)]
             else:
-                data = get_split_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=8.18) ##8.18s --> T=256
+                data = get_split_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=input_sec) ##8.18s --> T=256
             features = []
             for x in data:
                 if x.shape[0]>=16: # Kernel size can't be greater than actual input size
@@ -79,7 +79,10 @@ def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_s
                 data = audio_file
             else:
                 # input is filename of an audio
-                data = get_entire_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=input_sec, pad=True)
+                if pad0:
+                    data = get_entire_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=input_sec, pad=True, types='zero')
+                else:
+                    data = get_entire_signal_librosa("", audio_file[:-4], spectrogram=True, input_sec=input_sec, pad=True)
             
             data = np.array(data)
 
@@ -104,7 +107,7 @@ def initialize_pretrained_model(pretrain):
     elif pretrain == "operaCE":
         model = Cola(encoder="efficientnet")
     elif pretrain == "operaGT":
-        model =  mae_vit_small(norm_pix_loss=True,
+        model =  mae_vit_small(norm_pix_loss=False,
                             in_chans=1, audio_exp=True,
                             img_size=(256,64),
                             alpha=0.0, mode=0, use_custom_patch=False,
