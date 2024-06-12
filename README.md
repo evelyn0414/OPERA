@@ -24,25 +24,16 @@ Then you can activate the environment and prepare the other dependecies:
 
 ```
 conda activate audio
-git clone https://github.com/username/repository.git
+git clone https://github.com/evelyn0414/OPERA.git
 sh ./prepare_env.sh
 ```
 
 
-
-
-
-
-## Installing
+## Download data
 The curated datasets can be accessed from the Google drive (replace the `datasets` folder). 
 
 
-## Using OPERA models
-
-The pretrained weights are available at:
-__Zenodo__ or __HuggingFace__
-
-## Pretraining using OPERA framework
+## Pretraining foudation models using OPERA framework
 
 Example training can be found in  `cola_pretraining.py` and `mae_pretraining.py`.
 
@@ -51,6 +42,19 @@ Start by running
 ```
 sh scripts/multiple_pretrain.sh
 ```
+
+## Using OPERA models
+
+The pretrained weights are available at:
+__Zenodo__ or __HuggingFace__
+
+
+## Run benchmark
+
+ ```
+sh scripts/benchmark.sh
+```
+
 
 ## Citation
 
