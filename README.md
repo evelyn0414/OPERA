@@ -36,6 +36,24 @@ sh ./prepare_code.sh
 
 
 ## Download data
+
+| Dataset                                  | Source | Access                                                       | License        |
+| ---------------------------------------- | ------ | ------------------------------------------------------------ | -------------- |
+| UK COVID-19      | IC     | [https://zenodo.org/records/10043978](https://zenodo.org/records/10043978) | OGL 3.0        |
+| COVID-19 Sounds      | UoC    | [https://covid-19-sounds.org/blog/neurips_dataset](https://covid-19-sounds.org/blog/neurips_dataset) | Custom license |
+| CoughVID\cite{orlandic2021coughvid}      | EPFL   | [https://zenodo.org/records/4048312](https://zenodo.org/records/4048312) | CC BY 4.0      |
+| ICBHI                | *      | [https://bhichallenge.med.auth.gr](https://bhichallenge.med.auth.gr) | CC0            |
+| HF Lung~\cite{hsu2022progressively}      | *      | [https://gitlab.com/techsupportHF/HF_Lung_V1](https://gitlab.com/techsupportHF/HF_Lung_V1) | CC BY-NC 4.0   |
+|                                          |        | [https://gitlab.com/techsupportHF/HF_Lung_V1_IP](https://gitlab.com/techsupportHF/HF_Lung_V1_IP) |                |
+| Coswara   | IISc   | [https://github.com/iiscleap/Coswara-Data](https://github.com/iiscleap/Coswara-Data) | CC BY 4.0      |
+| KAUH           | KAUH   | [https://data.mendeley.com/datasets/jwyy9np4gv/3](https://data.mendeley.com/datasets/jwyy9np4gv/3) | CC BY 4.0      |
+| Respiratory@TR | ITU    | [https://data.mendeley.com/datasets/p9z4h98s6j/1](https://data.mendeley.com/datasets/p9z4h98s6j/1) | CC BY 4.0      |
+| SSBPR              | WHU    | [https://github.com/xiaoli1996/SSBPR](https://github.com/xiaoli1996/SSBPR) | CC BY 4.0      |
+| MMlung               | UoS    | [https://github.com/MohammedMosuily/mmlung](https://github.com/MohammedMosuily/mmlung) | Custom license |
+| NoseMic      | UoC    | ?                                                            | Custom license |
+
+*ICBHI and HF Lung datasets come from multiple sources. COVID-19 Sounds, SSBPR, MMLung and NoseMic are available upon request, while other data can be downloaded using the above url. Custom license is detailed in the DTA (data transfer agreement).
+
 The curated datasets can be accessed from the Google drive (replace the `datasets` folder). 
 
 
