@@ -74,6 +74,12 @@ sh scripts/multiple_pretrain.sh
 The pretrained weights are available at:
 __Zenodo__ or __HuggingFace__
 
+They can be downloaded by running:
+
+```
+wget https://zenodo.org/xxxxx -P cks/model/
+```
+
 our pretrained model checkpoints:
 [OPERA-CT](), [OPERA-C](), [OPERA-GT]().
 
