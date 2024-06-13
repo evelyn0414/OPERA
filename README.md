@@ -74,16 +74,17 @@ sh scripts/multiple_pretrain.sh
 The pretrained weights are available at:
 __Zenodo__ or <a href="https://huggingface.co/evelyn0414/OPERA/tree/main" target="_blank"> HuggingFace </a>
 
-They can be downloaded by running:
-
-```
-wget https://zenodo.org/xxxxx -P cks/model/
-```
 
 our pretrained model checkpoints:
-[OPERA-CT](), [OPERA-C](), [OPERA-GT]().
+[OPERA-CT](https://huggingface.co/evelyn0414/OPERA/resolve/main/encoder-operaCT.ckpt?download=true), [OPERA-CE](https://huggingface.co/evelyn0414/OPERA/resolve/main/encoder-operaCE.ckpt?download=true), [OPERA-GT](https://huggingface.co/evelyn0414/OPERA/resolve/main/encoder-operaGT.ckpt?download=true).
 
-One task:
+They will be audomatically downloaded before feature extraction.
+
+
+Run example of one task:
+```
+sh scripts/copd_eval.sh
+```
 
 
 ## Run benchmark
