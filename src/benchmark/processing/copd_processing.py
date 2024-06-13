@@ -17,8 +17,10 @@ audio_dir = data_dir + "RespiratoryDatabase@TR"
 feature_dir = "feature/copd_eval/"
 
 if not os.path.exists(audio_dir):
-    raise FileNotFoundError(
-        f"Folder not found: {audio_dir}, please download the dataset.")
+    print(f"Folder not found: {audio_dir}, downloading the dataset")
+    os.system('sh datasets/copd/download_data.sh')
+    # raise FileNotFoundError(
+    #     f"Folder not found: {audio_dir}, please download the dataset.")
 
 
 def get_annotaion_from_csv(path):

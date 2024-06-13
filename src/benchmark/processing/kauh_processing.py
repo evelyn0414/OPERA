@@ -11,8 +11,10 @@ feature_dir = "feature/kauh_eval/"
 audio_dir = "datasets/KAUH/AudioFiles/"
 
 if not os.path.exists(audio_dir):
-    raise FileNotFoundError(
-        f"Folder not found: {audio_dir}, please download the dataset.")
+    print(f"Folder not found: {audio_dir}, downloading the dataset")
+    os.system('sh datasets/KAUH/download_data.sh')
+    # raise FileNotFoundError(
+    #     f"Folder not found: {audio_dir}, please download the dataset by running: sh datasets/KAUH/download_data.sh.")
 
 
 def preprocess_subset():
