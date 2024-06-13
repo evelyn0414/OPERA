@@ -72,7 +72,7 @@ sh scripts/multiple_pretrain.sh
 ## Using OPERA models
 
 The pretrained weights are available at:
-__Zenodo__ or __HuggingFace__
+__Zenodo__ or <a href="https://huggingface.co/evelyn0414/OPERA/tree/main" target="_blank"> HuggingFace </a>
 
 They can be downloaded by running:
 
