@@ -33,7 +33,7 @@ def get_encoder_path(pretrain):
 
 def download_ckpt(pretrain):
     model_repo = "evelyn0414/OPERA"
-    model_name = "encoder-" + pretrain
+    model_name = "encoder-" + pretrain + ".ckpt"
     hf_hub_download(model_repo, model_name, local_dir="cks/model")
 
 

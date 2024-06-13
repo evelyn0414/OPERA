@@ -1,5 +1,1 @@
-Please put the downloaded checkpoint files here. Or download using
-
-```
-wget https://zenodo.org/xxxxx
-```
+Please put the downloaded checkpoint files here. Or it will be automatically downloaded from Huggingface when running the code.
