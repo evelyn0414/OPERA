@@ -204,6 +204,11 @@ def preprocess_spectrogram(modality, label="sex"):
     print("preprocessing spectrogram of {} with {} label".format(modality, label))
     audio_images = []
     broad_modality = modality.split("-")[0]
+
+    if os.path.exists(feature_dir + "{}_aligned_spec_{}_w_{}.npz".format(broad_modality,
+             modality, label)):
+        print("exiting, spectrogram of {} with {} label already exist".format(modality, label))
+        return
     # sound_dir_loc = np.load(feature_dir + "entireaudio_filenames_{}_w_{}.npy".format(modality, label))
     sound_dir_loc = np.load(
         feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
@@ -285,8 +290,10 @@ if __name__ == '__main__':
             # preprocess_label(label)
             for modality in ["breathing", "cough"][1:]:
                 preprocess_modality(modality, label)
-            for modality in ["breathing-deep", "breathing-shallow", "cough-heavy", "cough-shallow"][3:]:
-                preprocess_spectrogram(modality, label)
+    
+    for label in ["sex", "smoker"]:
+        for modality in ["breathing-deep", "breathing-shallow", "cough-heavy", "cough-shallow"][3:]:
+            preprocess_spectrogram(modality, label)
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
         extract_and_save_embeddings_baselines(
