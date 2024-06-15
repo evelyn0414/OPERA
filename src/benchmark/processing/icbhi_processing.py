@@ -23,8 +23,10 @@ feature_dir = "feature/icbhidisease_eval/"
 audio_dir = data_dir + "ICBHI_final_database/"
 
 if not os.path.exists(audio_dir):
-    raise FileNotFoundError(
-        f"Folder not found: {audio_dir}, please download the dataset.")
+    print(f"Folder not found: {audio_dir}, downloading the dataset")
+    os.system('sh datasets/icbhi/download_data.sh')
+    # raise FileNotFoundError(
+    #     f"Folder not found: {audio_dir}, please download the dataset.")
 
 
 def process_disease():

@@ -715,9 +715,9 @@ class HTSAT_Swin_Transformer(nn.Module):
                     output_dict = self.forward_features(x)
                 else:
                     # Change: Hard code here
-                    overlap_size = (x.shape[2] - 1) // 4
+                    overlap_size = 512 #(x.shape[2] - 1) // 4
                     output_dicts = []
-                    crop_size = (x.shape[2] - 1) // 2
+                    crop_size = 1024 # (x.shape[2] - 1) // 2
                     for cur_pos in range(0, x.shape[2] - crop_size - 1, overlap_size):
                         tx = self.crop_wav(x, crop_size = crop_size, spe_pos = cur_pos)
                         tx = self.reshape_wav2img(tx)

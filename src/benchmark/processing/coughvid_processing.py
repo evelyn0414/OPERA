@@ -9,8 +9,10 @@ data_dir = "datasets/coughvid/"
 feature_dir = "feature/coughvid_eval/"
 audio_dir = data_dir + "wav"
 if not os.path.exists(audio_dir):
-    raise FileNotFoundError(
-        f"Folder not found: {audio_dir}, please download the dataset.")
+    print(f"Folder not found: {audio_dir}, downloading the dataset")
+    os.system('sh datasets/coughvid/download_data.sh')
+    # raise FileNotFoundError(
+    #     f"Folder not found: {audio_dir}, please download the dataset.")
 
 
 train_uuid = np.load(data_dir + "coughvid__train_uuids.npy", allow_pickle=True)

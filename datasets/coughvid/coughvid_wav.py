@@ -8,9 +8,11 @@ import os
 import shutil
 
 
-path = 'public_dataset'
+path = 'datasets/coughvid/public_dataset'
  
-ddir =  'wav'
+ddir =  'datasets/coughvid/wav'
+
+os.makedirs(ddir)
 
 folders = os.listdir(path)
 

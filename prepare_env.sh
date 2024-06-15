@@ -10,7 +10,7 @@ if grep -q "$PROJECT_DIR" "$BASHRC_FILE"; then
     echo "Project path already exists in $BASHRC_FILE"
 else
     # Add the project path to .bashrc
-    echo "export PATH=\$PATH:$PROJECT_DIR" >> "$BASHRC_FILE"
+    echo "export PYTHONPATH=\$PYTHONPATH:$PROJECT_DIR" >> "$BASHRC_FILE"
     echo "Project path added to $BASHRC_FILE"
 fi
 

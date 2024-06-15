@@ -57,6 +57,10 @@ def extract_and_save_embeddings_baselines(feature="opensmile"):
 
 
 def process_spectrogram(input_sec=2):
+    if os.path.exists(feature_dir + "spec.npz"):
+        print("spectrogram already exist")
+        return
+    
     audio_images = []
     sound_dir_loc = np.load(feature_dir + "sound_dir_loc.npy")
     for file in tqdm(sound_dir_loc):
@@ -85,9 +89,9 @@ if __name__ == '__main__':
     if not os.path.exists(feature_dir):
         os.makedirs(feature_dir)
         preprocess_split()
-        process_spectrogram()
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
         extract_and_save_embeddings_baselines(args.pretrain)
     else:
+        process_spectrogram()
         extract_and_save_embeddings(args.pretrain, dim=args.dim)

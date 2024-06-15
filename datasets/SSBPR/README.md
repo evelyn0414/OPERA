@@ -1,4 +1,4 @@
-Please request this dataset from https://github.com/xiaoli1996/SSBPR and replace this directory with the unzipped folder, which should contain `female` and `male` audio subfolders.
+Please request this dataset from https://github.com/xiaoli1996/SSBPR and replace this directory with the unzipped folder, which should contain `female` and `male` audio subfolders. Put the two audio folders under this directory, e.g. `datasets/SSBPR/female`.
 
 The naming for snoring sounds is explained as follows:
 

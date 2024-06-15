@@ -12,10 +12,6 @@ if not os.path.exists(task1_data_dir):
     raise FileNotFoundError(
         f"Folder not found: {task1_data_dir}, please download the dataset.")
 
-for path in [task1_dir, task1_downsampled_dir]:
-    if not os.path.exists(path):
-        os.makedirs(path)
-
 
 def preprocess_task1(modality="cough"):
     """run once and shared by all methods"""
@@ -48,7 +44,6 @@ def preprocess_task1(modality="cough"):
 
 def task1_downsample(downsampling_factor=5):
     labels = np.load(task1_dir + "labels.npy")
-    print(labels)
     splits = np.load(task1_dir + "data_split.npy")
     train_idx = splits == 0
     val_idx = splits == 1
@@ -60,12 +55,10 @@ def task1_downsample(downsampling_factor=5):
     new_labels = np.concatenate(
         [downsampled_train_labels, labels[val_idx], labels[test_idx]])
     np.save(task1_downsampled_dir + "labels.npy", new_labels)
-    print(downsampled_train_labels)
 
     new_splits = np.concatenate(
         [np.full_like(downsampled_train_labels, 0), splits[val_idx], splits[test_idx]])
     np.save(task1_downsampled_dir + "data_split.npy", new_splits)
-    print(new_splits)
 
     for modality in ["cough", "breath"]:
         sound_dir_loc = np.load(
