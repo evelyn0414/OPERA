@@ -119,7 +119,7 @@ if __name__ == '__main__':
             preprocess_label(label)
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
-        extract_and_save_embeddings_baselines(label, args.pretrain)
+        extract_and_save_embeddings_baselines(args.label, args.pretrain)
     else:
         if args.pretrain == "operaCT":
             input_sec = args.min_len_htsat

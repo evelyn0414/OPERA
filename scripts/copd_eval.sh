@@ -9,7 +9,7 @@ python src/benchmark/processing/copd_processing.py --pretrain $model_name --dim 
 python src/benchmark/linear_eval.py --task copd --pretrain $model_name --dim $dim
 
 model_name="operaGT"
-dim=1280
+dim=384
 python src/benchmark/processing/copd_processing.py --pretrain $model_name --dim $dim
 python src/benchmark/linear_eval.py --task copd --pretrain $model_name --dim $dim
 

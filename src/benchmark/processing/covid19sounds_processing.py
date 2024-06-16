@@ -137,7 +137,7 @@ if __name__ == '__main__':
         task1_downsample()
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
-        extract_and_save_embeddings_baselines(1, modality, args.pretrain)
+        extract_and_save_embeddings_baselines(1, args.modality, args.pretrain)
     else:
         if args.pretrain == "operaCT":
             input_sec = args.min_len_htsat
