@@ -758,7 +758,7 @@ class LinearHeadR(pl.LightningModule):
             
     def forward(self, x):
         if self.from_feature:
-            x = (x-self.mean)/self.std
+            # x = (x-self.mean)/self.std
             y = self.head(x)
 
             return y*self.std+self.mean
