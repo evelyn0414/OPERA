@@ -10,10 +10,30 @@ else
         echo 'Baseline: no need to specify dimension'
 fi
 
-echo extracting feature from $pretrain_model for downstream tasks;
+
+
+# ### Task 13-18
+echo extracting feature from $pretrain_model for downstream Task13-18;
+python -u src/benchmark/processing/mmlung_processing.py --pretrain $pretrain_model --dim $dim
+
+modality="breath vowels" 
+label="FVC FEV1 FEV1_FVC"
+echo linear evaluation of $pretrain_model on downstream Task13-18;
+for m in $modality;  
+do
+for y in $label;
+do
+echo $pretrain_model is being evaluated on mmlung data - $m for $y;  
+python -u src/benchmark/linear_eval.py --pretrain $pretrain_model --task spirometry --label $y --modality $m --LOOCV True  --dim $dim
+done
+done
+
+
+# ### Task 19
+echo extracting feature from $pretrain_model for downstream Task19;
 python -u src/benchmark/processing/nosemic_processing.py --pretrain $pretrain_model --dim $dim
 
-echo linear evaluation of $pretrain_model on downstream tasks;
+echo linear evaluation of $pretrain_model on downstream Task19;
 python -u src/benchmark/linear_eval.py --pretrain $pretrain_model --task rr --LOOCV True --dim $dim
 
 
