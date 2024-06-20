@@ -12,9 +12,11 @@ import os
 feature_dir = "feature/coswara_eval/"  # "datasets/Coswara-Data/coswara_eval/"
 data_dir = "datasets/Coswara-Data/Extracted_data/"
 
-if not os.path.exists(data_dir):
-    raise FileNotFoundError(
-        f"Folder not found: {data_dir}, please download the dataset.")
+
+def check_data_dir():
+    if not os.path.exists(data_dir):
+        raise FileNotFoundError(
+            f"Folder not found: {data_dir}, please download the dataset by running 'sh datasets/Coswara-Data/download_data.sh'.\nNote that the dataset is more than 10G in size and the extraction process can take a while.")
 
 
 def get_annotaion_from_csv(path):
@@ -209,6 +211,7 @@ def preprocess_spectrogram(modality, label="sex"):
         return
     
     print("preprocessing spectrogram of {} with {} label".format(modality, label))
+    check_data_dir()
     sound_dir_loc = np.load(
         feature_dir + "{}_aligned_filenames_{}_w_{}.npy".format(broad_modality, label, modality))
     print("number of files", len(sound_dir_loc))
@@ -224,6 +227,8 @@ def preprocess_spectrogram(modality, label="sex"):
 def extract_and_save_embeddings_baselines(modality, label="sex", feature="opensmile"):
     from src.benchmark.baseline.extract_feature import extract_opensmile_features,  extract_vgg_feature, extract_clap_feature, extract_audioMAE_feature
     opensmile_features = []
+
+    check_data_dir()
 
     broad_modality = modality.split("-")[0]
     sound_dir_loc = np.load(
@@ -280,6 +285,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if not os.path.exists(feature_dir):
+        check_data_dir()
         os.makedirs(feature_dir)
         preprocess_split_google()
 
@@ -288,10 +294,6 @@ if __name__ == '__main__':
             # preprocess_label(label)
             for modality in ["breathing", "cough"][1:]:
                 preprocess_modality(modality, label)
-    
-    for label in ["sex", "smoker"]:
-        for modality in ["breathing-deep", "breathing-shallow", "cough-heavy", "cough-shallow"][3:]:
-            preprocess_spectrogram(modality, label)
 
     if args.pretrain in ["vggish", "opensmile", "clap", "audiomae"]:
         extract_and_save_embeddings_baselines(
@@ -303,5 +305,6 @@ if __name__ == '__main__':
             input_sec = args.min_len_cnn
         elif args.pretrain == "operaGT":
             input_sec = 8.18
+        preprocess_spectrogram(args.modality, args.label)
         extract_and_save_embeddings(
             args.pretrain, args.modality, args.label, input_sec, dim=args.dim)
