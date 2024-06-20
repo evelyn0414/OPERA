@@ -63,8 +63,8 @@ def extract_and_save_embeddings(feature="operaCE", input_sec=8, dim=1280):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--pretrain", type=str, default="operaCE")
-    parser.add_argument("--min_len_cnn", type=int, default=8)
-    parser.add_argument("--min_len_htsat", type=int, default=8)
+    parser.add_argument("--min_len_cnn", type=int, default=1)
+    parser.add_argument("--min_len_htsat", type=int, default=30)
     parser.add_argument("--dim", type=int, default=1280)
     args = parser.parse_args()
 
@@ -80,6 +80,6 @@ if __name__ == '__main__':
         elif args.pretrain == "operaCE":
             input_sec = args.min_len_cnn
         elif args.pretrain == "operaGT":
-            input_sec = 8.18
+            input_sec = 8
         extract_and_save_embeddings(args.pretrain, input_sec=input_sec, dim=args.dim)
 
