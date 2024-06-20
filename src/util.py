@@ -474,6 +474,7 @@ def _duplicate_padding(sample, source, output_length, sample_rate, types):
     while len(aug) < left:
         aug = np.concatenate([aug, aug])
 
+    random.seed(7456)
     prob = random.random()
     if prob < 0.5:
         # pad the back part of original sample
