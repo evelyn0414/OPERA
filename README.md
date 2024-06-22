@@ -83,6 +83,7 @@ They will be audomatically downloaded before feature extraction.
 
 Run example of one task:
 ```
+sh datasets/copd/download_data.sh
 sh scripts/copd_eval.sh
 ```
 
