@@ -94,9 +94,9 @@ if __name__ == '__main__':
         extract_and_save_embeddings_baselines(args.pretrain)
     else:
         if args.pretrain == "operaCT":
-            input_sec = args.min_len_htsat
+            input_sec = args.min_len_htsat  #before interplolation
         elif args.pretrain == "operaCE":
-            input_sec = args.min_len_cnn
+            input_sec = args.min_len_cnn    #shorted duration
         elif args.pretrain == "operaGT":
-            input_sec = 5
+            input_sec = 5                   #Segment duration
         extract_and_save_embeddings(args.pretrain, input_sec=input_sec, dim=args.dim)
