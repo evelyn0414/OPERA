@@ -90,7 +90,7 @@ The log is included under 'cks/logs/' for reference. The results are listed belo
 
 | Task                       | Opensmile     | VGGish       | AudioMAE      | CLAP  | **OPERA-CT** |     **OPERA-CE**  |**OPERA-GT**   |
 | ---------------------------| ---------| ---------| ---------| ---------| ---------| ---------|---------|
-|T11  COPD severity (Lung)   | 0.494 ± 0.054 | 0.590 ± 0.034 | 0.510 ± 0.021 | 0.636 ± 0.045   | 0.625 ± 0.038 | 0.683 ± 0.007 |0.606 ± 0.015   |       
+|T11  COPD severity (Lung)   | 0.494 ± 0.054 | 0.590 ± 0.034 | 0.510 ± 0.021 | 0.636 ± 0.045   | 0.625 ± 0.038 | **0.683 ± 0.007** |0.606 ± 0.015   |       
 
 ## Run benchmark
 
