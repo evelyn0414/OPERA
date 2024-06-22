@@ -13,6 +13,7 @@ import torch
 import torchaudio
 import opensmile
 import requests
+ 
 
 SR = 22050  # sample rate
 
@@ -114,6 +115,12 @@ def extract_audioMAE_feature(sound_dir_loc, input_sec=10):
     ##Download the mode from the url and save it under src/benchmark/baseline/audioMAE/
     ##https://drive.google.com/file/d/1ni_DV4dRf7GxM8k-Eirx71WP9Gg89wwu/view
     encoder_path = "src/benchmark/baseline/audioMAE/pretrained.pth"
+
+    if not os.path.exists(encoder_path):
+        print(f"Folder not found: {encoder_path}, downloading the model")
+        os.system('sh src/benchmark/baseline/audioMAE/download_model.sh')
+
+
     ckpt = torch.load(encoder_path)
 
     model = vit_base_patch16(
