@@ -86,11 +86,8 @@ Run example of one task:
 sh datasets/copd/download_data.sh
 sh scripts/copd_eval.sh > cks/logs/Test_Task11_results.log
 ```
-The log is included under 'cks/logs/' for reference. The results are listed below (A part from Table 4).  
-
-| Task                       | Opensmile     | VGGish       | AudioMAE      | CLAP  | **OPERA-CT** |     **OPERA-CE**  |**OPERA-GT**   |
-| ---------------------------| ---------| ---------| ---------| ---------| ---------| ---------|---------|
-|T11  COPD severity (Lung)   | 0.494 ± 0.054 | 0.590 ± 0.034 | 0.510 ± 0.021 | 0.636 ± 0.045   | 0.625 ± 0.038 | **0.683 ± 0.007** |0.606 ± 0.015   |       
+The log is included under 'cks/logs/' for reference. The results for all tasks are summarised in Table 4 and 5.  
+    
 
 ## Run benchmark
 
