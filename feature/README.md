@@ -1,3 +1,5 @@
-This is the folder for features, labels, splits, etc for downstream tasks.
+This is the folder for features, labels, splits, etc., for downstream tasks.
 
-When you wrong the task for the first time (with dataset downloaded), the folder will automatically created for you.
+For convenience, we include the splits for open access data.
+
+For other datasets, when you run the task for the first time (with the dataset downloaded), the folder will be created automatically.
