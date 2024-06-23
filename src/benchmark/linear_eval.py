@@ -4,12 +4,14 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.loggers import CSVLogger
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from src.util import train_test_split_from_list, downsample_balanced_dataset
 from src.model.models_eval import LinearHead, LinearHeadR
 import collections
+from tqdm import tqdm
 
 
 class FeatureDataset(torch.utils.data.Dataset):
@@ -667,22 +669,14 @@ def linear_evaluation_ssbpr(n_cls=5, use_feature="opensmile", l2_strength=1e-5, 
     print("finished training dataset SSBPR using feature extracted by " + use_feature, "with l2_strength", l2_strength, "lr", lr, "head", head)
     return auc
 
-
+ 
 def linear_evaluation_mmlung(use_feature="opensmile", method='LOOCV', l2_strength=1e-5, epochs=64, lr=1e-5, batch_size=40, modality="cough", label="FVC", head="mlp"):
-    from sklearn.decomposition import PCA
-    from sklearn.preprocessing import StandardScaler, MinMaxScaler
-    from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
-    from sklearn.model_selection import GridSearchCV, train_test_split, LeaveOneOut, cross_validate
-    from sklearn.linear_model import Lasso, LinearRegression, Ridge, SGDRegressor
-    from sklearn.pipeline import Pipeline
-    from tqdm import tqdm
-
+    from sklearn.preprocessing import StandardScaler
     print("*" * 48)
     print("training dataset MMLung using feature extracted by " + use_feature, "By sklearn", l2_strength, "lr", lr, "head", head)
 
     feature_dir = "feature/mmlung_eval/"
 
-    
     y_label = np.load(feature_dir + "label.npy")
     if label == 'FVC':
         y_label = y_label[:,0]
@@ -709,65 +703,80 @@ def linear_evaluation_mmlung(use_feature="opensmile", method='LOOCV', l2_strengt
     MAEs = []
     MAPEs = []
     for s in tqdm(range(40)):
-        # Step 1: Split data into training, validation, and test sets (60%, 20%, 20%)
-        X_test, y_test = x_data[s], y_label[s]
-        X_test = X_test.reshape(1,-1)
+        x_test, y_test = x_data[s], y_label[s]
+        x_test = x_test.reshape(1,-1)
         y_test = y_test.reshape(1,-1)
 
         X_train = np.delete(x_data, s, axis=0)
         y_train= np.delete(y_label, s, axis=0)
-     
-        scaler = StandardScaler()
-        X_train = scaler.fit_transform(X_train)
-        X_test = scaler.transform(X_test)
- 
-        # Find the best phyper-parameters
-        model_bank = {
-        'LinearRegression' : {
-            'parameters' : { 'fit_intercept':[True,False]} ,
-            'model': LinearRegression
-        },
-        'Ridge': {
-            'parameters': {'alpha': [1,0.1,0.01,0.001,0.0001] , "fit_intercept": [True, False], "solver": ['svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga']},
-            'model': Ridge
-        },
-        'SGDRegressor': {
-            'parameters':{'alpha':[0.001, 0.0001,0.00001],"fit_intercept": [True, False] , 'tol': [1e-2, 1e-3, 1e-4]},
-            'model': SGDRegressor
-        }}
+
+             
+        if 'opensmile' in use_feature:
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X_train)
+            x_test = scaler.transform(x_test)
+
+        x_train, x_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.11, random_state=42)
+
+        train_mean, train_std = np.mean(y_train), np.std(y_train)
+        print('mean and std of training data:', train_mean, train_std )
+
+        train_data = FeatureDatasetR((x_train, y_train))
+        test_data = FeatureDatasetR((x_test, y_test))
+        val_data = FeatureDatasetR((x_val, y_val))
+
+        train_loader = DataLoader(
+            train_data, batch_size=batch_size, num_workers=8, shuffle=True
+        )
+        val_loader = DataLoader(
+            val_data, batch_size=batch_size, num_workers=4, shuffle=False
+        )
+        test_loader = DataLoader(
+            test_data, batch_size=batch_size, shuffle=False, num_workers=4
+        )
+
+        feat_dim = x_data.shape[1]
+        model = LinearHeadR(feat_dim=feat_dim, output_dim=1, l2_strength=l2_strength, head=head, mean=train_mean, std=train_std)
+
+        logger = CSVLogger(
+            save_dir="cks/logs", name="mmlung", 
+            version="_".join([head, use_feature, str(batch_size), str(lr), str(epochs), str(l2_strength)])
+        )
+
+        early_stop_callback = EarlyStopping(monitor="valid_MAE", min_delta=0.001, patience=5, verbose=True, mode="min")
+
+        checkpoint_callback = ModelCheckpoint(
+            monitor="valid_MAE", mode="min", dirpath="cks/linear/mmlung/", 
+            filename="_".join([head, use_feature, str(batch_size), str(lr), str(epochs), str(l2_strength)]) + "-{epoch:02d}-{valid_MAE:.3f}",
+            every_n_epochs=3
+        )
+
+        trainer = pl.Trainer(
+            max_epochs=epochs,
+            accelerator="gpu",
+            devices=1,
+            # logger=logger,
+            logger=False,
+            callbacks=[DecayLearningRate(weight=0.97), checkpoint_callback, early_stop_callback],
+            gradient_clip_val=1.0,
+            log_every_n_steps=1,
+            enable_progress_bar=False
+        )
+        trainer.fit(model, train_loader, val_loader)
         
-        model = 'LinearRegression'
+        test_res = trainer.test(dataloaders=test_loader)
+        mae, mape = test_res[0]["test_MAE"], test_res[0]["test_MAPE"]
 
-        pipe = Pipeline([(model, model_bank[model]['model']())])
-        params = {}
-        for param in model_bank[model]['parameters'].keys():
-            params[f'{model}__{param}'] = model_bank[model]['parameters'][param]
-        search = GridSearchCV(pipe, params, n_jobs=3, cv=5, scoring='neg_mean_absolute_percentage_error')
-        search.fit(X_train, y_train) 
-        best_estimator = search.best_estimator_
-
-        y_pred = best_estimator.predict(X_test)
-        mape = mean_absolute_percentage_error(y_test, y_pred)
+        MAEs.append(mae)
         MAPEs.append(mape)
 
 
-        pipe = Pipeline([(model, model_bank[model]['model']())])
-        params = {}
-        for param in model_bank[model]['parameters'].keys():
-            params[f'{model}__{param}'] = model_bank[model]['parameters'][param]
-        search = GridSearchCV(pipe, params, n_jobs=3, cv=5, scoring='neg_mean_absolute_error')
-        search.fit(X_train, y_train) 
-        best_estimator = search.best_estimator_
-
-        y_pred = best_estimator.predict(X_test)
-        mae = mean_absolute_error(y_test, y_pred)
-        MAEs.append(mae)
-
     return MAEs, MAPEs
- 
+
 
 def linear_evaluation_nosemic(use_feature="opensmile", method='LOOCV', l2_strength=1e-5, epochs=64, batch_size=32, lr=1e-4, head="mlp"):
     from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
     print("*" * 48)
     print("training dataset Nose Breathing audio using feature extracted by " + use_feature, "with l2_strength", l2_strength, "lr", lr, "head", head)
 
@@ -793,7 +802,14 @@ def linear_evaluation_nosemic(use_feature="opensmile", method='LOOCV', l2_streng
         y_train = y_label[uids!=uid]
         y_test = y_label[uids==uid]
 
+
+        if 'opensmile' in use_feature:
+            scaler = StandardScaler()
+            x_train = scaler.fit_transform(x_train)
+            x_test = scaler.transform(x_test)
+
         x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+
 
         train_mean, train_std = np.mean(y_train), np.std(y_train)
         print('mean and std of training data:', train_mean, train_std )
@@ -916,7 +932,7 @@ if __name__ == "__main__":
         torch.cuda.manual_seed(0)
         
         if args.task == "spirometry":
-            maes, mapes = linear_evaluation_mmlung(use_feature=feature, method='LOOCV', epochs=1024, lr=1e-1, batch_size=64, modality=args.modality, label=args.label, head=args.head)  
+            maes, mapes = linear_evaluation_mmlung(use_feature=feature, method='LOOCV', l2_strength=1e-1, epochs=64, lr=1e-1, batch_size=64, modality=args.modality, label=args.label, head=args.head)  
         
         if args.task == "rr":
             maes, mapes = linear_evaluation_nosemic(use_feature=feature, method='LOOCV', l2_strength=1e-1, epochs=64, batch_size=64, lr=1e-4, head=args.head)

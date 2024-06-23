@@ -39,7 +39,7 @@ def download_ckpt(pretrain):
 
 def extract_opera_feature(sound_dir_loc, pretrain="operaCE", input_sec=8, from_spec=False, dim=1280, pad0=False):
     """
-
+    extract features using OPERA models
     """
     from src.util import get_split_signal_librosa, pre_process_audio_mel_t, split_pad_sample, decide_droplast, get_entire_signal_librosa
     from tqdm import tqdm
