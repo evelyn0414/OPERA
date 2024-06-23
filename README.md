@@ -37,7 +37,7 @@ sh ./prepare_code.sh
 
 
 
-## Prepare data
+## Preparing data
 
 | Dataset                                  | Source | Access                                                       | License        |
 | ---------------------------------------- | ------ | ------------------------------------------------------------ | -------------- |
@@ -94,7 +94,7 @@ sh scripts/copd_eval.sh > cks/logs/Test_Task11_results.log
 The log is included under 'cks/logs/' for reference. The results for all tasks are summarised in Table 4 and 5.  
     
 
-## Run benchmark
+## Running the benchmark
 
  ```
 sh scripts/benchmark.sh
