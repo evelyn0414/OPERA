@@ -1,0 +1,570 @@
+************************************************
+training dataset kauh using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+(234, 988) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+988 2
+test_auc tensor(0.6409)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6666666666666666
+        test_auc            0.6408730149269104
+        test_loss           12.445581436157227
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+(234, 988) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+988 2
+test_auc tensor(0.5234)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5416666666666666
+        test_auc            0.5234127044677734
+        test_loss            20.49250602722168
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+(234, 988) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+988 2
+test_auc tensor(0.5885)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5972222222222222
+        test_auc            0.5884920358657837
+        test_loss           25.249507904052734
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+(234, 988) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+988 2
+test_auc tensor(0.6591)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6111111111111112
+        test_auc            0.6591269969940186
+        test_loss           14.152644157409668
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+(234, 988) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+988 2
+test_auc tensor(0.7694)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.7222222222222222
+        test_auc            0.7694444060325623
+        test_loss           12.142297744750977
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001
+================================================
+[0.6408730149269104, 0.5234127044677734, 0.5884920358657837, 0.6591269969940186, 0.7694444060325623]
+Five times mean task kauh feature opensmile results: auc mean 0.636 ± 0.082
+================================================
+************************************************
+training dataset kauh using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+(234, 128) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+128 2
+test_auc tensor(0.5405)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.5404762029647827
+        test_loss           0.6854255795478821
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by vggish with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+(234, 128) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+128 2
+test_auc tensor(0.6262)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.6261904239654541
+        test_loss           0.6864623427391052
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by vggish with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+(234, 128) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+128 2
+test_auc tensor(0.5952)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.5952380895614624
+        test_loss           0.6854638457298279
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by vggish with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+(234, 128) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+128 2
+test_auc tensor(0.6206)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.6206348538398743
+        test_loss           0.6852200627326965
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by vggish with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+(234, 128) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+128 2
+test_auc tensor(0.6429)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.6428571343421936
+        test_loss           0.6856218576431274
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by vggish with l2_strength 1e-05 lr 0.0001
+================================================
+[0.5404762029647827, 0.6261904239654541, 0.5952380895614624, 0.6206348538398743, 0.6428571343421936]
+Five times mean task kauh feature vggish results: auc mean 0.605 ± 0.036
+================================================
+Folder not found: src/benchmark/baseline/audioMAE/pretrained.pth, downloading the model
+(234, 768)
+************************************************
+training dataset kauh using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.6310)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5972222222222222
+        test_auc            0.6309523582458496
+        test_loss           0.6831216812133789
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.6833)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.6833333373069763
+        test_loss           0.6691558957099915
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.5603)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6111111111111112
+        test_auc            0.5603174567222595
+        test_loss           0.6790403723716736
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.6063)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5972222222222222
+        test_auc            0.6063492298126221
+        test_loss           0.6775620579719543
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.6000)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5694444444444444
+        test_auc            0.6000000238418579
+        test_loss           0.6786635518074036
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001
+================================================
+[0.6309523582458496, 0.6833333373069763, 0.5603174567222595, 0.6063492298126221, 0.6000000238418579]
+Five times mean task kauh feature audiomae results: auc mean 0.616 ± 0.041
+================================================
+(234, 1024)
+************************************************
+training dataset kauh using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1024) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1024 2
+test_auc tensor(0.7032)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6388888888888888
+        test_auc            0.7031745314598083
+        test_loss            0.612686812877655
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by clap with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1024) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1024 2
+test_auc tensor(0.6960)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6527777777777778
+        test_auc            0.6960317492485046
+        test_loss           0.6351235508918762
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by clap with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1024) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1024 2
+test_auc tensor(0.6937)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6527777777777778
+        test_auc            0.6936508417129517
+        test_loss           0.6321194767951965
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by clap with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1024) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1024 2
+test_auc tensor(0.6929)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc                   0.625
+        test_auc            0.6928571462631226
+        test_loss           0.6309439539909363
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by clap with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1024) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1024 2
+test_auc tensor(0.6984)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6805555555555556
+        test_auc            0.6984126567840576
+        test_loss           0.6282408237457275
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by clap with l2_strength 1e-05 lr 0.0001
+================================================
+[0.7031745314598083, 0.6960317492485046, 0.6936508417129517, 0.6928571462631226, 0.6984126567840576]
+Five times mean task kauh feature clap results: auc mean 0.697 ± 0.004
+================================================
+extracting feature from operaCT model with input_sec 8
+model ckpt not found, trying to download from huggingface
+(234, 768)
+************************************************
+training dataset kauh using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.7254)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6388888888888888
+        test_auc            0.7253968715667725
+        test_loss           0.6376335620880127
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.7167)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.7166666984558105
+        test_loss           0.6374457478523254
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.7500)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5694444444444444
+        test_auc                   0.75
+        test_loss           0.6332911252975464
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.7167)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6388888888888888
+        test_auc            0.7166666984558105
+        test_loss           0.6365617513656616
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 768) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+768 2
+test_auc tensor(0.7016)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc            0.7015872597694397
+        test_loss           0.6439748406410217
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001
+================================================
+[0.7253968715667725, 0.7166666984558105, 0.75, 0.7166666984558105, 0.7015872597694397]
+Five times mean task kauh feature operaCT768 results: auc mean 0.722 ± 0.016
+================================================
+extracting feature from operaCE model with input_sec 8
+model ckpt not found, trying to download from huggingface
+(234, 1280)
+************************************************
+training dataset kauh using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1280) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1280 2
+test_auc tensor(0.7683)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6944444444444444
+        test_auc            0.7682539224624634
+        test_loss           0.6223809719085693
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1280) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1280 2
+test_auc tensor(0.7405)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6666666666666666
+        test_auc            0.7404762506484985
+        test_loss           0.6308848857879639
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1280) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1280 2
+test_auc tensor(0.7333)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc                   0.625
+        test_auc            0.7333333492279053
+        test_loss            0.635432243347168
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1280) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1280 2
+test_auc tensor(0.7325)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6527777777777778
+        test_auc            0.7325396537780762
+        test_loss           0.6347237229347229
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 1280) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+1280 2
+test_auc tensor(0.7294)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc                   0.625
+        test_auc            0.7293650507926941
+        test_loss           0.6304186582565308
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001
+================================================
+[0.7682539224624634, 0.7404762506484985, 0.7333333492279053, 0.7325396537780762, 0.7293650507926941]
+Five times mean task kauh feature operaCE1280 results: auc mean 0.741 ± 0.014
+================================================
+extracting feature from operaGT model with input_sec 8.18
+model ckpt not found, trying to download from huggingface
+datasample weights: [0.26875, 0.3, 0.004166666666666667, 0.053125, 0.078125, 0.15208333333333332, 0.14375]
+img_size: (256, 64)
+(256, 64) (4, 4)
+number of patches: 1024
+Using patch, patch number: 1024
+(234, 384)
+************************************************
+training dataset kauh using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 384) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+384 2
+test_auc tensor(0.7063)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5694444444444444
+        test_auc            0.7063491940498352
+        test_loss           0.6644084453582764
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 384) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+384 2
+test_auc tensor(0.6770)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5972222222222222
+        test_auc            0.6769841909408569
+        test_loss           0.6641258597373962
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 384) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+384 2
+test_auc tensor(0.7222)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.6388888888888888
+        test_auc            0.7222222089767456
+        test_loss            0.661943256855011
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 384) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+384 2
+test_auc tensor(0.7143)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5972222222222222
+        test_auc            0.7142857313156128
+        test_loss            0.662397027015686
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001
+************************************************
+training dataset kauh using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+(234, 384) 234 234
+training distribution Counter({1: 87, 0: 75})
+testing distribution Counter({1: 42, 0: 30})
+384 2
+test_auc tensor(0.6929)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5833333333333334
+        test_auc             0.692857027053833
+        test_loss           0.6666874289512634
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset kauh classes using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001
+================================================
+[0.7063491940498352, 0.6769841909408569, 0.7222222089767456, 0.7142857313156128, 0.692857027053833]
+Five times mean task kauh feature operaGT384 results: auc mean 0.703 ± 0.016
+================================================
