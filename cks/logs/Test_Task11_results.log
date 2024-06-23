@@ -1,0 +1,650 @@
+extracting feature from opensmile for downstream Task11
+linear evaluation of opensmile on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+988
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+988 5
+test_auc tensor(0.4719)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.07407407407407407
+        test_auc            0.47192707657814026
+        test_loss           113.79962921142578
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+988
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+988 5
+test_auc tensor(0.5263)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.3055555555555556
+        test_auc            0.5262971520423889
+        test_loss             48.64306640625
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+988
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+988 5
+test_auc tensor(0.5847)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.23148148148148148
+        test_auc            0.5846502780914307
+        test_loss            36.00691223144531
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+988
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+988 5
+test_auc tensor(0.4430)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.23148148148148148
+        test_auc            0.44301337003707886
+        test_loss            62.72488021850586
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+988
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+988 5
+test_auc tensor(0.4452)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.24074074074074073
+        test_auc            0.4451661705970764
+        test_loss            82.86605072021484
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by opensmile with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.47192707657814026, 0.5262971520423889, 0.5846502780914307, 0.44301337003707886, 0.4451661705970764]
+Five times mean task copd feature opensmile results: auc mean 0.494 ± 0.054
+================================================
+extracting feature from vggish for downstream Task11
+linear evaluation of vggish on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+128
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+128 5
+test_auc tensor(0.6395)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc             0.639528751373291
+        test_loss           1.5057743787765503
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+128
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+128 5
+test_auc tensor(0.5902)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5902183055877686
+        test_loss           1.5084009170532227
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+128
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+128 5
+test_auc tensor(0.5736)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5736011862754822
+        test_loss            1.500379204750061
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+128
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+128 5
+test_auc tensor(0.5371)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5371329188346863
+        test_loss            1.505033254623413
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+128
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+128 5
+test_auc tensor(0.6112)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc             0.611210286617279
+        test_loss           1.5031766891479492
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by vggish with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.639528751373291, 0.5902183055877686, 0.5736011862754822, 0.5371329188346863, 0.611210286617279]
+Five times mean task copd feature vggish results: auc mean 0.590 ± 0.035
+================================================
+extracting feature from audiomae for downstream Task11
+(504, 768)
+linear evaluation of audiomae on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.4837)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.4837004244327545
+        test_loss           1.4782627820968628
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.5202)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc             0.520198404788971
+        test_loss            1.47299063205719
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.5399)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5399107336997986
+        test_loss           1.4746497869491577
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.5191)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5191418528556824
+        test_loss           1.4795657396316528
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.4888)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.48875492811203003
+        test_loss           1.4754021167755127
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by audiomae with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.4837004244327545, 0.520198404788971, 0.5399107336997986, 0.5191418528556824, 0.48875492811203003]
+Five times mean task copd feature audiomae results: auc mean 0.510 ± 0.021
+================================================
+extracting feature from clap for downstream Task11
+(504, 1024)
+linear evaluation of clap on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1024
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1024 5
+test_auc tensor(0.6556)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4537037037037037
+        test_auc            0.6555803418159485
+        test_loss           1.3997832536697388
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1024
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1024 5
+test_auc tensor(0.6250)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4351851851851852
+        test_auc            0.6250495910644531
+        test_loss            1.42360258102417
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1024
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1024 5
+test_auc tensor(0.5547)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5547024011611938
+        test_loss           1.4493262767791748
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1024
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1024 5
+test_auc tensor(0.6867)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4722222222222222
+        test_auc            0.6867063641548157
+        test_loss           1.4044318199157715
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1024
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1024 5
+test_auc tensor(0.6593)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc             0.659345269203186
+        test_loss           1.3928649425506592
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by clap with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.6555803418159485, 0.6250495910644531, 0.5547024011611938, 0.6867063641548157, 0.659345269203186]
+Five times mean task copd feature clap results: auc mean 0.636 ± 0.045
+================================================
+extracting feature from operaCT for downstream Task11
+extracting feature from operaCT model with input_sec 8
+(504, 768)
+linear evaluation of operaCT on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.6480)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc                    0.5
+        test_auc            0.6479662656784058
+        test_loss           1.4061270952224731
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.6402)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.6401934027671814
+        test_loss           1.4528065919876099
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.5484)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5483978390693665
+        test_loss            1.45863676071167
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.6446)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc                    0.5
+        test_auc             0.644573450088501
+        test_loss           1.4153218269348145
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+768
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+768 5
+test_auc tensor(0.6416)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.5092592592592593
+        test_auc            0.6415674686431885
+        test_loss           1.3979848623275757
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCT768 with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.6479662656784058, 0.6401934027671814, 0.5483978390693665, 0.644573450088501, 0.6415674686431885]
+Five times mean task copd feature operaCT768 results: auc mean 0.625 ± 0.038
+================================================
+extracting feature from operaCE for downstream Task11
+extracting feature from operaCE model with input_sec 8
+(504, 1280)
+linear evaluation of operaCE on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1280
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1280 5
+test_auc tensor(0.6847)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.6846776008605957
+        test_loss           1.4259072542190552
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1280
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1280 5
+test_auc tensor(0.6942)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.49074074074074076
+        test_auc            0.6942410469055176
+        test_loss            1.367694616317749
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1280
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1280 5
+test_auc tensor(0.6761)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.49074074074074076
+        test_auc             0.676131010055542
+        test_loss           1.3732924461364746
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1280
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1280 5
+test_auc tensor(0.6745)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.48148148148148145
+        test_auc            0.6744940280914307
+        test_loss           1.3702614307403564
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+1280
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+1280 5
+test_auc tensor(0.6866)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.49074074074074076
+        test_auc            0.6866269707679749
+        test_loss            1.37729811668396
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaCE1280 with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.6846776008605957, 0.6942410469055176, 0.676131010055542, 0.6744940280914307, 0.6866269707679749]
+Five times mean task copd feature operaCE1280 results: auc mean 0.683 ± 0.007
+================================================
+extracting feature from operaGT for downstream Task11
+extracting feature from operaGT model with input_sec 8.18
+datasample weights: [0.26875, 0.3, 0.004166666666666667, 0.053125, 0.078125, 0.15208333333333332, 0.14375]
+img_size: (256, 64)
+(256, 64) (4, 4)
+number of patches: 1024
+Using patch, patch number: 1024
+(504, 384)
+linear evaluation of operaGT on downstream Task11
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+384
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+384 5
+test_auc tensor(0.6198)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.6197618246078491
+        test_loss           1.4640675783157349
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+384
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+384 5
+test_auc tensor(0.6225)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.6225446462631226
+        test_loss           1.4470648765563965
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+384
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+384 5
+test_auc tensor(0.6128)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.6127926707267761
+        test_loss           1.4733319282531738
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+384
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+384 5
+test_auc tensor(0.5898)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.42592592592592593
+        test_auc            0.5898064970970154
+        test_loss           1.4562194347381592
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+************************************************
+training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+Counter({4: 204, 2: 84, 3: 84, 0: 72, 1: 60})
+384
+Counter({4: 120, 2: 60, 0: 48, 3: 48, 1: 36})
+Counter({4: 36, 1: 12, 2: 12, 3: 12, 0: 12})
+Counter({4: 48, 3: 24, 0: 12, 1: 12, 2: 12})
+384 5
+test_auc tensor(0.5868)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+        test_acc            0.4444444444444444
+        test_auc            0.5868303179740906
+        test_loss            1.453747034072876
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+finished training dataset RespiratoryDatabase@TR using feature extracted by operaGT384 with l2_strength 1e-05 lr 0.0001 head linear
+================================================
+[0.6197618246078491, 0.6225446462631226, 0.6127926707267761, 0.5898064970970154, 0.5868303179740906]
+Five times mean task copd feature operaGT384 results: auc mean 0.606 ± 0.015
+================================================

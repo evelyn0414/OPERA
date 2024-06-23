@@ -80,12 +80,19 @@ our pretrained model checkpoints:
 
 They will be audomatically downloaded before feature extraction.
 
-
-Run example of one task:
+Run example of Task 10:
 ```
-sh scripts/copd_eval.sh
+sh datasets/KAUH/download_data.sh
+sh scripts/kauh_eval.sh > cks/logs/Test_Task10_results.log
 ```
 
+Run example of Task 11:
+```
+sh datasets/copd/download_data.sh
+sh scripts/copd_eval.sh > cks/logs/Test_Task11_results.log
+```
+The log is included under 'cks/logs/' for reference. The results for all tasks are summarised in Table 4 and 5.  
+    
 
 ## Run benchmark
 
