@@ -106,4 +106,13 @@ sh scripts/benchmark.sh
 If you use OPERA, please consider citing:
 
 ```
+@misc{zhang2024openrespiratoryacousticfoundation,
+      title={Towards Open Respiratory Acoustic Foundation Models: Pretraining and Benchmarking}, 
+      author={Yuwei Zhang and Tong Xia and Jing Han and Yu Wu and Georgios Rizos and Yang Liu and Mohammed Mosuily and Jagmohan Chauhan and Cecilia Mascolo},
+      year={2024},
+      eprint={2406.16148},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2406.16148}, 
+}
 ```
