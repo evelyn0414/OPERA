@@ -6,6 +6,9 @@
 -----------------------------------------
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Language: Python](https://img.shields.io/badge/language-Python%203.10%2B-green?logo=python&logoColor=green)](https://www.python.org)
+[![arXiv](https://img.shields.io/badge/arXiv-2406.16148-b31b1b.svg)](https://arxiv.org/abs/2406.16148)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Model-yellow?logo=huggingface&logoColor=yellow)](https://huggingface.co/evelyn0414/OPERA)
+
 
 This is the official code release for **OPERA**: **OPE**n **R**espiratory **A**coustic foundation models.
 
