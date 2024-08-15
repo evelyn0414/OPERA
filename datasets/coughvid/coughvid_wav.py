@@ -1,5 +1,8 @@
 
 ###
+# sudo apt install ffmpeg
+# 
+# If you use windows:
 # Download FFmpeg from https://ffmpeg.org/download.html#build-windows
 # and add the bin to system path
 ###
