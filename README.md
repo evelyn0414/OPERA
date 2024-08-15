@@ -4,8 +4,12 @@
 
 
 -----------------------------------------
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![arXiv](https://img.shields.io/badge/arXiv-2406.16148-b31b1b.svg)](https://arxiv.org/abs/2406.16148)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Model-yellow?logo=huggingface&logoColor=yellow)](https://huggingface.co/evelyn0414/OPERA)
 [![Language: Python](https://img.shields.io/badge/language-Python%203.10%2B-green?logo=python&logoColor=green)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 
 This is the official code release for **OPERA**: **OPE**n **R**espiratory **A**coustic foundation models.
 
@@ -37,7 +41,7 @@ sh ./prepare_code.sh
 
 
 
-## Prepare data
+## Preparing data
 
 | Dataset                                  | Source | Access                                                       | License        |
 | ---------------------------------------- | ------ | ------------------------------------------------------------ | -------------- |
@@ -94,7 +98,7 @@ sh scripts/copd_eval.sh > cks/logs/Test_Task11_results.log
 The log is included under 'cks/logs/' for reference. The results for all tasks are summarised in Table 4 and 5.  
     
 
-## Run benchmark
+## Running the benchmark
 
  ```
 sh scripts/benchmark.sh
@@ -106,4 +110,13 @@ sh scripts/benchmark.sh
 If you use OPERA, please consider citing:
 
 ```
+@misc{zhang2024openrespiratoryacousticfoundation,
+      title={Towards Open Respiratory Acoustic Foundation Models: Pretraining and Benchmarking}, 
+      author={Yuwei Zhang and Tong Xia and Jing Han and Yu Wu and Georgios Rizos and Yang Liu and Mohammed Mosuily and Jagmohan Chauhan and Cecilia Mascolo},
+      year={2024},
+      eprint={2406.16148},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2406.16148}, 
+}
 ```
