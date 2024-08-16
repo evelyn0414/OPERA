@@ -106,7 +106,7 @@ sh scripts/benchmark.sh
 
 ## Understanding the model 
 
-In Appendix A.2, we have visualized what the models learned during pretraining. To more explicitly understand the models' behavior on unseen data, we conducted an analysis using saliency maps to identify which parts of the spectrogram our models focus on. We choose breathing rate estimation (T19) and FVC estimation (T13) as examples. The analysis revealed that in fact both CT and GT models are able to capture the determining characteristics of breathing intervals, but GT is better than CT in capturing useful information for spirometer test estimation. 
+Run `res_analysis/saliency_map.py` for an analysis of the model using saliency maps.
 
 |![Slide1](https://github.com/user-attachments/assets/ce83bdd8-943d-4dce-9bb1-1b2431cf9afd) | ![Slide2](https://github.com/user-attachments/assets/4689faad-d9ba-49ed-8248-561d64213362)|
 |-------|-----------|
