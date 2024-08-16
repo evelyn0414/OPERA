@@ -104,6 +104,14 @@ The log is included under 'cks/logs/' for reference. The results for all tasks a
 sh scripts/benchmark.sh
 ```
 
+## Understanding the model 
+
+In Appendix A.2, we have visualized what the models learned during pretraining. To more explicitly understand the models' behavior on unseen data, we conducted an analysis using saliency maps to identify which parts of the spectrogram our models focus on. We choose breathing rate estimation (T19) and FVC estimation (T13) as examples. The analysis revealed that in fact both CT and GT models are able to capture the determining characteristics of breathing intervals, but GT is better than CT in capturing useful information for spirometer test estimation. 
+
+|![Slide1](https://github.com/user-attachments/assets/ce83bdd8-943d-4dce-9bb1-1b2431cf9afd) | ![Slide2](https://github.com/user-attachments/assets/4689faad-d9ba-49ed-8248-561d64213362)|
+|-------|-----------|
+|![Slide3](https://github.com/user-attachments/assets/dbb9e910-05a8-4aaa-968e-8ffa79bf5869)|![Slide4](https://github.com/user-attachments/assets/19d31c45-27da-44f1-9974-06a213c03790)|
+|![Slide5](https://github.com/user-attachments/assets/dcf72afd-07ed-4f80-b24a-96596a5f6136)|![Slide6](https://github.com/user-attachments/assets/89e8b4f4-68cb-4d37-8eed-0ca9843d17e7) |
 
 ## Citation
 
