@@ -108,10 +108,10 @@ sh scripts/benchmark.sh
 
 In Appendix A.2, we have visualized what the models learned during pretraining. To more explicitly understand the models' behavior on unseen data, we conducted an analysis using saliency maps to identify which parts of the spectrogram our models focus on. We choose breathing rate estimation (T19) and FVC estimation (T13) as examples. The analysis revealed that in fact both CT and GT models are able to capture the determining characteristics of breathing intervals, but GT is better than CT in capturing useful information for spirometer test estimation. 
 
-![saliency_map_1](https://github.com/user-attachments/assets/a52be26b-4e31-4f62-8593-91f8c373c811)
-![saliency_map_2](https://github.com/user-attachments/assets/3449af1e-a085-447c-9457-1576fc8bbd8a)
-![saliency_map_3](https://github.com/user-attachments/assets/10cd2f12-f5c8-419a-af1a-5ef15ce2a79a)
-![saliency_map_4](https://github.com/user-attachments/assets/46164ae8-2bae-45e5-9ef7-d91f2011d978)
+|![saliency_map_1](https://github.com/user-attachments/assets/a52be26b-4e31-4f62-8593-91f8c373c811) | ![saliency_map_2](https://github.com/user-attachments/assets/3449af1e-a085-447c-9457-1576fc8bbd8a)|
+|-------|-----------|
+|![saliency_map_3](https://github.com/user-attachments/assets/10cd2f12-f5c8-419a-af1a-5ef15ce2a79a)|![saliency_map_4](https://github.com/user-attachments/assets/46164ae8-2bae-45e5-9ef7-d91f2011d978)|
+
 
 
 ## Citation
