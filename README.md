@@ -58,7 +58,7 @@ sh ./prepare_code.sh
 | MMlung               | UoS    | [https://github.com/MohammedMosuily/mmlung](https://github.com/MohammedMosuily/mmlung) | Custom license |
 | NoseMic      | UoC    | [https://github.com/evelyn0414/OPERA/tree/main/datasets/nosemic](https://github.com/evelyn0414/OPERA/tree/main/datasets/nosemic)                                                           | Custom license |
 
-*ICBHI and HF Lung datasets come from multiple sources. COVID-19 Sounds, SSBPR, MMLung and NoseMic are available upon request, while other data can be downloaded using the above url. Custom license is detailed in the DTA (data transfer agreement).
+*ICBHI and HF Lung datasets come from multiple sources. COVID-19 Sounds, SSBPR and MMLung  are available upon request, while other data can be downloaded using the above url. Custom license is detailed in the DTA (data transfer agreement).
 
 We provided some curated datasets which can be downloaded from the [Google drive]() (replace the `datasets` folder). 
 
