@@ -96,6 +96,16 @@ sh datasets/copd/download_data.sh
 sh scripts/copd_eval.sh > cks/logs/Test_Task11_results.log
 ```
 The log is included under 'cks/logs/' for reference. The results for all tasks are summarised in Table 4 and 5.  
+
+Example for extracting feature using your own data:
+```python
+from src.benchmark.model_util import extract_opera_feature
+
+# array of filenames
+sound_dir_loc = np.load(feature_dir + "sound_dir_loc.npy")
+opera_features = extract_opera_feature(sound_dir_loc,  pretrain="operaCT", input_sec=8, dim=768)
+np.save(feature_dir + "operaCT_feature.npy", np.array(opera_features))
+```
     
 
 ## Running the benchmark
