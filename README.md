@@ -63,7 +63,7 @@ sh ./prepare_code.sh
 We provided some curated datasets which can be downloaded from the [Google drive]() (replace the `datasets` folder). 
 
 
-## Pretraining foudation models using OPERA framework
+## Pretraining foundation models using OPERA framework
 
 Example training can be found in  `cola_pretraining.py` and `mae_pretraining.py`.
 
