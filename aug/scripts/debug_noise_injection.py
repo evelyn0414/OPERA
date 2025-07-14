@@ -5,6 +5,7 @@ import torch
 import matplotlib.pyplot as plt
 from aug.config import Config
 from aug.utils import load_audio, process_audio_length, pre_process_audio_mel, save_audio, peak_normalize
+import augly.audio as A
 
 # ---- USER CONFIGURABLE ----
 CLEAN_FILES = [
@@ -27,14 +28,8 @@ NOISE_FILES = [
     "1-17092-A-27",
     "1-24524-C-19"
 ]
-CONFIG_PATH = 'config.yaml'
+CONFIG_PATH = 'debug_config_icbhidisease.yaml'
 SEED = 42
-
-# SNR_DB = -50
-SNR_DB = None
-BACKGROUND_NOISE_DBFS_LEVEL = -55
-
-OUTPUT_DIR = f'debug_noise_injection__snr__{SNR_DB}dB'
 
 def set_deterministic(seed=42):
     random.seed(seed)
@@ -117,13 +112,20 @@ def plot_and_save_mels(clean, noise, noisy, sr, out_path, title_suffix=""):
 
 def main():
     set_deterministic(SEED)
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
     config = Config(CONFIG_PATH)
     sr = config['sample_rate']
     duration = config['target_duration_sec']
     clean_dir = config['clean_data_path']
     noise_dir = config['noise_data_path']
-    background_noise_db_level = config.get('background_noise_db_level', None)
+
+    noise_level = config.get('noise_level', None)
+    if len(noise_level) == 1:
+        background_noise_db_level = noise_level[0]
+    else:
+        raise ValueError("Background noise level must be a single value")
+
+    OUTPUT_DIR = f'debug_noise_injection__snr__{noise_level}dB'
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     for clean_file in CLEAN_FILES:
         clean_path = os.path.join(clean_dir, clean_file + ".wav")
@@ -131,7 +133,7 @@ def main():
         if clean_audio is None:
             print(f"[ERROR] Could not load clean file: {clean_file}")
             continue
-        clean_audio = process_audio_length(clean_audio, duration, sr)
+        # clean_audio = process_audio_length(clean_audio, duration, sr)
         # clean_audio = peak_normalize(clean_audio)
 
         for noise_file in NOISE_FILES:
@@ -140,23 +142,25 @@ def main():
             if noise_audio is None:
                 print(f"[ERROR] Could not load noise file: {noise_file}")
                 continue
-            noise_audio = process_audio_length(noise_audio, duration, sr)
+            # noise_audio = process_audio_length(noise_audio, duration, sr)
 
             # Scale noise to fixed dBFS before mixing
-            noise_audio_scaled = normalize_to_dbfs(noise_audio, background_noise_db_level)
-            noisy_audio = clean_audio + noise_audio_scaled
+            # noise_audio_scaled = normalize_to_dbfs(noise_audio, background_noise_db_level)
+            # noisy_audio = clean_audio + noise_audio_scaled
+            noisy_audio, _ = A.add_background_noise(
+                    clean_audio, sample_rate = sr, background_audio=noise_audio, snr_level_db=background_noise_db_level, seed=config.get('random_seed', 42)
+                )
             print(f"[INFO] Used fixed [dBFS] noise scaling: {background_noise_db_level} dBFS")
 
             # Save audio files
             base = f"{os.path.splitext(clean_file)[0]}__{os.path.splitext(noise_file)[0]}"
             save_audio(os.path.join(OUTPUT_DIR, f"{base}_clean.wav"), clean_audio, sr)
             save_audio(os.path.join(OUTPUT_DIR, f"{base}_noise.wav"), noise_audio, sr)
-            save_audio(os.path.join(OUTPUT_DIR, f"{base}_noise_scaled.wav"), noise_audio_scaled, sr)
             save_audio(os.path.join(OUTPUT_DIR, f"{base}_noisy.wav"), noisy_audio, sr)
 
             # Save mel-spectrogram PNG
             plot_and_save_mels(
-                clean_audio, noise_audio_scaled, noisy_audio, sr,
+                clean_audio, noise_audio, noisy_audio, sr,
                 os.path.join(OUTPUT_DIR, f"{base}__mels.png"),
                 title_suffix=f"\n({clean_file} + {noise_file})"
             )
@@ -165,7 +169,6 @@ def main():
             print("================================================")
             print(f"[DEBUG] Clean RMS: {compute_rms(clean_audio):.3f} || dBFS: {compute_dbfs(clean_audio):.3f} dB")
             print(f"[DEBUG] Noise RMS: {compute_rms(noise_audio):.3f} || dBFS: {compute_dbfs(noise_audio):.3f} dB")
-            print(f"[DEBUG] Scale RMS: {compute_rms(noise_audio_scaled):.3f} || dBFS: {compute_dbfs(noise_audio_scaled):.3f} dB")
             print(f"[DEBUG] Noisy RMS: {compute_rms(noisy_audio):.3f} || dBFS: {compute_dbfs(noisy_audio):.3f} dB")
             print(f"[DEBUG] Difference RMS: {compute_rms(noisy_audio - clean_audio):.3f} || dBFS: {compute_dbfs(noisy_audio - clean_audio):.3f} dB")
             print("================================================")
