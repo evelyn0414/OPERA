@@ -49,11 +49,6 @@ def load_dataset_from_npy(config: dict, split: str) -> Tuple[List[str], List[int
     labels = np.load(os.path.join(feature_dir, config['labels_file']), allow_pickle=True)
     splits = np.load(os.path.join(feature_dir, config['split_file']), allow_pickle=True)
     
-    # Extract base filenames and prepend output_path
-    output_path = config['output_path']
-    if output_path:
-        sound_dir_loc = modify_sound_dir_loc(sound_dir_loc, output_path)
-    
     # Filter by split (or return all if split is 'all')
     if split == 'all':
         return sound_dir_loc.tolist(), labels.tolist(), splits.tolist()
