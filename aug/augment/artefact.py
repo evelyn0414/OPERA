@@ -20,14 +20,98 @@ class ArtefactAugmentation(BaseAugmentation):
         # Define the pipeline with explicit probabilities
         # Probabilities are commented next to each augmentation
 
+        # self.effects = A.Compose([
+        #     A.ChangeVolume(
+        #         volume_db = 8,
+        #         p = 1
+        #     ),
+        #     A.PeakingEqualizer (
+        #         center_hz = 120,
+        #         q = 0.7,
+        #         gain_db = 12,
+        #         p = 1
+        #     ),
+        #     A.PeakingEqualizer (
+        #         center_hz = 150,
+        #         q = 1.0,
+        #         gain_db = 6,
+        #         p = 1
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #     A.Reverb(
+        #         reverberance = 60,
+        #         room_scale = 40.0,
+        #         p = 1
+        #     ),
+        #     A.HighPassFilter(
+        #         cutoff_hz = 150,
+        #         p = 1
+        #     ),
+            
+        # ])
+
+        # self.effects = A.Compose([    
+        #     A.LowPassFilter(
+        #         cutoff_hz=500,
+        #         p=1.0
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #     A.PeakingEqualizer (
+        #         center_hz = 8000,
+        #         q = 2,
+        #         gain_db = -6,
+        #         p = 1
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #     A.Harmonic(
+        #         kernel_size = 31,
+        #         power = 2,
+        #         margin = 1.5,
+        #         p = 1
+        #     ),
+        # ],p = 1)
+
+        # self.effects = A.Compose([
+        #     A.PitchShift(
+        #         n_steps = 5,
+        #         p = 1
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #     A.Percussive(
+        #         kernel_size = 31,
+        #         power = 2,
+        #         margin = 1,
+        #         p = 1
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #         A.TimeStretch(
+        #         rate = 1.5,
+        #         p = 1
+        #     ),
+        # ])
+
+        # self.effects = A.Compose([
+        #     A.Tempo(
+        #         factor = 1.5,
+        #         p = 1
+        #     ),
+        # ])
+
         self.effects = A.Compose([
-            A.ChangeVolume(volume_db=5,                               p=1.0),
-            # A.Clicks(                                                 p=1.0),
-            # A.Harmonic(                                                 p=1.0),
-            # A.Speed(factor=50,                                       p=1.0),
-            # A.PitchShift(n_steps=5,                                 p=1.0),
-            # A.Reverb(reverberance=100, hf_damping=1, pre_delay=1.0, wet_gain=3.0,                                  p=1.0),
-            # A.LowPassFilter(cutoff_hz=20,                                 p=1.0),
+            A.Clicks(
+                seconds_between_clicks = 4,
+                p = 1
+            ),
         ])
     
     def estimate_snr(self, original_audio: np.ndarray, distorted_audio: np.ndarray) -> float:
@@ -73,6 +157,6 @@ class ArtefactAugmentation(BaseAugmentation):
         noisy_audio, _ = self.effects(clean_audio, sample_rate=self.sr)
         
         # Estimate SNR
-        snr_db = self.estimate_snr(original_audio, noisy_audio)
+        # snr_db = self.estimate_snr(original_audio, noisy_audio)
         
-        return noisy_audio, snr_db
+        return noisy_audio
