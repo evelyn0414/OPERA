@@ -2,10 +2,10 @@ import os
 import random
 from typing import List, Optional, Tuple
 import numpy as np
-from aug.augment.artefact import ArtefactAugmentation
 from aug.utils import load_audio
 import augly.audio as A
 import librosa
+from aug.augment.augly_effects import ARTEFACT_EFFECTS
 
 class AugmentationPipeline:
     """
@@ -57,22 +57,34 @@ class AugmentationPipeline:
             return clean_audio, 'clean'
         
         elif chosen_augment == 'artefact':
-            spec = random.choice(self.artefact_specs)
-            artefact_aug = ArtefactAugmentation(spec, self.sr, self.duration)
-            return artefact_aug(clean_audio), f"artefact_{spec['type']}"
+            apply_artefact = random.choice(ARTEFACT_EFFECTS)
+            noisy_audio, _ = apply_artefact(clean_audio, sample_rate=int(self.sr))
+            return noisy_audio, f"artefact_{apply_artefact}"
         
         elif chosen_augment == 'noise':
-            
-            # Load a randomnoise audio
             noise_file = random.choice(self.noise_files)
-            noise_audio = self._load_noise_audio(noise_file, self.sr)
-            noise_level = random.choice(self.noise_levels)
-            
-            noisy_audio = self.add_noise(clean_audio, noise_audio, noise_level, seed)
-            return noisy_audio, f"noise_{noise_file}_{self.noise_type}_{noise_level}"
+            return self._inject_ambient_noise(clean_audio, noise_file, self.noise_levels)
         
         else:
             raise ValueError(f"Unknown augmentation type: {chosen_augment}")
+    
+    def _inject_ambient_noise(self, clean_audio: np.ndarray, noise_file: str, noise_level: float) -> Tuple[np.ndarray, str]:
+        
+        # Load the noise audio
+        noise_audio = self._load_noise_audio(noise_file, self.sr)
+        
+        # Add the noise to the clean audio
+        noise_level = random.choice(self.noise_levels)
+        
+        # If the noise level is infinite, return the clean audio
+        if noise_level == "inf":
+            noisy_audio = clean_audio
+        else:
+            noisy_audio, _ = A.add_background_noise(
+                    clean_audio, sample_rate=int(self.sr), background_audio=noise_audio, snr_level_db=noise_level
+                )
+        
+        return noisy_audio, f"noise_{noise_file}_{self.noise_type}_{noise_level}"
     
     def _load_noise_audio(self, noise_file: str, sr: float) -> np.ndarray:
         noise_path = os.path.join(self.noise_data_path, noise_file)
@@ -94,13 +106,3 @@ class AugmentationPipeline:
         else:
             # Return the audio as is
             return audio
-
-    
-    def add_noise(self, clean_audio: np.ndarray, noise_audio: np.ndarray, noise_level: float, seed: int) -> np.ndarray:
-        if noise_level == "inf":
-            return clean_audio
-        else:
-            noisy_audio, _ = A.add_background_noise(
-                    clean_audio, sample_rate=int(self.sr), background_audio=noise_audio, snr_level_db=noise_level, seed=seed
-                )
-            return noisy_audio
