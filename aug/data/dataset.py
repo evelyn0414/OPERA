@@ -44,8 +44,8 @@ class NoisyICBHIDataGenerator(Dataset):
             self.sr = config['sample_rate']
         else:
             _, sr = load_audio(self.file_paths[0], sr=None)
-            print(f"[DEBUG] Dataset Sample rate: {sr}")
             self.sr = sr
+        print(f"[DEBUG] Dataset Sample rate: {self.sr}")
             
         self.artefact_specs = [
             {'type': 'low_pass', 'cutoff_hz': 2000, 'order': 5},
