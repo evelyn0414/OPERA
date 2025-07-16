@@ -3,6 +3,11 @@ from aug.config import Config
 from aug.data.dataset import NoisyICBHIDataGenerator
 from aug.utils import set_deterministic, save_audio
 import argparse
+from torch.autograd.anomaly_mode import set_detect_anomaly
+import numpy as np
+from aug.utils import load_audio
+
+set_detect_anomaly(True)
 
 def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
     """
@@ -15,7 +20,9 @@ def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
     """
     print(f"--- Generating Entire Audio Dataset for '{split}' split ---")
     
-    dataset = NoisyICBHIDataGenerator(config, split, debug=True)
+    dataset = NoisyICBHIDataGenerator(config, split, training=False)
+    print(f"[DEBUG] Dataset sample rate: {dataset.sr}")
+    dataset_sr = dataset.sr
     output_dir = config['output_path']
     
     if len(dataset) == 0:
@@ -27,11 +34,14 @@ def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
     print(f"Audio files will be saved in: '{output_dir}/'")
     
     for i in range(len(dataset)):
-        data_tensor, _, aug_type = dataset[i]
+        noisy_tensor, clean_tensor, aug_type = dataset[i]
         file_name = os.path.basename(dataset.file_paths[i])
-        data_tensor = data_tensor.numpy()
-        sr = config['sample_rate']
-        save_audio(os.path.join(output_dir, f"{file_name}"), data_tensor, sr)
+        
+        # Convert to numpy arrays
+        noisy_tensor = noisy_tensor.numpy()
+        clean_tensor = clean_tensor.numpy()
+        
+        save_audio(os.path.join(output_dir, f"{file_name}"), noisy_tensor, dataset_sr)
         if i % 100 == 0:
             print(f"Saved {i} samples so far... (last aug: {aug_type})")
     
