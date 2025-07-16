@@ -1,8 +1,7 @@
-import os
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from aug.utils import load_audio, process_audio_length, pre_process_audio_mel, peak_normalize
+from aug.utils import load_audio, pre_process_audio_mel
 from aug.data.data_utils import load_dataset_from_npy, list_wav_files
 from aug.augment.pipeline import AugmentationPipeline
 
@@ -15,7 +14,7 @@ class NoisyICBHIDataGenerator(Dataset):
     probabilities specified in the configuration. The dataset can be used for both
     training and evaluation, and supports debug mode for easier inspection.
     """
-    def __init__(self, config, split: str, debug: bool = False):
+    def __init__(self, config, split: str, debug: bool = False, training: bool = False):
         """
         Initialize the dataset.
 
@@ -27,20 +26,27 @@ class NoisyICBHIDataGenerator(Dataset):
         super().__init__()
         
         self.config = config
-        self.debug = debug
+        self.training = training
         self.seed = config.get('random_seed', 42)
-        
-        self.sr = config['sample_rate']
-        self.noise_type = config['noise_type']
-        self.duration = config['target_duration_sec']
 
         self.clean_data_path = config['clean_data_path']
         self.noise_data_path = config['noise_data_path']
         self.file_paths, self.labels, self.splits = load_dataset_from_npy(config, split)
-        
         self.noise_files = list_wav_files(self.noise_data_path)
         self.noise_files.sort()
-        
+
+        self.noise_type = config['noise_type']
+        self.duration = config['target_duration_sec']
+
+        # If training, use the sample rate from the config, otherwise, load the sample rate from the first audio file
+        # Adjusts between audio file or mel spectrogram generation
+        if training:
+            self.sr = config['sample_rate']
+        else:
+            _, sr = load_audio(self.file_paths[0], sr=None)
+            print(f"[DEBUG] Dataset Sample rate: {sr}")
+            self.sr = sr
+            
         self.artefact_specs = [
             {'type': 'low_pass', 'cutoff_hz': 2000, 'order': 5},
             {'type': 'low_pass', 'cutoff_hz': 4000, 'order': 5},
@@ -78,35 +84,46 @@ class NoisyICBHIDataGenerator(Dataset):
                 - Clean audio (torch.Tensor)
                 - Augmentation type (str)
         Notes:
-            - If debug is True, returns peak-normalized waveforms.
-            - If debug is False, returns mel-spectrograms.
+            - If training is True, returns mel-spectrograms.
+            - If training is False, returns waveforms.
             - If the audio file is missing, returns silent audio.
         """
-        clean_audio = load_audio(self.file_paths[idx], sr=self.sr)
+
+        # Load the clean audio
+        clean_audio, _ = load_audio(self.file_paths[idx], sr=self.sr)
 
         if clean_audio is None:
+            print(f"[ERROR] Audio file found at {self.file_paths[idx]}")
+            print(f"[ERROR] Returning silent audio")
+
+            # Create silent audio
             silent_len = int(self.duration * self.sr)
             silent_audio = np.zeros(silent_len, dtype=np.float32)
-            if self.debug:
-                silent_tensor = torch.from_numpy(peak_normalize(silent_audio))
-                return silent_tensor, silent_tensor, "silent"
-            else:
-                silent_mel = pre_process_audio_mel(silent_audio, f_max=8000, sr=self.sr)
-                silent_tensor = torch.from_numpy(silent_mel)
-                return silent_tensor, silent_tensor, "silent"
 
-        clean_audio = clean_audio
-        # clean_audio_processed = process_audio_length(clean_audio_raw, self.duration, self.sr)
+            # If training, convert to mel spectrogram
+            if self.training:
+                silent_mel = pre_process_audio_mel(silent_audio, f_max=8000, sr=self.sr)
+                return (
+                    torch.from_numpy(silent_mel),
+                    torch.from_numpy(silent_mel),
+                    "silent"
+                )
+            else:
+                return (
+                    torch.from_numpy(silent_audio),
+                    torch.from_numpy(silent_audio),
+                    "silent"
+                )
+
+        # Augment the audio
         aug_audio, aug_type = self.pipeline(clean_audio, self.seed)
 
-        if self.debug:
-            pass
-            # aug_audio = peak_normalize(aug_audio)
-            # clean_audio = peak_normalize(clean_audio)
-        else:
+        # If training, convert to mel spectrogram
+        if self.training:
             aug_audio = pre_process_audio_mel(aug_audio, f_max=8000, sr=self.sr)
             clean_audio = pre_process_audio_mel(clean_audio, f_max=8000, sr=self.sr)
 
+        # Return the augmented audio and the clean audio
         return (
             torch.from_numpy(aug_audio),
             torch.from_numpy(clean_audio),
