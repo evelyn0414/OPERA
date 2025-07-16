@@ -1,6 +1,6 @@
 import os
 import random
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 import numpy as np
 from aug.augment.artefact import ArtefactAugmentation
 from aug.utils import load_audio
@@ -11,7 +11,7 @@ class AugmentationPipeline:
     """
     Composes and applies augmentations to audio based on configuration and random selection.
     """
-    def __init__(self, config, noise_files: List[str], artefact_specs: List[dict], sr: int, duration: float, noise_type: str):
+    def __init__(self, config, noise_files: List[str], artefact_specs: List[dict], sr: float, duration: float, noise_type: str):
         """
         Args:
             config: Configuration object or dictionary.
@@ -65,7 +65,7 @@ class AugmentationPipeline:
             
             # Load a randomnoise audio
             noise_file = random.choice(self.noise_files)
-            noise_audio = self._load_noise_audio(noise_file)
+            noise_audio = self._load_noise_audio(noise_file, self.sr)
             noise_level = random.choice(self.noise_levels)
             
             noisy_audio = self.add_noise(clean_audio, noise_audio, noise_level, seed)
@@ -74,9 +74,9 @@ class AugmentationPipeline:
         else:
             raise ValueError(f"Unknown augmentation type: {chosen_augment}")
     
-    def _load_noise_audio(self, noise_file: str) -> np.ndarray:
+    def _load_noise_audio(self, noise_file: str, sr: float) -> np.ndarray:
         noise_path = os.path.join(self.noise_data_path, noise_file)
-        noise_audio = load_audio(noise_path, sr=self.sr)
+        noise_audio, _ = load_audio(noise_path, sr=sr)
         noise_audio = self._process_audio_length(noise_audio)
         return noise_audio
     
@@ -97,7 +97,10 @@ class AugmentationPipeline:
 
     
     def add_noise(self, clean_audio: np.ndarray, noise_audio: np.ndarray, noise_level: float, seed: int) -> np.ndarray:
-        noisy_audio, _ = A.add_background_noise(
-                clean_audio, sample_rate = self.sr, background_audio=noise_audio, snr_level_db=noise_level, seed=seed
-            )
-        return noisy_audio
+        if noise_level == "inf":
+            return clean_audio
+        else:
+            noisy_audio, _ = A.add_background_noise(
+                    clean_audio, sample_rate = self.sr, background_audio=noise_audio, snr_level_db=noise_level, seed=seed
+                )
+            return noisy_audio
