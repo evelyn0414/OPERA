@@ -101,6 +101,6 @@ class AugmentationPipeline:
             return clean_audio
         else:
             noisy_audio, _ = A.add_background_noise(
-                    clean_audio, sample_rate = self.sr, background_audio=noise_audio, snr_level_db=noise_level, seed=seed
+                    clean_audio, sample_rate=int(self.sr), background_audio=noise_audio, snr_level_db=noise_level, seed=seed
                 )
             return noisy_audio
