@@ -148,12 +148,12 @@ def linear_evaluation_covid19sounds(task=1, use_feature="opensmile", modality="c
 #########################
 #########################
 def get_noisy_dataloader(use_feature="opensmile", l2_strength=1e-4, epochs=64, batch_size=64, lr=1e-4, head="linear"):
-    feature_dir = "feature/icbhidisease_noisy_eval/"
+    feature_dir = "feature/icbhidisease_eval/"
     y_set = np.load(feature_dir + "split.npy")
     y_label = np.load(feature_dir + "labels.npy")
 
     print(collections.Counter(y_label))
-    x_data = np.load(feature_dir + use_feature + "_feature.npy").squeeze()
+    x_data = np.load(feature_dir + use_feature + "_feature_NOISY.npy").squeeze()
 
     mask = (y_label == "Healthy") | (y_label == "COPD")
     y_label = y_label[mask]
@@ -267,13 +267,11 @@ def linear_evaluation_icbhidisease(use_feature="opensmile", l2_strength=1e-4, ep
     trainer.fit(model, train_loader, val_loader)
     trainer.test(dataloaders=train_loader)
     trainer.test(dataloaders=val_loader)
-    
+
+    # generate the noisy dataset
     print("=" * 48)
     print("=" * 20, "GENERATING NOISY DATASET", "=" * 20)
     print("=" * 48)
-
-    data_dir = "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
-    print(f"[INFO] generating a new noisy dataset for evaluation under {data_dir}")
     os.system(f'python aug/scripts/generate_test_set.py --config config_icbhidisease.yaml --seed {seed}')
 
     # decompose the use_feature into the model name and the dimension

@@ -17,8 +17,13 @@ BATCH_SIZE = 512
 SR = 16000
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-data_dir = "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
-feature_dir = "feature/icbhidisease_noisy_eval/"
+data_dir = "datasets/icbhi/"
+audio_dir = data_dir + "ICBHI_final_database/"
+feature_dir = "feature/icbhidisease_eval/"
+data_dir_noisy = "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
+
+def mddify_soundir_loc(sound_dir_loc):
+    return [sound_dir_loc.replace(data_dir, data_dir_noisy) for sound_dir_loc in sound_dir_loc]
 
 if not os.path.exists(data_dir):
     print(f"[ERROR] Folder not found: {data_dir}")
@@ -55,34 +60,40 @@ def extract_and_save_embeddings_baselines(feature="opensmile"):
     from src.benchmark.baseline.extract_feature import extract_opensmile_features, extract_vgg_feature, extract_clap_feature, extract_audioMAE_feature
     sound_dir_loc = np.load(feature_dir + "sound_dir_loc.npy")
 
+    # redirect the path to the noisy dataset
+    sound_dir_loc = mddify_soundir_loc(sound_dir_loc)
+
     if feature == "opensmile":
         opensmile_features = []
         for file in tqdm(sound_dir_loc):
             opensmile_feature = extract_opensmile_features(file)
             opensmile_features.append(opensmile_feature)
-        np.save(feature_dir + "opensmile_feature.npy",
+        np.save(feature_dir + "opensmile_feature_NOISY.npy",
                 np.array(opensmile_features))
 
     elif feature == "vggish":
         vgg_features = extract_vgg_feature(sound_dir_loc)
-        np.save(feature_dir + "vggish_feature.npy", np.array(vgg_features))
+        np.save(feature_dir + "vggish_feature_NOISY.npy", np.array(vgg_features))
     elif feature == "clap":
         clap_features = extract_clap_feature(sound_dir_loc)
-        np.save(feature_dir + "clap_feature.npy", np.array(clap_features))
+        np.save(feature_dir + "clap_feature_NOISY.npy", np.array(clap_features))
     elif feature == "audiomae":
         audiomae_feature = extract_audioMAE_feature(sound_dir_loc)
-        np.save(feature_dir + "audiomae_feature.npy",
+        np.save(feature_dir + "audiomae_feature_NOISY.npy",
                 np.array(audiomae_feature))
 
 
 def extract_and_save_embeddings(feature="operaCE", input_sec=8, dim=1280):
     sound_dir_loc = np.load(feature_dir + "sound_dir_loc.npy")
 
+    # redirect the path to the noisy dataset
+    sound_dir_loc = mddify_soundir_loc(sound_dir_loc)
+
     from src.benchmark.model_util import extract_opera_feature
     opera_features = extract_opera_feature(
         sound_dir_loc, pretrain=feature, input_sec=input_sec, dim=dim)
     feature += str(dim)
-    np.save(feature_dir + feature + "_feature.npy", np.array(opera_features))
+    np.save(feature_dir + feature + "_feature_NOISY.npy", np.array(opera_features))
 
 
 if __name__ == '__main__':
