@@ -14,7 +14,7 @@ class NoisyICBHIDataGenerator(Dataset):
     probabilities specified in the configuration. The dataset can be used for both
     training and evaluation, and supports debug mode for easier inspection.
     """
-    def __init__(self, config, split: str, debug: bool = False, training: bool = False):
+    def __init__(self, config, split: str, training: bool = False):
         """
         Initialize the dataset.
 
