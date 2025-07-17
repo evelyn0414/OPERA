@@ -11,12 +11,11 @@ class AugmentationPipeline:
     """
     Composes and applies augmentations to audio based on configuration and random selection.
     """
-    def __init__(self, config, noise_files: List[str], artefact_specs: List[dict], sr: float, duration: float, noise_type: str):
+    def __init__(self, config, noise_files: List[str], sr: float, duration: float, noise_type: str):
         """
         Args:
             config: Configuration object or dictionary.
             noise_files (List[str]): List of available noise file names.
-            artefact_specs (List[dict]): List of artefact specifications.
             sr (int): Sample rate.
             duration (float): Target duration in seconds.
             noise_loader (callable): Function to load noise audio by filename.
@@ -26,7 +25,6 @@ class AugmentationPipeline:
         self.noise_data_path = config['noise_data_path']
 
         self.noise_files = noise_files
-        self.artefact_specs = artefact_specs
         
         self.sr = sr
         self.duration = duration

@@ -46,18 +46,10 @@ class NoisyICBHIDataGenerator(Dataset):
             _, sr = load_audio(self.file_paths[0], sr=None)
             self.sr = sr
         print(f"[DEBUG] Dataset Sample rate: {self.sr}")
-            
-        self.artefact_specs = [
-            {'type': 'low_pass', 'cutoff_hz': 2000, 'order': 5},
-            {'type': 'low_pass', 'cutoff_hz': 4000, 'order': 5},
-            {'type': 'clipping', 'gain_db': 6.0},
-            {'type': 'clipping', 'gain_db': 12.0},
-        ]
         
         self.pipeline = AugmentationPipeline(
             config,
             self.noise_files,
-            self.artefact_specs,
             self.sr,
             self.duration,
             self.noise_type
