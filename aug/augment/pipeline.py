@@ -38,6 +38,27 @@ class AugmentationPipeline:
         self.noise_type = noise_type
         self.noise_levels = config.get('noise_level', [-40])
 
+    @staticmethod
+    def _ensure_mono(audio: np.ndarray) -> np.ndarray:
+        """
+        Ensures the audio is mono. If stereo (2 channels), converts to mono by averaging channels.
+        Args:
+            audio (np.ndarray): Input audio array.
+        Returns:
+            np.ndarray: Mono audio array.
+        """
+        if audio.ndim == 2:
+            # If shape is (2, N) or (N, 2), average across the channel axis
+            if audio.shape[0] == 2:
+                return np.mean(audio, axis=0)
+            elif audio.shape[1] == 2:
+                return np.mean(audio, axis=1)
+            elif audio.shape[0] == 1:
+                return audio[0]
+            elif audio.shape[1] == 1:
+                return audio[:, 0]
+        return audio
+
     def __call__(self, clean_audio: np.ndarray, seed: int) -> Tuple[np.ndarray, str]:
         """
         Randomly selects and applies an augmentation to the input audio.
@@ -54,16 +75,21 @@ class AugmentationPipeline:
         chosen_augment = random.choices(augmentation_options, weights=augmentation_probs, k=1)[0]
         
         if chosen_augment == 'clean':
-            return clean_audio, 'clean'
+            audio = self._ensure_mono(clean_audio)
+            return audio, 'clean'
         
         elif chosen_augment == 'artefact':
             apply_artefact = random.choice(ARTEFACT_EFFECTS)
             noisy_audio, _ = apply_artefact(clean_audio, sample_rate=int(self.sr))
-            return noisy_audio, f"artefact_{apply_artefact}"
+            print(f"[INFO] Type of noise: {type(noisy_audio)} || shape: {noisy_audio.shape}")
+            audio = self._ensure_mono(noisy_audio)
+            return audio, f"artefact"
         
         elif chosen_augment == 'noise':
             noise_file = random.choice(self.noise_files)
-            return self._inject_ambient_noise(clean_audio, noise_file, self.noise_levels)
+            audio, label = self._inject_ambient_noise(clean_audio, noise_file, self.noise_levels)
+            audio = self._ensure_mono(audio)
+            return audio, label
         
         else:
             raise ValueError(f"Unknown augmentation type: {chosen_augment}")
@@ -83,7 +109,7 @@ class AugmentationPipeline:
             noisy_audio, _ = A.add_background_noise(
                     clean_audio, sample_rate=int(self.sr), background_audio=noise_audio, snr_level_db=noise_level
                 )
-        
+        noisy_audio = self._ensure_mono(noisy_audio)
         return noisy_audio, f"noise_{noise_file}_{self.noise_type}_{noise_level}"
     
     def _load_noise_audio(self, noise_file: str, sr: float) -> np.ndarray:
