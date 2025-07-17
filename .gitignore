@@ -16,6 +16,7 @@ ICBHI_final_database*/
 *.wav.tar.gz.part
 
 debug*
+cks/
 
 *.pyc
 *.ckpt
