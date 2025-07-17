@@ -1,0 +1,47 @@
+label,category
+MECHANICAL_FAN,Interior/Domestic
+COMPUTER_KEYBOARD,Interior/Domestic
+TYPING,Interior/Domestic
+WASHING_MACHINE,Interior/Domestic
+VACUUM_CLEANER,Interior/Domestic
+FRYING_(FOOD),Interior/Domestic
+BOILING,Interior/Domestic
+MICROWAVE_OVEN,Interior/Domestic
+PRINTER,Interior/Domestic
+MECHANISMS,Interior/Domestic
+TRAFFIC_NOISE_AND_ROADWAY_NOISE,Exterior/Urban
+ENGINE,Exterior/Urban
+IDLING,Exterior/Urban
+FIXED-WING_AIRCRAFT_AND_AIRPLANE,Exterior/Urban
+CHATTER,Exterior/Urban
+RAIN,Natural
+RAINDROP,Natural
+WIND,Natural
+STREAM,Natural
+WAVES_AND_SURF,Natural
+OCEAN,Natural
+CRICKET,Natural
+INSECT,Natural
+CRACKLING_FIRE,Natural
+KNOCK,Transient / Punctate Event
+DOOR_KNOCK,Transient / Punctate Event
+MOUSE_CLICK,Transient / Punctate Event
+CAR_PASSING_BY,Transient / Punctate Event
+THUMP_AND_THUD,Transient / Punctate Event
+ALARM,High-Salience / Foreground Alarm
+SIREN,High-Salience / Foreground Alarm
+CHURCH_BELL,High-Salience / Foreground Alarm
+RINGTONE,High-Salience / Foreground Alarm
+BUZZ,High-Salience / Foreground Alarm
+WHISPERING,Semantically Complex: Speech & Music
+CHILD_SPEECH_AND_KID_SPEAKING,Semantically Complex: Speech & Music
+CONVERSATION,Semantically Complex: Speech & Music
+FEMALE_SPEECH_AND_WOMAN_SPEAKING,Semantically Complex: Speech & Music
+MALE_SPEECH_AND_MAN_SPEAKING,Semantically Complex: Speech & Music
+SPEECH,Semantically Complex: Speech & Music
+SPEECH_SYNTHESIZER,Semantically Complex: Speech & Music
+WHISPERING,Semantically Complex: Speech & Music
+PIANO,Semantically Complex: Speech & Music
+THUNDERSTORM,Ambiguous or Mixed Nature
+THUNDER,Ambiguous or Mixed Nature
+TRAIN,Ambiguous or Mixed Nature
