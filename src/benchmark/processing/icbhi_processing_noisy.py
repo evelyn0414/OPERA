@@ -17,8 +17,7 @@ BATCH_SIZE = 512
 SR = 16000
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-data_dir = "datasets/icbhi/"
-audio_dir = data_dir + "ICBHI_final_database/"
+data_dir = "datasets/icbhi/ICBHI_final_database/"
 feature_dir = "feature/icbhidisease_eval/"
 data_dir_noisy = "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
 
