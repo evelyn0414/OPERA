@@ -73,17 +73,19 @@ class AugmentationPipeline:
         chosen_augment = random.choices(augmentation_options, weights=augmentation_probs, k=1)[0]
         
         if chosen_augment == 'clean':
+            # print(f"[INFO] Applying clean")
             audio = self._ensure_mono(clean_audio)
             return audio, 'clean'
         
         elif chosen_augment == 'artefact':
+            # print(f"[INFO] Applying artefact")
             apply_artefact = random.choice(ARTEFACT_EFFECTS)
             noisy_audio, _ = apply_artefact(clean_audio, sample_rate=int(self.sr))
-            print(f"[INFO] Type of noise: {type(noisy_audio)} || shape: {noisy_audio.shape}")
             audio = self._ensure_mono(noisy_audio)
             return audio, f"artefact"
         
         elif chosen_augment == 'noise':
+            # print(f"[INFO] Applying noise with {self.noise_levels} dB noise")
             noise_file = random.choice(self.noise_files)
             audio, label = self._inject_ambient_noise(clean_audio, noise_file, self.noise_levels)
             audio = self._ensure_mono(audio)

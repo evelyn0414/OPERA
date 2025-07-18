@@ -118,6 +118,5 @@ class NoisyICBHIDataGenerator(Dataset):
         # Return the augmented audio and the clean audio
         return (
             torch.from_numpy(aug_audio),
-            torch.from_numpy(clean_audio),
-            aug_type
+            torch.from_numpy(clean_audio)
         ) 
