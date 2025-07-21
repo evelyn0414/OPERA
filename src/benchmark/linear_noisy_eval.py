@@ -557,6 +557,27 @@ def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, e
     ############## END OF NOISY DATASET ##############
     #########################################################
     #########################################################
+
+    # generate the noisy dataset
+    print("=" * 48)
+    print("=" * 20, "GENERATING NOISY DATASET", "=" * 20)
+    print("=" * 48)
+    os.system(f'python aug/scripts/generate_test_set.py --config config_copd.yaml --seed {seed}')
+
+    # decompose the use_feature into the model name and the dimension
+    model_name = use_feature.split("_")[0]
+    print(f"[DEBUG] model name: {model_name}")
+
+    if model_name in ["opensmile", "vggish", "clap", "audiomae"]:
+        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name}')
+    
+    elif model_name[:7] in ["operaCT", "operaCE", "operaGT"]:
+        dim = model_name[7:]
+        print(f"[DEBUG] model name: {model_name[:7]}")
+        print(f"[DEBUG] dimension: {dim}")
+        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name[:7]} --dim {dim}')
+    else:
+        raise ValueError(f"Unknown model name: {model_name}")
     
     test_res = trainer.test(dataloaders=test_loader)
     auc = test_res[0]["test_auc"]
