@@ -17,7 +17,7 @@ split_file: "split.npy"
 
 # --- File Paths ---
 clean_data_path: "/home/milerisoy/OPERA/datasets/icbhi/ICBHI_final_database/"
-noise_data_path: "/projects/prjs1635/datasets/esc-50/groupped/constant"
+noise_data_path: "/projects/prjs1635/datasets/fsd50k/filtered"
 output_path: "/projects/prjs1635/datasets/icbhi/ICBHI_final_database/"
 
 # --- Preprocessing ---
@@ -26,12 +26,12 @@ target_duration_sec: 8.0
 
 # --- Noise Injection ---
 generator_settings:
-  clean_sample_prob: 1.0    # Probability of yielding a clean, unprocessed sample
+  clean_sample_prob: 0.0    # Probability of yielding a clean, unprocessed sample
   artefact_prob: 0.0        # Probability of applying a synthetic artefact
-  ambient_noise_prob: 0.0   # Probability of injecting ambient noise
+  ambient_noise_prob: 1.0   # Probability of injecting ambient noise
 
 # --- Background Noise Level ---
-noise_level: [0]  # Target RMS level in dBFS
+noise_level: [40]  # Target RMS level in dBFS
 noise_type: "augly"  # "snr", "dbfs", or "augly"
 
 # --- Global Seed ---
