@@ -16,9 +16,9 @@ labels_file: "labels.npy"
 split_file: "train_test_split.npy"
 
 # --- File Paths ---
-clean_data_path: "/projects/prjs1635/datasets/copd/RespiratoryDatabase@TR/"
-noise_data_path: "/projects/prjs1635/datasets/esc-50/groupped/constant"
-output_path: "/home/milerisoy/OPERA/datasets/copd/RespiratoryDatabase@TR/"
+clean_data_path: "/home/milerisoy/OPERA/datasets/copd/RespiratoryDatabase@TR/"
+noise_data_path: "/projects/prjs1635/datasets/fsd50k/filtered"
+output_path: "/projects/prjs1635/datasets/copd/RespiratoryDatabase@TR/"
 
 # --- Preprocessing ---
 sample_rate: 16000
@@ -31,7 +31,7 @@ generator_settings:
   ambient_noise_prob: 0.0   # Probability of injecting ambient noise
 
 # --- Background Noise Level ---
-noise_level: [0]  # Target RMS level in dBFS
+noise_level: ["inf"]  # Target RMS level in dBFS
 noise_type: "augly"  # "snr", "dbfs", or "augly"
 
 # --- Global Seed ---

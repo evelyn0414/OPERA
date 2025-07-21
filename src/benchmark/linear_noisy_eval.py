@@ -513,6 +513,51 @@ def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, e
     )
     trainer.fit(model, train_loader, val_loader)
 
+    #########################################################
+    #########################################################
+    ############## NOISY DATASET ##############
+    #########################################################
+    #########################################################
+    feature_dir = "feature/copd_eval/"
+
+    y_set = np.load(feature_dir + "train_test_split.npy")
+    y_label = np.load(feature_dir + "labels.npy")
+    print(collections.Counter(y_label))
+    x_data = np.load(feature_dir + use_feature + "_feature_NOISY.npy").squeeze()
+    
+    feat_dim = x_data.shape[1]
+    print(feat_dim)
+
+    # x_data_train = x_data[y_set == "train"]
+    # y_label_train = y_label[y_set == "train"]
+    # x_data_vad = x_data[y_set == "val"]
+    # y_label_vad = y_label[y_set == "val"]
+    x_data_test = x_data[y_set == "test"]
+    y_label_test = y_label[y_set == "test"]
+
+    print(collections.Counter(y_label_train))
+    print(collections.Counter(y_label_vad))
+    print(collections.Counter(y_label_test))
+
+    # train_data = FeatureDataset((x_data_train, y_label_train))
+    test_data = FeatureDataset((x_data_test, y_label_test))
+    # val_data = FeatureDataset((x_data_vad, y_label_vad))
+
+    # train_loader = DataLoader(
+    #     train_data, batch_size=batch_size, num_workers=1, shuffle=True
+    # )
+    # val_loader = DataLoader(
+    #     val_data, batch_size=batch_size, num_workers=1, shuffle=True
+    # )
+    test_loader = DataLoader(
+        test_data, batch_size=batch_size, shuffle=True, num_workers=1
+    )
+    #########################################################
+    #########################################################
+    ############## END OF NOISY DATASET ##############
+    #########################################################
+    #########################################################
+    
     test_res = trainer.test(dataloaders=test_loader)
     auc = test_res[0]["test_auc"]
     print("finished training dataset RespiratoryDatabase@TR using feature extracted by " + use_feature, "with l2_strength", l2_strength, "lr", lr, "head", head)
