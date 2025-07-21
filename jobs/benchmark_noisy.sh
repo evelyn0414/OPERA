@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --time=05:30:00
-#SBATCH --output=noisy_benchmark_%j.out
+#SBATCH --output=noisy_benchmark_COPD_snr_INFdB__%j.out
 set -x # Enable script debugging
  
 echo "Loading module 2023..."
@@ -30,6 +30,8 @@ python -c "import torch; print('CUDA Available:', torch.cuda.is_available()); pr
  
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
+task=$1
+is_noisy=$2
 
 echo "Starting evaluation script..."
-sh scripts/eval_icbhi.sh noisy
+sh scripts/eval_${task}.sh ${is_noisy}
