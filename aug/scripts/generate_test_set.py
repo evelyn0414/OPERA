@@ -34,7 +34,11 @@ def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
     print(f"Audio files will be saved in: '{output_dir}/'")
     
     for i in range(len(dataset)):
-        noisy_tensor, clean_tensor, aug_type = dataset[i]
+        result = dataset[i]
+        if len(result) == 3:
+            noisy_tensor, clean_tensor, aug_type = result
+        else:
+            noisy_tensor, clean_tensor = result
         file_name = os.path.basename(dataset.file_paths[i])
         
         # Convert to numpy arrays
@@ -43,7 +47,7 @@ def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
         
         save_audio(os.path.join(output_dir, f"{file_name}"), noisy_tensor, dataset_sr)
         if i % 100 == 0:
-            print(f"Saved {i} samples so far... (last aug: {aug_type})")
+            print(f"Saved {i} samples so far")
     
     print("\n--- Full Audio Dataset Generation Complete ---")
 
