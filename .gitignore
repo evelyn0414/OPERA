@@ -21,6 +21,8 @@ cks/
 
 *.pyc
 *.ckpt
+*.pth
+*.pt
 *cpython-310*
 *.cpython*
 *.npy
