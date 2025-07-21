@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 from aug.utils import load_audio, set_deterministic
 from aug.augment.pipeline import AugmentationPipeline
-from aug.data.data_utils import load_dataset_from_npy
+from aug.data.data_utils import load_dataset_from_npy, random_crop_noisy_pair
 
 from src.util import pre_process_audio_mel_t
 import librosa
@@ -67,6 +67,8 @@ def main(config_path):
         # Noisy audio (using pipeline, force noise)
         noisy_audio, aug_type = pipeline(clean_audio, seed=idx)
         noisy_mel = pre_process_audio_mel_t(noisy_audio, f_max=8000, sample_rate=sr)
+
+        noisy_mel, clean_mel = random_crop_noisy_pair(noisy_mel, clean_mel, crop_size=251)
 
         # Save both
         base = os.path.splitext(os.path.basename(audio_path))[0]

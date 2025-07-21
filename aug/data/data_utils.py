@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from typing import List, Tuple
+import random
 
 def list_wav_files(directory: str) -> List[str]:
     """
@@ -84,3 +85,18 @@ def validate_dataset_files(feature_dir: str, config: dict) -> bool:
             return False
     
     return True 
+
+def random_crop_noisy_pair(noisy_audio, clean_audio, crop_size=128):
+    """
+    Randomly crops a noisy audio pair to a specified size.
+
+    Args:
+        noisy_audio (np.ndarray): Noisy audio spectrogram
+        clean_audio (np.ndarray): Clean audio spectrogram
+        crop_size (int): Size of the crop
+
+    Returns:
+        Tuple[np.ndarray, np.ndarray]: Tuple of noisy and clean audio spectrograms
+    """
+    start = int(random.random() * (noisy_audio.shape[0] - crop_size))
+    return noisy_audio[start: (start + crop_size), :], clean_audio[start: (start + crop_size), :]

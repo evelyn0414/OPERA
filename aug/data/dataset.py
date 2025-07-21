@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from aug.utils import load_audio, pre_process_audio_mel
-from aug.data.data_utils import load_dataset_from_npy, list_wav_files
+from aug.data.data_utils import load_dataset_from_npy, list_wav_files, random_crop_noisy_pair
 from aug.augment.pipeline import AugmentationPipeline
 
 class NoisyDataset(Dataset):
@@ -114,6 +114,8 @@ class NoisyDataset(Dataset):
         if self.training:
             aug_audio = pre_process_audio_mel(aug_audio, f_max=8000, sr=self.sr)
             clean_audio = pre_process_audio_mel(clean_audio, f_max=8000, sr=self.sr)
+
+            aug_audio, clean_audio = random_crop_noisy_pair(aug_audio, clean_audio, crop_size=251)
 
         # Return the augmented audio and the clean audio
         return (
