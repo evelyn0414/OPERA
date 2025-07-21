@@ -449,7 +449,7 @@ def linear_evaluation_coswara(use_feature="operaCE1280", l2_strength=1e-6, epoch
     return auc
 
 
-def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, epochs=64, batch_size=32, lr=1e-4, head="linear"):
+def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, epochs=64, batch_size=32, lr=1e-4, head="linear", seed=None):
     print("*" * 48)
     print("training dataset RespiratoryDatabase@TR using feature extracted by " + use_feature, "with l2_strength", l2_strength, "lr", lr, "head", head)
 
@@ -513,6 +513,27 @@ def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, e
     )
     trainer.fit(model, train_loader, val_loader)
 
+    # generate the noisy dataset
+    print("=" * 48)
+    print("=" * 20, "GENERATING NOISY DATASET", "=" * 20)
+    print("=" * 48)
+    os.system(f'python aug/scripts/generate_test_set.py --config config_copd.yaml --seed {seed}')
+
+    # decompose the use_feature into the model name and the dimension
+    model_name = use_feature.split("_")[0]
+    print(f"[DEBUG] model name: {model_name}")
+
+    if model_name in ["opensmile", "vggish", "clap", "audiomae"]:
+        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name}')
+    
+    elif model_name[:7] in ["operaCT", "operaCE", "operaGT"]:
+        dim = model_name[7:]
+        print(f"[DEBUG] model name: {model_name[:7]}")
+        print(f"[DEBUG] dimension: {dim}")
+        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name[:7]} --dim {dim}')
+    else:
+        raise ValueError(f"Unknown model name: {model_name}")
+    
     #########################################################
     #########################################################
     ############## NOISY DATASET ##############
@@ -557,27 +578,6 @@ def linear_evaluation_copd(n_cls=5, use_feature="opensmile", l2_strength=1e-5, e
     ############## END OF NOISY DATASET ##############
     #########################################################
     #########################################################
-
-    # generate the noisy dataset
-    print("=" * 48)
-    print("=" * 20, "GENERATING NOISY DATASET", "=" * 20)
-    print("=" * 48)
-    os.system(f'python aug/scripts/generate_test_set.py --config config_copd.yaml --seed {seed}')
-
-    # decompose the use_feature into the model name and the dimension
-    model_name = use_feature.split("_")[0]
-    print(f"[DEBUG] model name: {model_name}")
-
-    if model_name in ["opensmile", "vggish", "clap", "audiomae"]:
-        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name}')
-    
-    elif model_name[:7] in ["operaCT", "operaCE", "operaGT"]:
-        dim = model_name[7:]
-        print(f"[DEBUG] model name: {model_name[:7]}")
-        print(f"[DEBUG] dimension: {dim}")
-        os.system(f'python src/benchmark/processing/copd_processing_noisy.py --pretrain {model_name[:7]} --dim {dim}')
-    else:
-        raise ValueError(f"Unknown model name: {model_name}")
     
     test_res = trainer.test(dataloaders=test_loader)
     auc = test_res[0]["test_auc"]
@@ -1050,7 +1050,7 @@ if __name__ == "__main__":
             elif args.task == "coswarasex":
                 auc = linear_evaluation_coswara(use_feature=feature, epochs=64, l2_strength=args.l2_strength, batch_size=32, lr=args.lr, modality=args.modality, label="sex", head=args.head)
             elif args.task == "copd":
-                auc = linear_evaluation_copd(use_feature=feature, l2_strength=args.l2_strength, lr=args.lr, head=args.head, epochs=64)  
+                auc = linear_evaluation_copd(use_feature=feature, l2_strength=args.l2_strength, lr=args.lr, head=args.head, epochs=64, seed=seed)  
             elif args.task == "coughvidcovid":
                 auc = linear_evaluation_coughvid(use_feature=feature, epochs=64, l2_strength=args.l2_strength, lr=args.lr, batch_size=64, label="covid", head=args.head)
             elif args.task == "coughvidsex":

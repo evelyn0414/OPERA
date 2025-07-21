@@ -12,7 +12,7 @@ import csv
 from tqdm import tqdm
 import os
 
-data_dir = "datasets/copd/RespiratoryDatabase@TR"
+data_dir = "datasets/copd/"
 audio_dir = data_dir + "RespiratoryDatabase@TR"
 feature_dir = "feature/copd_eval/"
 data_dir_noisy = "/projects/prjs1635/datasets/copd/RespiratoryDatabase@TR/"
