@@ -1,6 +1,6 @@
 import os
 from aug.config import Config
-from aug.data.dataset import NoisyICBHIDataGenerator
+from aug.data.dataset import NoisyDataset
 from aug.utils import set_deterministic, save_audio
 import argparse
 from torch.autograd.anomaly_mode import set_detect_anomaly
@@ -20,7 +20,7 @@ def generate_entire_augmented_dataset(config: Config, split: str = 'train'):
     """
     print(f"--- Generating Entire Audio Dataset for '{split}' split ---")
     
-    dataset = NoisyICBHIDataGenerator(config, split, training=False)
+    dataset = NoisyDataset(config, split, training=False)
     print(f"[DEBUG] Dataset sample rate: {dataset.sr}")
     dataset_sr = dataset.sr
     output_dir = config['output_path']

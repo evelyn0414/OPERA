@@ -5,7 +5,7 @@ from aug.utils import load_audio, pre_process_audio_mel
 from aug.data.data_utils import load_dataset_from_npy, list_wav_files
 from aug.augment.pipeline import AugmentationPipeline
 
-class NoisyICBHIDataGenerator(Dataset):
+class NoisyDataset(Dataset):
     """
     PyTorch Dataset for generating noisy/augmented ICBHI audio samples on-the-fly.
 
