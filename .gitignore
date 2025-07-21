@@ -2,6 +2,7 @@
 debug*/
 .local/
 .vscode/
+x_*
 
 ICBHI_final_database*/
 *.wav
