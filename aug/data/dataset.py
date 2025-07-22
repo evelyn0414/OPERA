@@ -4,6 +4,7 @@ from torch.utils.data import Dataset
 from aug.utils import load_audio, pre_process_audio_mel
 from aug.data.data_utils import load_dataset_from_npy, list_wav_files, random_crop_noisy_pair
 from aug.augment.pipeline import AugmentationPipeline
+from src.util import pre_process_audio_mel_t
 
 class NoisyDataset(Dataset):
     """
@@ -112,8 +113,8 @@ class NoisyDataset(Dataset):
 
         # If training, convert to mel spectrogram
         if self.training:
-            aug_audio = pre_process_audio_mel(aug_audio, f_max=8000, sr=self.sr)
-            clean_audio = pre_process_audio_mel(clean_audio, f_max=8000, sr=self.sr)
+            aug_audio = pre_process_audio_mel_t(aug_audio.squeeze(), f_max=8000, sample_rate=self.sr)
+            clean_audio = pre_process_audio_mel_t(clean_audio.squeeze(), f_max=8000, sample_rate=self.sr)
 
             aug_audio, clean_audio = random_crop_noisy_pair(aug_audio, clean_audio, crop_size=self.crop_size)
 
