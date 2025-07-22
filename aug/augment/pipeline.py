@@ -57,7 +57,7 @@ class AugmentationPipeline:
                 return audio[:, 0]
         return audio
 
-    def __call__(self, clean_audio: np.ndarray, seed: int) -> Tuple[np.ndarray, str]:
+    def __call__(self, clean_audio: np.ndarray) -> Tuple[np.ndarray, str]:
         """
         Randomly selects and applies an augmentation to the input audio.
         

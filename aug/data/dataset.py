@@ -14,7 +14,7 @@ class NoisyDataset(Dataset):
     probabilities specified in the configuration. The dataset can be used for both
     training and evaluation, and supports debug mode for easier inspection.
     """
-    def __init__(self, config, split: str, training: bool = False):
+    def __init__(self, config, split: str, training: bool = False, crop_size: int = 251):
         """
         Initialize the dataset.
 
@@ -27,7 +27,7 @@ class NoisyDataset(Dataset):
         
         self.config = config
         self.training = training
-        self.seed = config.get('random_seed', 42)
+        self.crop_size = crop_size
 
         self.clean_data_path = config['clean_data_path']
         self.noise_data_path = config['noise_data_path']
@@ -108,14 +108,14 @@ class NoisyDataset(Dataset):
                 )
 
         # Augment the audio
-        aug_audio, aug_type = self.pipeline(clean_audio, self.seed)
+        aug_audio, aug_type = self.pipeline(clean_audio)
 
         # If training, convert to mel spectrogram
         if self.training:
             aug_audio = pre_process_audio_mel(aug_audio, f_max=8000, sr=self.sr)
             clean_audio = pre_process_audio_mel(clean_audio, f_max=8000, sr=self.sr)
 
-            aug_audio, clean_audio = random_crop_noisy_pair(aug_audio, clean_audio, crop_size=251)
+            aug_audio, clean_audio = random_crop_noisy_pair(aug_audio, clean_audio, crop_size=self.crop_size)
 
         # Return the augmented audio and the clean audio
         return (
