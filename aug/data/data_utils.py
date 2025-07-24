@@ -98,5 +98,13 @@ def random_crop_noisy_pair(noisy_audio, clean_audio, crop_size=128):
     Returns:
         Tuple[np.ndarray, np.ndarray]: Tuple of noisy and clean audio spectrograms
     """
-    start = int(random.random() * (noisy_audio.shape[0] - crop_size))
-    return noisy_audio[start: (start + crop_size), :], clean_audio[start: (start + crop_size), :]
+    n_frames = noisy_audio.shape[0]
+    if n_frames < crop_size:
+        # Pad with zeros
+        pad_width = crop_size - n_frames
+        noisy_audio_padded = np.pad(noisy_audio, ((0, pad_width), (0, 0)), mode='constant')
+        clean_audio_padded = np.pad(clean_audio, ((0, pad_width), (0, 0)), mode='constant')
+        return noisy_audio_padded, clean_audio_padded
+    else:
+        start = int(random.random() * (n_frames - crop_size))
+        return noisy_audio[start: (start + crop_size), :], clean_audio[start: (start + crop_size), :]
