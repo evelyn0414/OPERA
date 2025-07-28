@@ -913,7 +913,7 @@ if __name__ == "__main__":
                 auc = linear_evaluation_copd(use_feature=feature, l2_strength=args.l2_strength, lr=args.lr, head=args.head, epochs=64)  
             elif args.task == "coughvidcovid":
                 auc = linear_evaluation_coughvid(use_feature=feature, epochs=64, l2_strength=args.l2_strength, lr=args.lr, batch_size=64, label="covid", head=args.head)
-            elif args.task == "coughvidsex":
+            elif args.task == "coughvidgender":
                 auc = linear_evaluation_coughvid(use_feature=feature, epochs=64, l2_strength=args.l2_strength, lr=args.lr, batch_size=64, label="gender", head=args.head)
             elif args.task == "coviduk":
                 auc = linear_evaluation_coviduk(use_feature=feature, epochs=64, l2_strength=args.l2_strength, lr=args.lr, batch_size=64, modality=args.modality, head=args.head)
