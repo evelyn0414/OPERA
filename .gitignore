@@ -16,6 +16,13 @@ ICBHI_final_database*/
 *.wav.tar.gz
 *.wav.tar.gz.part
 
+
+datasets/covidUK/zip_files/
+datasets/hf_lung/audio/
+datasets/Coswara-Data/Extracted_data/
+datasets/Coswara-Data/technical_validation/
+wandb/
+
 debug*
 cks/
 
